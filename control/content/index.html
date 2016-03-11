@@ -1,130 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="customerFeedbackPluginContent">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-	<!-- CSS -->
-	<link href="../../../../styles/helper.css" rel="stylesheet">
-	<link rel="stylesheet" href="../../widget/assets/barrating.css">
-    
-	<!-- JS -->
-	<script src="../../../../scripts/buildfire.js"></script>
-   
- 	<!--
-    <script src="../../../../scripts/angular/angular.min.js"></script>
-    <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-    -->
+  <!-- CSS -->
+  <link href="../../../../styles/helper.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../widget/assets/barrating.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- JS -->
+  <script src="../../../../scripts/buildfire.js"></script>
+  <script src="../../../../scripts/angular/angular.min.js"></script>
+  <script src="../../../../scripts/angular/angular-route.min.js"></script>
+  <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
+  <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
+  <script src="../../../../scripts/tinymce/ui-tinymce.js"></script>
+
+  <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+  <script src="app.js"></script>
+  <script src="controllers/content.home.controller.js"></script>
+
 </head>
-<style type="text/css" media="screen">
-	.review-item{
-		border-radius:3px;
-		border:1px solid #ddd;
-		padding:15px;
-	}
-	.review-item:nth-child(even){
-		text-align:right;
-		background:#eef0f0;
-	}
-	.review-item + .review-item{
-		margin-top:10px;
-	}
-	.review-item p.author img{
-		border-radius:100%;
-		max-width:28px;
-		height:auto;
-		position:relative;
-		top:-5px;
-		margin-right:8px;
-	}
-</style>
 <body>
-	<div id="carousel">Carousel</div>
-    <hr class="none">
-    <textarea class="form-control" placeholder="WYSIWYG"></textarea>
-	<hr class="margin-top-thirty">
-	<div class="feedback-container">
-		<div class="item clearfix row">
-			<div class="labels col-xs-2 pull-left">
-				<span>Feedback</span>
-			</div>
-			<div class="main col-xs-10 pull-right">
-				<div class="intro text-left">
-					<p class="margin-zero">Total # of Reviews: <span style="font-weight:400;">4</span></p>
-					<p class="margin-zero">Average Rating: <span style="font-weight:400;">4.8/5</span></p>
-				</div>
-			</div>
-		</div>
-		<hr class="none">
-		<div class="item clearfix row">
-			<div class="main col-xs-12 pull-left">
-				<div class="review-item">
-					<div class="rating br-wrapper br-theme-css-stars">
-						<div class="br-widget">
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a></a>
-						</div>
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-					<p class="author info padding-zero margin-zero">
-						<img src="http://www.placehold.it/60x60">
-						John Doe on 2/18/2016
-					</p>
-				</div>
-				<div class="review-item">
-					<div class="rating br-wrapper br-theme-css-stars">
-						<div class="br-widget">
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-						</div>
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-					<p class="author info padding-zero margin-zero">
-						<img src="http://www.placehold.it/60x60">
-						John Doe on 2/18/2016
-					</p>
-				</div>
-				<div class="review-item">
-					<div class="rating br-wrapper br-theme-css-stars">
-						<div class="br-widget">
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a></a>
-							<a></a>
-						</div>
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-					<p class="author info padding-zero margin-zero">
-						<img src="http://www.placehold.it/60x60">
-						John Doe on 2/18/2016
-					</p>
-				</div>
-				<div class="review-item">
-					<div class="rating br-wrapper br-theme-css-stars">
-						<div class="br-widget">
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a class="br-selected"></a>
-							<a></a>
-						</div>
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-					<p class="author info padding-zero margin-zero">
-						<img src="http://www.placehold.it/60x60">
-						John Doe on 2/18/2016
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+<div id="carousel">Carousel</div>
+<hr class="none">
+<textarea class="form-control" placeholder="WYSIWYG"></textarea>
+<hr class="margin-top-thirty">
+<div class="feedback-container">
+  <div class="item clearfix row">
+    <div class="labels col-xs-2 pull-left">
+      <span>Feedback</span>
+    </div>
+    <div class="main col-xs-10 pull-right">
+      <div class="intro text-left">
+        <p class="margin-zero">Total # of Reviews: <span
+            style="font-weight:400;">4</span></p>
+
+        <p class="margin-zero">Average Rating: <span style="font-weight:400;">4.8/5</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <hr class="none">
+  <div class="item clearfix row">
+    <div class="main col-xs-12 pull-left">
+      <div class="review-item">
+        <div class="rating br-wrapper br-theme-css-stars">
+          <div class="br-widget">
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a></a>
+          </div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <p class="author info padding-zero margin-zero">
+          <img src="http://www.placehold.it/60x60">
+          John Doe on 2/18/2016
+        </p>
+      </div>
+      <div class="review-item">
+        <div class="rating br-wrapper br-theme-css-stars">
+          <div class="br-widget">
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+          </div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <p class="author info padding-zero margin-zero">
+          <img src="http://www.placehold.it/60x60">
+          John Doe on 2/18/2016
+        </p>
+      </div>
+      <div class="review-item">
+        <div class="rating br-wrapper br-theme-css-stars">
+          <div class="br-widget">
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a></a>
+            <a></a>
+          </div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <p class="author info padding-zero margin-zero">
+          <img src="http://www.placehold.it/60x60">
+          John Doe on 2/18/2016
+        </p>
+      </div>
+      <div class="review-item">
+        <div class="rating br-wrapper br-theme-css-stars">
+          <div class="br-widget">
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a class="br-selected"></a>
+            <a></a>
+          </div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <p class="author info padding-zero margin-zero">
+          <img src="http://www.placehold.it/60x60">
+          John Doe on 2/18/2016
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,23 @@
+.review-item {
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    padding: 15px;
+}
+
+.review-item:nth-child(even) {
+    text-align: right;
+    background: #eef0f0;
+}
+
+.review-item + .review-item {
+    margin-top: 10px;
+}
+
+.review-item p.author img {
+    border-radius: 100%;
+    max-width: 28px;
+    height: auto;
+    position: relative;
+    top: -5px;
+    margin-right: 8px;
+}

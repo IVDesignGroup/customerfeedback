@@ -2,7 +2,7 @@
   "author":"Daniel Hindi"
 ,"pluginName":"Customer Feedback"
 ,"pluginDescription":"This plugin allows customers to provide feedback."
-,"supportEmail":"[Your support Email]"
+,"supportEmail":"support@buildfire.com"
 ,"control":{
   "content":{
     "enabled":true
