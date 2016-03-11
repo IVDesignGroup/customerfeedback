@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="buildfire" buildfire="Widget">
+<head>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../../styles/bootstrap.css">
+    <link rel="stylesheet" href="../../../../styles/appStyle.css">
+    <link rel="stylesheet" href="../../../../styles/siteIcons.css">
+    <link rel="stylesheet" href="../../../../styles/helper.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/barrating.css">
+
+	<!-- Rating JS -->
+	<script type="text/javascript" src="../../../../scripts/jquery/jquery-1.11.2.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="assets/jquery.barrating.min.js" charset="utf-8"></script>
+	
+    <!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+</head>
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+	 	$('#stars').barrating({
+	     	theme: 'css-stars'
+	  	});
+	});
+</script>
+<div class="holder padding-zero">
+	<div class="feedback-plugin submit-review">
+		<div class="item clearfix padded">
+			<p>Submit Review</p>			
+		</div>
+		<hr class="none">
+		<div class="item clearfix">
+			<div class="col-xs-12 pull-left">
+				<span>Rating:</span>
+			</div>
+			<div class="col-xs-12 pull-right margin-top-five">
+				<select id="stars">
+				  <option value="1">1</option>
+				  <option value="2">2</option>
+				  <option value="3">3</option>
+				  <option value="4">4</option>
+				  <option value="5">5</option>
+				</select>
+			</div>
+		</div>
+		<hr class="none">
+		<hr class="none">
+		<div class="item clearfix">
+			<div class="col-xs-12 pull-left">
+				<span>Message:</span>
+			</div>
+			<div class="col-xs-12 pull-right margin-top-five">
+				<textarea class="form-control" placeholder="Enter message..."></textarea>
+			</div>
+		</div>
+		<hr class="none">
+		<div class="col-xs-12 pull-left text-center">
+			<a class="submit btn btn-success padding-left-thirty padding-right-thirty">Submit Review</a>
+		</div>
+	</div>
+</div>

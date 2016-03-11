@@ -1,0 +1,56 @@
+.br-theme-css-stars .br-widget {
+    height: 24px;
+    white-space: nowrap;
+}
+.br-theme-css-stars .br-widget a {
+    cursor: default;
+    float: left;
+    font-size: 17px;
+    height: 18px;
+    text-decoration: none;
+    width: 18px;
+}
+.br-theme-css-stars .br-widget a + a{
+	margin-left:5px;
+}
+.br-theme-css-stars .br-widget a::after {
+    color: #dddddd;
+    content: "★";
+}
+.br-theme-css-stars .br-widget a.br-active::after {
+    color: #09a3ee;
+}
+.br-theme-css-stars .br-widget a.br-selected::after {
+    color: #09a3ee;
+}
+.br-theme-css-stars .br-widget .br-current-rating {
+    display: none;
+}
+@media print {
+.br-theme-css-stars .br-widget a::after {
+    color: black;
+    content: "☆";
+}
+.br-theme-css-stars .br-widget a.br-active::after, .br-theme-css-stars .br-widget a.br-selected::after {
+    color: black;
+    content: "★";
+}
+}
+
+.review-wall .br-theme-css-stars{
+	position:relative;
+	top:-2px;
+}
+.review .br-theme-css-stars .br-widget,
+.review-wall .br-theme-css-stars .br-widget{
+	height:30px;
+}
+.review .br-theme-css-stars .br-widget a,
+.review-wall .br-theme-css-stars .br-widget a,
+.feedback-container .br-theme-css-stars .br-widget a{
+	float:inherit;
+	font-size:19px;
+}
+.feedback-container .br-theme-css-stars .br-widget a{
+	font-size:15px;
+}
