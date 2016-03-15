@@ -7,8 +7,8 @@
       $routeProvider
         .when('/', {
           templateUrl: 'templates/home.html',
-          controllerAs: 'ContentHome',
-          controller: 'ContentHomeCtrl'
+          controllerAs: 'DesignHome',
+          controller: 'DesignHomeCtrl'
         })
         .otherwise('/');
     }])
