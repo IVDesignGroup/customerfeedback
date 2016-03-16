@@ -3,7 +3,7 @@
 (function (angular) {
   angular.module('customerFeedbackPluginDesign')
     .constant('TAG_NAMES', {
-      CUSTOMER_INFO: 'CustomerInfo'
+      FEEDBACK_APP_INFO: 'FeedbackAppInfo'
     })
     .constant('STATUS_CODE', {
       INSERTED: 'inserted',

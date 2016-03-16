@@ -14,7 +14,7 @@
             }
           };
 
-          Buildfire.datastore.get(TAG_NAMES.CUSTOMER_INFO, function (err, data) {
+          Buildfire.datastore.get(TAG_NAMES.FEEDBACK_APP_INFO, function (err, data) {
             console.log('datastore.get customer feedback Info-----------', data);
             if (err) {
               console.log('------------Error in Design of customer feedback plugin------------', err);
@@ -60,7 +60,7 @@
 
           if (oldObj != newObj && newObj) {
             console.log("Updated Object:", newObj, oldObj);
-            Buildfire.datastore.save(DesignHome.feedBackInfo, TAG_NAMES.CUSTOMER_INFO, function (err, data) {
+            Buildfire.datastore.save(DesignHome.feedBackInfo, TAG_NAMES.FEEDBACK_APP_INFO, function (err, data) {
               if (err) {
                 //return DesignHome.data = angular.copy(DesignHomeMaster);
               }
