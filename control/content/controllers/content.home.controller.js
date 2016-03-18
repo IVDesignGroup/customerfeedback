@@ -129,7 +129,14 @@
             }, 500);
           }
         };
-
+        buildfire.userData.search({}, 'Complains', function (err, results) {
+          if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
+          else {
+            console.log("++++++++++++++ctrl", results)
+            //$scope.complains = results;
+            $scope.$apply();
+          }
+        });
         /*
          * watch for changes in data and trigger the saveDataWithDelay function on change
          * */

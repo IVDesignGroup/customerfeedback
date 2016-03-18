@@ -9,10 +9,20 @@
        */
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|file):/);
 
-      $routeProvider
-        .when('/', {
-          template: '<div></div>'
-        })
-        .otherwise('/');
-    }]);
+        $routeProvider
+            .when('/', {
+              templateUrl: 'templates/home.html',
+              controllerAs: 'WidgetHome',
+              controller: 'WidgetHomeCtrl'
+            }).when('/wall', {
+              templateUrl: 'templates/wall.html',
+              controllerAs: 'WidgetWall',
+              controller: 'WidgetWallCtrl'
+            }).when('/submit', {
+              templateUrl: 'templates/submit.html',
+              controllerAs: 'WidgetSubmit',
+              controller: 'WidgetSubmitCtrl'
+            })
+            .otherwise('/');
+      }]);
 })(window.angular, window.buildfire);
