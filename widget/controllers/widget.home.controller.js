@@ -7,8 +7,21 @@
       function ($scope, $location) {
 
         var WidgetHome = this;
-        if(1==1)
-          $location.path('/submit')
+        buildfire.userData.search({}, 'Feedback', function (err, results) {
+          if (err) console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
+          else {
+            console.log("++++++++++++++ctrldd", results)
+            if(!results.length) {
+              $location.path('/submit')
+            }else
+            {
+              WidgetHome.data= results[0].data
+             }
+            //$scope.complains = results;
+            $scope.$apply();
+          }
+        });
+
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
          */
@@ -33,7 +46,9 @@
           });
         };
 
-
+WidgetHome.goBack = function(){
+  $location.path("/submit");
+}
         /**
          * onLogin() listens when user logins using buildfire.auth api.
          */

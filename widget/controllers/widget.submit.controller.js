@@ -3,18 +3,18 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetSubmitCtrl', ['$scope',
-      function ($scope) {
+    .controller('WidgetSubmitCtrl', ['$scope','$location',
+      function ($scope, $location) {
 
         var WidgetSubmit = this;
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
          */
         WidgetSubmit.Feedback = {
-          Message : ""
+          Message : "",
+          startRating:""
         }
         WidgetSubmit.currentLoggedInUser = null;
-        WidgetSubmit.startPoints = 1.5;
         /**
          * Method to open buildfire auth login pop up and allow user to login using credentials.
          */
@@ -23,6 +23,7 @@
 
           });
         };
+
 
         var loginCallback = function () {
           buildfire.auth.getCurrentUser(function (err, user) {
@@ -36,27 +37,31 @@
 
         WidgetSubmit.save = function () {
           //  $scope.complain.data.response = "";
-          var objData = {name:"John Doaaae", tel:"8888851111111"}
-          console.log("++++++++++++++",objData)
-          buildfire.userData.save( WidgetSubmit.Feedback, 'Complains', function (e) {
+          var objData = {startRating:WidgetSubmit.Feedback.startRating, comments:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName}
+           console.log("++++++++++++++",objData)
+          buildfire.userData.save( objData, 'Feedback', function (e) {
             if (e) console.error("+++++++++++++++err",JSON.stringify(e));
             else{
+              $location.path('/')
+              $scope.$apply();
               console.log("+++++++++++++++success")
              }
           });
         }
 
 
-        //buildfire.userData.get('Complains', function (err, results) {
-        //  if (err) console.error(JSON.stringify(err));
-        //  else {
-        //    if (results ) {
-        //      console.log("++++++++++", results)
-        //      //$scope.complain = results;
-        //      $scope.$apply();
-        //    }
-        //  }
-        //});
+        buildfire.userData.get('Feedback', function (err, results) {
+          if (err) console.error(JSON.stringify(err));
+          else {
+            if (results ) {
+              console.log("++++++++++33", results)
+              WidgetSubmit.Feedback = results.data;
+              //$scope.complain = results;
+
+              $scope.$apply();
+            }
+          }
+        });
 
 
         //WidgetSubmit.save();
