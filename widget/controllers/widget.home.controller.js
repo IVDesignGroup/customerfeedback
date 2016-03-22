@@ -8,15 +8,19 @@
 
         var WidgetHome = this;
         buildfire.userData.search({}, 'Feedback', function (err, results) {
-          if (err) console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
+          if (err){
+            console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
+            $location.path('/submit');
+            $scope.$apply();
+          }
           else {
             console.log("++++++++++++++ctrldd", results)
             if(!results.length) {
-              $location.path('/submit')
+              $location.path('/submit');
             }else
             {
               WidgetHome.data= results[0].data
-             }
+            }
             //$scope.complains = results;
             $scope.$apply();
           }
@@ -34,21 +38,25 @@
           buildfire.auth.login({}, function () {
 
           });
+          $scope.$apply();
         };
 
         var loginCallback = function () {
           buildfire.auth.getCurrentUser(function (err, user) {
-            console.log("_______________________", user);
+            console.log("_______________________rrr", user);
+
+            $scope.$digest();
             if (user) {
               WidgetHome.currentLoggedInUser = user;
-              $scope.$digest();
+              $location.path('/submit');
+              $scope.$apply();
             }
           });
         };
 
-WidgetHome.goBack = function(){
-  $location.path("/submit");
-}
+        WidgetHome.goBack = function(){
+          $location.path("/submit");
+        }
         /**
          * onLogin() listens when user logins using buildfire.auth api.
          */
@@ -58,7 +66,7 @@ WidgetHome.goBack = function(){
          * Check for current logged in user, if not show ogin screen
          */
         buildfire.auth.getCurrentUser(function (err, user) {
-          console.log("_______________________", user);
+          console.log("_______________________ssss", user);
           if (user) {
             WidgetHome.currentLoggedInUser = user;
           }

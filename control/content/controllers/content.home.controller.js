@@ -129,7 +129,7 @@
             }, 500);
           }
         };
-        buildfire.userData.search({}, 'Feedback', function (err, results) {
+        buildfire.userData.get('Feedback', function (err, results) {
           if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
           else {
             console.log("++++++++++++++ctrl", results)
