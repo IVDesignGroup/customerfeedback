@@ -14,7 +14,7 @@
           Message : ""
         }
         WidgetSubmit.currentLoggedInUser = null;
-
+        WidgetSubmit.startPoints = 1.5;
         /**
          * Method to open buildfire auth login pop up and allow user to login using credentials.
          */
@@ -45,6 +45,7 @@
              }
           });
         }
+
 
         //buildfire.userData.get('Complains', function (err, results) {
         //  if (err) console.error(JSON.stringify(err));

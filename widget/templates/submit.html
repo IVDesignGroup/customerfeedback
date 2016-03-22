@@ -1,11 +1,3 @@
-
-<script type="text/javascript" charset="utf-8">
-	$(function() {
-	 	$('#stars').barrating({
-	     	theme: 'css-stars'
-	  	});
-	});
-</script>
 <div class="holder padding-zero">
 	<div class="feedback-plugin submit-review">
 		<div class="item clearfix padded">
@@ -16,14 +8,10 @@
 			<div class="col-xs-12 pull-left">
 				<span>Rating:</span>
 			</div>
+
 			<div class="col-xs-12 pull-right margin-top-five">
-				<select id="stars">
-				  <option value="1">1</option>
-				  <option value="2">2</option>
-				  <option value="3">3</option>
-				  <option value="4">4</option>
-				  <option value="5">5</option>
-				</select>
+			<ng-rate-it ng-model="WidgetSubmit.startPoints" class="custom" rated=""></ng-rate-it>
+				{{WidgetSubmit.startPoints}}
 			</div>
 		</div>
 		<hr class="none">

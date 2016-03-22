@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('customerFeedbackPluginWidget', ['ngRoute'])
+  angular.module('customerFeedbackPluginWidget', ['ngRoute', 'ngRateIt'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
