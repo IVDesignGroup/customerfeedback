@@ -6,7 +6,7 @@
             </div>
 
         <p ng-if="WidgetHome.data.startRating<=1">Poor</p>
-        <p ng-if="WidgetHome.data.startRating>1 && WidgetHome.data.v<=2">Average</p>
+        <p ng-if="WidgetHome.data.startRating>1 && WidgetHome.data.startRating<=2">Average</p>
         <p ng-if="WidgetHome.data.startRating>2 && WidgetHome.data.startRating<=3">Good</p>
         <p ng-if="WidgetHome.data.startRating>3 && WidgetHome.data.startRating<=4">Excellent</p>
         <p ng-if="WidgetHome.data.startRating>4">Outstanding</p>
