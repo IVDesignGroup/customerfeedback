@@ -2,25 +2,25 @@
     <div class="feedback-plugin review">
         <div class="intro text-center padding-top-twenty padding-bottom-ten">
             <div class="rating br-wrapper br-theme-css-stars">
-                <ng-rate-it ng-model="WidgetHome.data.startRating" class="custom"  read-only = "true"></ng-rate-it>
+                <ng-rate-it ng-model="WidgetHome.lastRating" class="custom"  read-only = "true"></ng-rate-it>
             </div>
 
-        <p ng-if="WidgetHome.data.startRating<=1">Poor</p>
-        <p ng-if="WidgetHome.data.startRating>1 && WidgetHome.data.startRating<=2">Average</p>
-        <p ng-if="WidgetHome.data.startRating>2 && WidgetHome.data.startRating<=3">Good</p>
-        <p ng-if="WidgetHome.data.startRating>3 && WidgetHome.data.startRating<=4">Excellent</p>
-        <p ng-if="WidgetHome.data.startRating>4">Outstanding</p>
+        <p ng-if="WidgetHome.lastRating<=1">Poor</p>
+        <p ng-if="WidgetHome.lastRating>1 && WidgetHome.lastRating<=2">Average</p>
+        <p ng-if="WidgetHome.lastRating>2 && WidgetHome.lastRating<=3">Good</p>
+        <p ng-if="WidgetHome.lastRating>3 && WidgetHome.lastRating<=4">Excellent</p>
+        <p ng-if="WidgetHome.lastRating>4">Outstanding</p>
 
-            <p style="font-weight:400;">{{WidgetHome.data.startRating}}/5</p>
+            <p style="font-weight:400;">{{WidgetHome.lastRating}}/5</p>
         </div>
     </div>
         <div class="review-comments clearfix">
             <div class="comment">
                 <hr class="small">
-                <div class="inner">
-                    <p class="info margin-bottom-zero opacity-seventy">1h ago</p>
 
-                    <p class="margin-bottom-zero">{{WidgetHome.data.Message}}</p>
+                <div class="inner" ng-repeat = "data in WidgetHome.data">
+                    <p class="info margin-bottom-zero opacity-seventy">1h ago</p>
+                    <p class="margin-bottom-zero">{{data.data.Message}}</p>
                 </div>
             </div>
         </div>

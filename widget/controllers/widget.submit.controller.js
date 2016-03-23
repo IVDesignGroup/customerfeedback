@@ -51,19 +51,19 @@
           });
         }
 
-        WidgetSubmit.update = function () {
-          //  $scope.complain.data.response = "";
-          var objData = {startRating:WidgetSubmit.Feedback.startRating, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username}
-          console.log("++++++++++++++",objData)
-          buildfire.userData.update(WidgetSubmit.updateId, objData, 'AppRatings2', function (e) {
-            if (e) console.error("+++++++++++++++err",JSON.stringify(e));
-            else{
-              $location.path('/')
-              $scope.$apply();
-              console.log("+++++++++++++++success")
-            }
-          });
-        }
+        //WidgetSubmit.update = function () {
+        //  //  $scope.complain.data.response = "";
+        //  var objData = {startRating:WidgetSubmit.Feedback.startRating, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username}
+        //  console.log("++++++++++++++",objData)
+        //  buildfire.userData.update(WidgetSubmit.updateId, objData, 'AppRatings2', function (e) {
+        //    if (e) console.error("+++++++++++++++err",JSON.stringify(e));
+        //    else{
+        //      $location.path('/')
+        //      $scope.$apply();
+        //      console.log("+++++++++++++++success")
+        //    }
+        //  });
+        //}
 
 
 
@@ -90,10 +90,9 @@
               else {
                 if (results ) {
                   console.log("++++++++++33", results)
-                  WidgetSubmit.Feedback = results[0].data;
+                  WidgetSubmit.Feedback = results[results.length-1].data;
                   WidgetSubmit.isUpdate = results.length;
-                  WidgetSubmit.updateId = results[0].id;
-                  console.log("+++++++99",WidgetSubmit.updateId)
+                  WidgetSubmit.Feedback.Message = "";
                   //$scope.complain = results;
                   //  addContactRecord (  {name:"John Doe5", tel:"555-111-1111"} );
 

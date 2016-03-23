@@ -19,7 +19,8 @@
               $location.path('/submit');
             }else
             {
-              WidgetHome.data= results[0].data
+              WidgetHome.data= results;
+              WidgetHome.lastRating = results[results.length-1].data.startRating;
             }
             //$scope.complains = results;
             $scope.$apply();
