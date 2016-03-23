@@ -129,7 +129,7 @@
             }, 500);
           }
         };
-        buildfire.userData.get('Feedback', function (err, results) {
+        buildfire.userData.search({}, 'AppRatings2', function (err, results) {
           if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
           else {
             console.log("++++++++++++++ctrl", results)

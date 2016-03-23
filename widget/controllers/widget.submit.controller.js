@@ -12,7 +12,9 @@
          */
         WidgetSubmit.Feedback = {
           Message : "",
-          startRating:""
+          startRating:"",
+          UserId:"",
+          UserName: ""
         }
         WidgetSubmit.currentLoggedInUser = null;
         /**
@@ -37,9 +39,9 @@
 
         WidgetSubmit.save = function () {
           //  $scope.complain.data.response = "";
-          var objData = {startRating:WidgetSubmit.Feedback.startRating, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date()}
+          var objData = {startRating:WidgetSubmit.Feedback.startRating, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username}
            console.log("++++++++++++++",objData)
-          buildfire.userData.save( objData, 'Feedback', function (e) {
+          buildfire.userData.insert( objData, 'AppRatings2', function (e) {
             if (e) console.error("+++++++++++++++err",JSON.stringify(e));
             else{
               $location.path('/')
@@ -49,19 +51,20 @@
           });
         }
 
-
-        buildfire.userData.get('Feedback', function (err, results) {
-          if (err) console.error(JSON.stringify(err));
-          else {
-            if (results ) {
-              console.log("++++++++++33", results)
-              WidgetSubmit.Feedback = results.data;
-              //$scope.complain = results;
-
+        WidgetSubmit.update = function () {
+          //  $scope.complain.data.response = "";
+          var objData = {startRating:WidgetSubmit.Feedback.startRating, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username}
+          console.log("++++++++++++++",objData)
+          buildfire.userData.update(WidgetSubmit.updateId, objData, 'AppRatings2', function (e) {
+            if (e) console.error("+++++++++++++++err",JSON.stringify(e));
+            else{
+              $location.path('/')
               $scope.$apply();
+              console.log("+++++++++++++++success")
             }
-          }
-        });
+          });
+        }
+
 
 
         //WidgetSubmit.save();
@@ -77,6 +80,27 @@
           console.log("_______________________", user);
           if (user) {
             WidgetSubmit.currentLoggedInUser = user;
+            var searchData = {
+              userName:WidgetSubmit.currentLoggedInUser.username
+            }
+
+            buildfire.userData.search(searchData,'AppRatings2', function (err, results) {
+              console.log("+++++++++555",WidgetSubmit.currentLoggedInUser)
+              if (err) console.error(JSON.stringify(err));
+              else {
+                if (results ) {
+                  console.log("++++++++++33", results)
+                  WidgetSubmit.Feedback = results[0].data;
+                  WidgetSubmit.isUpdate = results.length;
+                  WidgetSubmit.updateId = results[0].id;
+                  console.log("+++++++99",WidgetSubmit.updateId)
+                  //$scope.complain = results;
+                  //  addContactRecord (  {name:"John Doe5", tel:"555-111-1111"} );
+
+                  $scope.$apply();
+                }
+              }
+            });
           }
           else
             WidgetSubmit.openLogin();

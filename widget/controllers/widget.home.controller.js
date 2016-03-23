@@ -7,7 +7,7 @@
       function ($scope, $location) {
 
         var WidgetHome = this;
-        buildfire.userData.search({}, 'Feedback', function (err, results) {
+        buildfire.userData.search({}, 'AppRatings2', function (err, results) {
           if (err){
             console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
             $location.path('/submit');
