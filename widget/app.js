@@ -24,7 +24,20 @@
               controller: 'WidgetSubmitCtrl'
             })
             .otherwise('/');
-      }]).run(['$rootScope', function ($rootScope) {
+      }])
+      .filter('cropImage', [function () {
+          return function (url, width, height, noDefault) {
+              if (noDefault) {
+                  if (!url)
+                      return '';
+              }
+              return buildfire.imageLib.cropImage(url, {
+                  width: width,
+                  height: height
+              });
+          };
+      }])
+      .run(['$rootScope', function ($rootScope) {
           buildfire.navigation.onBackButtonClick = function () {
                   buildfire.navigation._goBackOne();
 
