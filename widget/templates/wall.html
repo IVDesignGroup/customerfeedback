@@ -10,19 +10,18 @@
 	<div class="feedback-plugin review-wall">
 		<div class="intro text-center padding-top-ten padding-bottom-twenty">
 			<p class="margin-top-ten margin-bottom-zero">Reviews: <span style="font-weight:400;">4</span></p>
-			<p>Average Rating: <span style="font-weight:400;">4.3/5</span></p>
+			<p>Average Rating: <span style="font-weight:400;">{{WidgetWall.lastRating}}/5</span></p>
 			<div class="rating br-wrapper br-theme-css-stars">
-				<div class="br-widget">
-					<a class="br-selected"></a>
-					<a class="br-selected"></a>
-					<a class="br-selected"></a>
-					<a class="br-selected"></a>
-					<a></a>
-				</div>
+				<ng-rate-it ng-model="WidgetWall.lastRating" class="custom"  read-only = "true"></ng-rate-it>
 			</div>
-			<a class="btn btn-success btn-sm">Submit Review</a>
-		</div>				
-		<div class="review-item clearfix">
+			<p ng-if="WidgetWall.lastRating<=1">Poor</p>
+			<p ng-if="WidgetWall.lastRating>1 && WidgetWall.lastRating<=2">Average</p>
+			<p ng-if="WidgetWall.lastRating>2 && WidgetWall.lastRating<=3">Good</p>
+			<p ng-if="WidgetWall.lastRating>3 && WidgetWall.lastRating<=4">Excellent</p>
+			<p ng-if="WidgetWall.lastRating>4">Outstanding</p>
+			<a class="btn btn-success btn-sm" href="#/submit">Submit Review</a>
+		</div>
+		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.data" >
 			<hr class="small">
 			<div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen">
 				<div class="col-xs-8 pull-left">
@@ -31,62 +30,19 @@
 					</div>
 					<div>
 						<p class="text-primary ellipsis margin-bottom-zero padding-left-ten">
-							<a class="text-primary">John Doe</a>
+							<a class="text-primary">{{data.data.displayName}}</a>
 						</p>
-						<p class="date opacity-seventy">2/18/16</p>
+						<p class="date opacity-seventy">{{data.data.addedDate | date : 'shortDate'}}</p>
 					</div>
 				</div>
 				<div class="col-xs-3 pull-right margin-top-ten text-right">
-					<span class="stars"><span style="font-weight:400;">4</span> stars</span>
+					<span class="stars"><span style="font-weight:400;">{{data.data.startRating}}</span> stars</span>
 				</div>
 			</div>
 			<div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen">
-				<p class="margin-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+				<p class="margin-zero">{{data.data.Message}}</p>
 			</div>
 		</div>
-		<div class="review-item clearfix">
-			<hr class="small">
-			<div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen">
-				<div class="col-xs-8 pull-left">
-					<div class="media-holder pull-left">
-						<img src="http://www.placehold.it/100x100">
-					</div>
-					<div>
-						<p class="text-primary ellipsis margin-bottom-zero padding-left-ten">
-							<a class="text-primary">John Doe</a>
-						</p>
-						<p class="date opacity-seventy">2/18/16</p>
-					</div>
-				</div>
-				<div class="col-xs-3 pull-right margin-top-ten text-right">
-					<span class="stars"><span style="font-weight:400;">4</span> stars</span>
-				</div>
-			</div>
-			<div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen">
-				<p class="margin-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-			</div>
-		</div>
-		<div class="review-item clearfix">
-			<hr class="small">
-			<div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen">
-				<div class="col-xs-8 pull-left">
-					<div class="media-holder pull-left">
-						<img src="http://www.placehold.it/100x100">
-					</div>
-					<div>
-						<p class="text-primary ellipsis margin-bottom-zero padding-left-ten">
-							<a class="text-primary">John Doe</a>
-						</p>
-						<p class="date opacity-seventy">2/18/16</p>
-					</div>
-				</div>
-				<div class="col-xs-3 pull-right margin-top-ten text-right">
-					<span class="stars"><span style="font-weight:400;">5</span> stars</span>
-				</div>
-			</div>
-			<div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen">
-				<p class="margin-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-			</div>
-		</div>
+
 	</div>
 </div>

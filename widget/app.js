@@ -10,11 +10,11 @@
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|file):/);
 
         $routeProvider
-            .when('/', {
+            .when('/wall', {
               templateUrl: 'templates/home.html',
               controllerAs: 'WidgetHome',
               controller: 'WidgetHomeCtrl'
-            }).when('/wall', {
+            }).when('/', {
               templateUrl: 'templates/wall.html',
               controllerAs: 'WidgetWall',
               controller: 'WidgetWallCtrl'
@@ -24,5 +24,11 @@
               controller: 'WidgetSubmitCtrl'
             })
             .otherwise('/');
-      }]);
+      }]).run(['$rootScope', function ($rootScope) {
+          buildfire.navigation.onBackButtonClick = function () {
+                  buildfire.navigation._goBackOne();
+
+          };
+      }])
+      ;
 })(window.angular, window.buildfire);
