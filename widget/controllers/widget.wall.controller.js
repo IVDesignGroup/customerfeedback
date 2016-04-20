@@ -11,18 +11,18 @@
           buildfire.userData.search({}, 'AppRatings2', function (err, results) {
             if (err){
               console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
-              $location.path('/submit');
+              $location.path('/');
               $scope.$apply();
             }
             else {
               console.log("++++++++++++++ctrldd", results)
-              if(!results.length) {
-                $location.path('/submit');
-              }else
-              {
+
                 WidgetWall.data= results;
-                WidgetWall.lastRating = results[results.length-1].data.startRating;
-              }
+                //WidgetWall.lastRating = results[results.length-1].data.startRating;
+                WidgetWall.lastRating = results.reduce(function (a, b) {
+                  return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                })
+              WidgetWall.startPoints = WidgetWall.lastRating.data.startRating / (WidgetWall.data.length )
               //$scope.complains = results;
               $scope.$apply();
             }
@@ -50,7 +50,7 @@
               $scope.$digest();
               if (user) {
                 WidgetWall.currentLoggedInUser = user;
-                $location.path('/submit');
+                $location.path('/');
                 $scope.$apply();
               }
             });
