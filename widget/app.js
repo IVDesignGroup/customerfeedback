@@ -37,11 +37,17 @@
               });
           };
       }])
-      .run(['$rootScope', function ($rootScope) {
+      .run(['$rootScope', '$location', function ($rootScope, $location) {
           buildfire.navigation.onBackButtonClick = function () {
-                  buildfire.navigation._goBackOne();
+              $location.path('/')
+              $rootScope.$apply();
+
 
           };
+          //buildfire.history.onPop(function(breadcrumb) {
+          //   console.log("=====================",breadcrumb)
+          //});
+
       }])
       ;
 })(window.angular, window.buildfire);

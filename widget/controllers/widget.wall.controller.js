@@ -95,6 +95,7 @@
            * Check for current logged in user, if not show ogin screen
            */
           buildfire.auth.getCurrentUser(function (err, user) {
+              init();
             console.log("_______________________ssss", user);
             if (user) {
               WidgetWall.currentLoggedInUser = user;

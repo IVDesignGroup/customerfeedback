@@ -7,6 +7,7 @@
       function ($scope, $location, $rootScope, DataStore, TAG_NAMES) {
         var WidgetHome = this;
         WidgetHome.chatData = "";
+          buildfire.history.push('Event', { elementToShow: 'Event' });
         function init() {
             var success = function (result) {
                     WidgetHome.data = result.data;
