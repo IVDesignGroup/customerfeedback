@@ -10,7 +10,7 @@
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|file):/);
 
         $routeProvider
-            .when('/wall', {
+            .when('/chatHome', {
               templateUrl: 'templates/home.html',
               controllerAs: 'WidgetHome',
               controller: 'WidgetHomeCtrl'
