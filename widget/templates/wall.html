@@ -10,9 +10,9 @@
 	<div class="feedback-plugin review-wall">
 		<div class="intro text-center padding-top-ten padding-bottom-twenty">
 			<p class="margin-top-ten margin-bottom-zero">Reviews: <span style="font-weight:400;">{{WidgetWall.data.reviews.length}}</span></p>
-			<p>Average Rating: <span style="font-weight:400;">{{WidgetWall.lastRating.data.startRating / (WidgetWall.data.reviews.length +1) | number:2 }}/5</span></p>
+			<p>Average Rating: <span style="font-weight:400;">{{WidgetWall.lastRating.data.startRating / (WidgetWall.data.reviews.length) | number:2 }}/5</span></p>
 			<div class="rating br-wrapper br-theme-css-stars">
-				<ng-rate-it ng-model="WidgetWall.startPoints" class="custom"  read-only = "true"></ng-rate-it>
+				<ng-rate-it ng-model="WidgetWall.startPoints" class="custom"  read-only = "true"></ng-rate-it>{{WidgetWall.startPoints}}
 			</div>
 			<p ng-if="WidgetWall.lastRating<=1">Poor</p>
 			<p ng-if="WidgetWall.lastRating>1 && WidgetWall.lastRating<=2">Average</p>
@@ -20,6 +20,7 @@
 			<p ng-if="WidgetWall.lastRating>3 && WidgetWall.lastRating<=4">Excellent</p>
 			<p ng-if="WidgetWall.lastRating>4">Outstanding</p>
 			<a class="btn btn-success btn-sm" href="#/submit">Submit Review</a>
+			<a href="#/chatHome">Chat</a>
 		</div>
 		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.data.reviews" >
 			<hr class="small">

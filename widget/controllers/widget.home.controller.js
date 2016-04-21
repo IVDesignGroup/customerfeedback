@@ -6,7 +6,7 @@
     .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', 'DataStore', 'TAG_NAMES',
       function ($scope, $location, $rootScope, DataStore, TAG_NAMES) {
         var WidgetHome = this;
-
+        WidgetHome.chatData = "";
         function init() {
             var success = function (result) {
                     WidgetHome.data = result.data;
@@ -52,6 +52,18 @@
             });
         }
 
+        buildfire.userData.search({}, 'chatData', function (err, results) {
+          if (err){
+            console.error("Error",JSON.stringify(err));
+          }
+          else {
+            console.log("++++++++++++++successsChat", results)
+            WidgetHome.chatMessageData= results;
+            //$scope.complains = results;
+            $scope.$apply();
+          }
+        });
+
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
          */
@@ -82,6 +94,28 @@
 
         WidgetHome.goBack = function(){
           $location.path("/submit");
+        }
+
+        WidgetHome.sendMessage = function(){
+          buildfire.userData.insert( {chatMessage:WidgetHome.chatData}, 'chatData', WidgetHome.data.userToken, function (e) {
+            if (e) console.error("+++++++++++++++err",JSON.stringify(e));
+            else{
+              $location.path('/chatHome')
+              buildfire.userData.search({}, 'chatData', function (err, results) {
+                if (err){
+                  console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
+                }
+                else {
+                  console.log("++++++++++++++ppppp", results)
+                  WidgetHome.chatMessageData= results;
+                    //$scope.complains = results;
+                  $scope.$apply();
+                }
+              });
+              $scope.$apply();
+              console.log("+++++++++++++++success")
+            }
+          });
         }
         /**
          * onLogin() listens when user logins using buildfire.auth api.

@@ -52,7 +52,7 @@
                         WidgetWall.lastRating = results.reduce(function (a, b) {
                             return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
                         })
-                        WidgetWall.startPoints = WidgetWall.lastRating.data.startRating / (WidgetWall.data.length )
+                        WidgetWall.startPoints = WidgetWall.lastRating.data.startRating / (WidgetWall.data.reviews.length )
                         //$scope.complains = results;
                         $scope.$apply();
                     }
@@ -76,6 +76,7 @@
               $scope.$digest();
               if (user) {
                 WidgetWall.currentLoggedInUser = user;
+                console.log("_______________________rrr22", user);
                 $location.path('/');
                 $scope.$apply();
               }
