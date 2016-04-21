@@ -5,8 +5,8 @@
 
   <!-- CSS -->
   <link href="../../../../styles/helper.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../widget/assets/barrating.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/barrating.css">
 
   <!-- JS -->
   <script src="../../../../scripts/buildfire.js"></script>
@@ -17,6 +17,9 @@
   <script src="../../../../scripts/tinymce/ui-tinymce.js"></script>
 
   <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="assets/jquery.barrating.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="assets/ng-rateit.css" />
+    <script src="assets/ng-rateit.js"></script>
   <script src="../../../../scripts/sortable.min.js"></script>
   <script
       src="../../../../scripts/buildfire/components/carousel/carousel.js"></script>
@@ -24,7 +27,14 @@
   <script src="app.services.js"></script>
   <script src="enums.js"></script>
   <script src="controllers/content.home.controller.js"></script>
-
+    <!-- Meta -->
+    <style>
+        .custom .ngrateit-background,
+        .custom .ngrateit-hover,
+        .custom .ngrateit-value{
+            background-image: url('assets/custom.png');
+        }
+    </style>
 </head>
 <body>
 <div ng-view=""></div>

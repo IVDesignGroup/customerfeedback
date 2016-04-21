@@ -129,14 +129,16 @@
             }, 500);
           }
         };
-        buildfire.userData.search({}, 'AppRatings2', function (err, results) {
-          if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
-          else {
-            console.log("++++++++++++++ctrl", results)
-            //$scope.complains = results;
-            $scope.$apply();
-          }
-        });
+
+          buildfire.userData.search({}, 'AppRatings2', function (err, results) {
+              if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
+              else {
+                  console.log("++++++++++++++ctrl", results);
+                  ContentHome.reviews = results;
+                  $scope.$apply();
+              }
+          });
+
         /*
          * watch for changes in data and trigger the saveDataWithDelay function on change
          * */
