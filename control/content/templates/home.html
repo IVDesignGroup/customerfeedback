@@ -46,7 +46,8 @@
         <p>{{review.data.Message}}</p>
 
         <p class="author info padding-zero margin-zero">
-          <img src="http://www.placehold.it/60x60">
+          <img src="http://www.placehold.it/100x100" ng-if="!review.data.userImage">
+          <img ng-src="{{review.data.userImage}}" ng-if="review.data.userImage">
           {{review.data.displayName}} on {{review.data.addedDate |date:'medium'}}
         </p>
       </div>
