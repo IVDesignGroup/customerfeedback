@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('customerFeedbackPluginContent')
-    .controller('ContentHomeCtrl', ['$scope', '$location', 'Buildfire', 'TAG_NAMES', 'STATUS_CODE', 'DataStore',
-      function ($scope, $location, Buildfire, TAG_NAMES, STATUS_CODE, DataStore) {
+    .controller('ContentHomeCtrl', ['$scope', '$location', 'Buildfire', 'TAG_NAMES', 'STATUS_CODE', 'EVENTS', 'DataStore',
+      function ($scope, $location, Buildfire, TAG_NAMES, STATUS_CODE, EVENTS, DataStore) {
         var _data = {
           "content": {
             "carouselImages": [],
@@ -152,6 +152,22 @@
           return ContentHome.data;
         }, saveDataWithDelay, true);
 
+          Buildfire.messaging.onReceivedMessage = function (event) {
+              console.log('Content syn called method in content.home.controller called-----', event);
+              if (event) {
+                  switch (event.name) {
+                      case EVENTS.REVIEW_CREATED :
+                          if (event.data) {
+                              ContentHome.reviews.push(event.data);
+                          }
+                          break;
+                      default :
+                          break;
+                  }
+                  if (!$scope.$$phase)
+                      $scope.$digest();
+              }
+          };
         init();
       }]);
 })(window.angular);

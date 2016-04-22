@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetSubmitCtrl', ['$scope','$location',
-      function ($scope, $location) {
+    .controller('WidgetSubmitCtrl', ['$scope','$location', 'EVENTS',
+      function ($scope, $location, EVENTS) {
 
         var WidgetSubmit = this;
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -43,10 +43,13 @@
           //  $scope.complain.data.response = "";
           var objData = {startRating:WidgetSubmit.Feedback.startRating, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username, userImage:WidgetSubmit.currentLoggedInUser.imageUrl }
            console.log("++++++++++++++",objData)
-          buildfire.userData.insert( objData, 'AppRatings2', function (e) {
-            if (e) console.error("+++++++++++++++err",JSON.stringify(e));
+          buildfire.userData.insert( objData, 'AppRatings2', function (err, data) {
+            if (err) console.error("+++++++++++++++err",JSON.stringify(err));
             else{
-              $location.path('/')
+              data.userToken = WidgetSubmit.currentLoggedInUser._id;
+              console.log('>>>>>>>>>>>>>>>>>>>', data);
+              buildfire.messaging.sendMessageToControl({'name': EVENTS.REVIEW_CREATED, 'data': data});
+              $location.path('/');
               $scope.$apply();
               console.log("+++++++++++++++success")
              }
