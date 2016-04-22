@@ -10,11 +10,11 @@
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|file):/);
 
         $routeProvider
-            .when('/chatHome', {
+            .when('/', {
               templateUrl: 'templates/home.html',
               controllerAs: 'WidgetHome',
               controller: 'WidgetHomeCtrl'
-            }).when('/', {
+            }).when('/wall', {
               templateUrl: 'templates/wall.html',
               controllerAs: 'WidgetWall',
               controller: 'WidgetWallCtrl'
@@ -39,7 +39,14 @@
       }])
       .run(['$rootScope', '$location', function ($rootScope, $location) {
           buildfire.navigation.onBackButtonClick = function () {
-              $location.path('/')
+             // $location.path('/')
+               if($location.path()=='/submit')
+               {
+                   $location.path('/wall')
+               }else{
+                   $location.path('/')
+               }
+              console.log("=================",$location.path())
               $rootScope.$apply();
 
 
