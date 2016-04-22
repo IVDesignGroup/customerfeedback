@@ -1,0 +1,27 @@
+<div class="holder padding-zero has-bottom">
+
+    <div class="review-comments clearfix">
+        <div class="comment">
+            <hr class="small">
+
+            <div class="inner" ng-repeat = "chatData in ContentChat.chatMessageData">
+                <p class="info margin-bottom-zero opacity-seventy">1h ago</p>
+                <p class="margin-bottom-zero">{{chatData.data.chatMessage}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="holder padding-zero bottom-post">
+
+    <hr class="small">
+    <div class="post-holder clearfix">
+        <div class="add-message pull-left">
+            <input type="text" class="form-control" ng-model="ContentChat.chatData"
+                   placeholder="Type your message...">
+        </div>
+        <div class="send-message">
+            <input type="submit" class="text-primary" value="Send" ng-click="ContentChat.sendMessage()">
+        </div>
+    </div>
+</div>

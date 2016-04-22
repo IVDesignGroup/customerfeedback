@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('customerFeedbackPluginContent')
-    .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'TAG_NAMES', 'STATUS_CODE', 'DataStore',
-      function ($scope, Buildfire, TAG_NAMES, STATUS_CODE, DataStore) {
+    .controller('ContentHomeCtrl', ['$scope', '$location', 'Buildfire', 'TAG_NAMES', 'STATUS_CODE', 'DataStore',
+      function ($scope, $location, Buildfire, TAG_NAMES, STATUS_CODE, DataStore) {
         var _data = {
           "content": {
             "carouselImages": [],
@@ -17,6 +17,7 @@
 
         var ContentHome = this;
         ContentHome.masterData = null;
+        ContentHome.showChat = false;
 
         ContentHome.bodyWYSIWYGOptions = {
           plugins: 'advlist autolink link image lists charmap print preview',
@@ -138,6 +139,11 @@
                   $scope.$apply();
               }
           });
+
+          ContentHome.getUrl = function (userToken) {
+              ContentHome.showChat = true;
+              $location.path('/chat/' + userToken);
+          };
 
         /*
          * watch for changes in data and trigger the saveDataWithDelay function on change

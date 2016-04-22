@@ -32,7 +32,7 @@
   <hr class="none">
   <div class="item clearfix row">
     <div class="main col-xs-12 pull-left">
-      <div class="review-item" ng-repeat="review in ContentHome.reviews">
+      <div class="review-item" ng-repeat="review in ContentHome.reviews | orderBy:'-data.addedDate'">
         <div class="rating br-wrapper br-theme-css-stars">
           <!--<div class="br-widget">
             <a class="br-selected"></a>
@@ -43,7 +43,7 @@
           </div>-->
             <ng-rate-it ng-model="review.data.startRating" class="custom" rated="" read-only = "true"></ng-rate-it>
         </div>
-        <p>{{review.data.Message}}</p>
+        <p>{{review.data.Message}}  <a ng-click="ContentHome.getUrl(review.userToken)">Chat</a></p>
 
         <p class="author info padding-zero margin-zero">
           <img src="http://www.placehold.it/60x60">
