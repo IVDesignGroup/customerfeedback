@@ -32,25 +32,27 @@
         init();
 
         function getReviews() {
-            buildfire.userData.search({}, 'AppRatings2', function (err, results) {
-                if (err){
-                    console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
-                    $location.path('/submit');
-                    $scope.$apply();
-                }
-                else {
-                    console.log("++++++++++++++ctrldd", results);
-                    if(!results.length) {
-                        $location.path('/submit');
-                    }else
-                    {
-                        WidgetHome.data.reviews = results;
-                        WidgetHome.lastRating = results[results.length-1].data.startRating;
+                buildfire.userData.search({}, 'AppRatings2', function (err, results) {
+                    if (err){
+                        console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
+                        $location.path('/');
+                        $scope.$apply();
                     }
-                    //$scope.complains = results;
-                    $scope.$apply();
-                }
-            });
+                    else {
+                        console.log("++++++++++++++ctrldd home", results)
+
+                        WidgetHome.data.reviews = results;
+                        //WidgetWall.lastRating = results[results.length-1].data.startRating;
+                        WidgetHome.lastRating = results.reduce(function (a, b) {
+                            return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                        })
+                        WidgetHome.startPoints = WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
+                        WidgetHome.lastReviewComment = WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
+                        WidgetHome.lastRating = WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.startRating;
+                        //$scope.complains = results;
+                        $scope.$apply();
+                    }
+                });
         }
 
         buildfire.userData.search({}, 'chatData', function (err, results) {
@@ -98,7 +100,7 @@
         }
 
         WidgetHome.sendMessage = function(){
-          buildfire.userData.insert( {chatMessage:WidgetHome.chatData}, 'chatData', WidgetHome.data.userToken, function (e) {
+          buildfire.userData.insert( {chatMessage:WidgetHome.chatData, chatTime: new Date()}, 'chatData', WidgetHome.data.reviews.userToken, function (e) {
             if (e) console.error("+++++++++++++++err",JSON.stringify(e));
             else{
               $location.path('/chatHome')
