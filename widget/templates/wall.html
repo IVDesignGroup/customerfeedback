@@ -23,7 +23,7 @@
 			<!--<a class="btn btn-success btn-sm" href="#/">Home</a>-->
 			<!--<a href="#/chatHome" ng-if="WidgetWall.data.reviews.length">Chat</a>-->
 		</div>
-		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.data.reviews" >
+		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.data.reviews | orderBy:'-data.addedDate'" >
 			<hr class="small">
 			<div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen">
 				<div class="col-xs-8 pull-left">
