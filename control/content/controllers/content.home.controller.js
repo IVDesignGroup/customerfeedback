@@ -18,6 +18,7 @@
         var ContentHome = this;
         ContentHome.masterData = null;
         ContentHome.showChat = false;
+        ContentHome.reviews = [];
 
         ContentHome.bodyWYSIWYGOptions = {
           plugins: 'advlist autolink link image lists charmap print preview',
@@ -73,7 +74,7 @@
           var success = function (result) {
               console.info('init success result:', result);
               ContentHome.data = result.data;
-              if (!ContentHome.data) {
+              if (!ContentHome.data || (Object.keys(ContentHome.data).length === 0 && JSON.stringify(ContentHome.data) === JSON.stringify({}))) {
                 ContentHome.data = angular.copy(_data);
               } else {
                 if (!ContentHome.data.content)
@@ -85,6 +86,14 @@
               }
               updateMasterItem(ContentHome.data);
               if (tmrDelay)clearTimeout(tmrDelay);
+                  buildfire.userData.search({}, 'AppRatings2', function (err, results) {
+                      if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
+                      else {
+                          console.log("++++++++++++++ctrl", results);
+                          ContentHome.reviews = results;
+                          $scope.$apply();
+                      }
+                  });
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -130,15 +139,6 @@
             }, 500);
           }
         };
-
-          buildfire.userData.search({}, 'AppRatings2', function (err, results) {
-              if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
-              else {
-                  console.log("++++++++++++++ctrl", results);
-                  ContentHome.reviews = results;
-                  $scope.$apply();
-              }
-          });
 
           ContentHome.getUrl = function (userToken) {
               ContentHome.showChat = true;
