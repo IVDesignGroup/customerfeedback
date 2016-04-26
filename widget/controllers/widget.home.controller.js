@@ -3,18 +3,34 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', 'DataStore', 'TAG_NAMES',
-      function ($scope, $location, $rootScope, DataStore, TAG_NAMES) {
+    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', '$sce', 'DataStore', 'TAG_NAMES',
+      function ($scope, $location, $rootScope, $sce, DataStore, TAG_NAMES) {
         var WidgetHome = this;
         WidgetHome.chatData = "";
-     //     buildfire.history.push('Event', { elementToShow: 'Event' });
+          $rootScope.deviceHeight = window.innerHeight;
+          $rootScope.deviceWidth = window.innerWidth;
+          $rootScope.backgroundImage = "";
+
+          WidgetHome.safeHtml = function (html) {
+              if (html) {
+                  var $html = $('<div />', {html: html});
+                  $html.find('iframe').each(function (index, element) {
+                      var src = element.src;
+                      console.log('element is: ', src, src.indexOf('http'));
+                      src = src && src.indexOf('file://') != -1 ? src.replace('file://', 'http://') : src;
+                      element.src = src && src.indexOf('http') != -1 ? src : 'http:' + src;
+                  });
+                  return $sce.trustAsHtml($html.html());
+              }
+          };
+
         function init() {
             var success = function (result) {
                     WidgetHome.data = result.data;
                     if (!WidgetHome.data.design)
                         WidgetHome.data.design = {};
-                    /*if (!WidgetHome.data.content)
-                        WidgetHome.data.content = {};*/
+                    if (!WidgetHome.data.content)
+                        WidgetHome.data.content = {};
                     console.log("WidgetHome.data.design.backgroundImage", WidgetHome.data.design.backgroundImage);
                     if (!WidgetHome.data.design.backgroundImage) {
                         $rootScope.backgroundImage = "";
@@ -30,6 +46,14 @@
         }
 
         init();
+
+          WidgetHome.showDescription = function (description) {
+              console.log('Description---------------------------------------', description);
+              if (typeof description != 'undefined')
+                  return !((description == '<p>&nbsp;<br></p>') || (description == '<p><br data-mce-bogus="1"></p>') || (description == ''));
+              else
+                  return false;
+          };
 
         function getReviews() {
                 buildfire.userData.search({}, 'AppRatings2', function (err, results) {
@@ -137,6 +161,18 @@
             WidgetHome.openLogin();
         });
 
+          $rootScope.$on("Carousel:LOADED", function () {
+              WidgetHome.view = null;
+              if (!WidgetHome.view) {
+                  WidgetHome.view = new buildfire.components.carousel.view("#carousel", [], "WideScreen");
+              }
+              if (WidgetHome.data && WidgetHome.data.content.carouselImages) {
+                  WidgetHome.view.loadItems(WidgetHome.data.content.carouselImages, null, "WideScreen");
+              } else {
+                  WidgetHome.view.loadItems([]);
+              }
+          });
+
           var onUpdateCallback = function (event) {
 
               setTimeout(function () {
@@ -146,12 +182,15 @@
                               WidgetHome.data = event.data;
                               if (!WidgetHome.data.design)
                                   WidgetHome.data.design = {};
-                              /*if (!WidgetHome.data.content)
-                                  WidgetHome.data.content = {};*/
+                              if (!WidgetHome.data.content)
+                                  WidgetHome.data.content = {};
                               if (!event.data.design.backgroundImage) {
                                   $rootScope.backgroundImage = "";
                               } else {
                                   $rootScope.backgroundImage = event.data.design.backgroundImage;
+                              }
+                              if (WidgetHome.view) {
+                                  WidgetHome.view.loadItems(WidgetHome.data.content.carouselImages);
                               }
                               break;
                       }
