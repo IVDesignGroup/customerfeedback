@@ -11,7 +11,11 @@
           var feedBackInfo = {
             design: {
               backgroundImage: ''
-            }
+            },
+              content: {
+                  "carouselImages": [],
+                  "description": '<p>&nbsp;<br></p>'
+              }
           };
 
           Buildfire.datastore.get(TAG_NAMES.FEEDBACK_APP_INFO, function (err, data) {
