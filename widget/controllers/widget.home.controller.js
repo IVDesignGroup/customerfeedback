@@ -124,9 +124,11 @@
         }
 
         WidgetHome.sendMessage = function(){
+          if(WidgetHome.chatData!=''){
           buildfire.userData.insert( {chatMessage:WidgetHome.chatData, chatTime: new Date()}, 'chatData', WidgetHome.data.reviews.userToken, function (e) {
             if (e) console.error("+++++++++++++++err",JSON.stringify(e));
             else{
+                WidgetHome.chatData = '';
              // $location.path('/chatHome')
               buildfire.userData.search({}, 'chatData', function (err, results) {
                 if (err){
@@ -142,7 +144,7 @@
               $scope.$apply();
               console.log("+++++++++++++++success")
             }
-          });
+          });}
         }
         /**
          * onLogin() listens when user logins using buildfire.auth api.
