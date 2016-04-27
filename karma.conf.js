@@ -22,6 +22,7 @@ module.exports = function (config) {
             'test/assets/bower_components/angular-mocks/angular-mocks.js',
             'test/assets/*.js',
             'control/content/**/*.js',
+            'control/design/**/*.js',
             'widget/**/*.js',
             'test/**/*.spec.js'
         ],
@@ -36,7 +37,10 @@ module.exports = function (config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             'control/**/!(assets|js)/*.js':['coverage'],
-            'widget/**/*.js':['coverage']
+            'widget/*.js': ['coverage'],
+            'widget/!(assets|js)/*.js':['coverage'],
+            'control/content/*.js': ['coverage'],
+            'control/design/*.js': ['coverage']
         },
 
         plugins: [
