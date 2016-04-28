@@ -4,8 +4,8 @@
         <div class="comment">
             <hr class="small">
 
-            <div class="inner" ng-repeat = "chatData in ContentChat.chatMessageData">
-                <p class="info margin-bottom-zero opacity-seventy">1h ago</p>
+            <div class="inner" ng-repeat = "chatData in ContentChat.chatMessageData"><p class="info margin-bottom-zero opacity-seventy" style="float: right">{{chatData.data.chatFrom}}</p>
+                <p class="info margin-bottom-zero opacity-seventy">{{chatData.data.chatTime | date:"short"}}</p>
                 <p class="margin-bottom-zero">{{chatData.data.chatMessage}}</p>
             </div>
         </div>

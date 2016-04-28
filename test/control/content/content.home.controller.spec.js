@@ -1,13 +1,11 @@
 describe('Unit : Customer Feedback Plugin content.home.controller.js', function () {
     var ContentHome, $scope, $rootScope, $controller, STATUS_CODE, TAG_NAMES, Buildfire, $location, $timeout;
     beforeEach(module('customerFeedbackPluginContent'));
-    beforeEach(inject(function (_$rootScope_, _$controller_, _TAG_NAMES_, STATUS_CODE, _$timeout_) {
+    beforeEach(inject(function (_$rootScope_, _$controller_, _$timeout_) {
         $rootScope = _$rootScope_;
         $scope = $rootScope.$new();
         $controller = _$controller_;
-        TAG_NAMES = _TAG_NAMES_;
-        STATUS_CODE = STATUS_CODE;
-        Buildfire = {
+         Buildfire = {
             spinner: {
                 show: function () {
                     return true
@@ -26,7 +24,6 @@ describe('Unit : Customer Feedback Plugin content.home.controller.js', function 
         Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['search', 'save', 'update', 'bulkInsert']);
         Buildfire.components.carousel = jasmine.createSpyObj('Buildfire.components.carousel', ['editor']);
 
-        RankOfLastItem = _RankOfLastItem_;
         Buildfire.components.carousel.editor.and.callFake(function () {
             return {
                 loadItems: function () {

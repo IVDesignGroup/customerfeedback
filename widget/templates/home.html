@@ -29,8 +29,9 @@
             <div class="comment">
                 <hr class="small">
 
-                <div class="inner" ng-repeat = "data in WidgetHome.chatMessageData">
+                <div class="inner" ng-repeat = "data in WidgetHome.chatMessageData"> <p class="info margin-bottom-zero opacity-seventy" style="float: right">{{data.data.chatFrom}}</p>
                      <p class="info margin-bottom-zero opacity-seventy">{{data.data.chatTime | date:"short"}}</p>
+
                     <p class="margin-bottom-zero">{{data.data.chatMessage}}</p>
                 </div>
             </div>
