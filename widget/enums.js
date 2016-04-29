@@ -23,6 +23,7 @@
             ITEM_ARRAY_FOUND: 'Array of Items provided'
         })
         .constant('EVENTS', {
-            REVIEW_CREATED: "REVIEW_CREATED"
+            REVIEW_CREATED: "REVIEW_CREATED",
+            CHAT_ADDED: "CHAT_ADDED"
         });
 })(window.angular);

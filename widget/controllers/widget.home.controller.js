@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', '$sce', 'DataStore', 'TAG_NAMES',
-      function ($scope, $location, $rootScope, $sce, DataStore, TAG_NAMES) {
+    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', '$sce', 'DataStore', 'TAG_NAMES','EVENTS',
+      function ($scope, $location, $rootScope, $sce, DataStore, TAG_NAMES, EVENTS) {
         var WidgetHome = this;
         WidgetHome.chatData = "";
           $rootScope.deviceHeight = window.innerHeight;
@@ -124,23 +124,34 @@
         }
 
         WidgetHome.sendMessage = function(){
+            WidgetHome.chatMessageObj=
+            {
+                chatMessage:WidgetHome.chatData,
+                chatTime: new Date(),
+                chatFrom: 'App User'
+            }
+
+            WidgetHome.getChatdata = function(){
+                buildfire.userData.search({}, 'chatData', function (err, results) {
+                    if (err){
+                        console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
+                    }
+                    else {
+                        console.log("++++++++++++++ppppp", results)
+                        WidgetHome.chatMessageData= results;
+                        //$scope.complains = results;
+                        $scope.$apply();
+                    }
+                });
+            }
           if(WidgetHome.chatData!=''){
-          buildfire.userData.insert( {chatMessage:WidgetHome.chatData, chatTime: new Date()}, 'chatData', WidgetHome.data.reviews.userToken, function (e) {
+          buildfire.userData.insert(WidgetHome.chatMessageObj , 'chatData', WidgetHome.data.reviews.userToken, function (e, data) {
             if (e) console.error("+++++++++++++++err",JSON.stringify(e));
             else{
                 WidgetHome.chatData = '';
+                buildfire.messaging.sendMessageToControl({'name': EVENTS.CHAT_ADDED, 'data': data});
              // $location.path('/chatHome')
-              buildfire.userData.search({}, 'chatData', function (err, results) {
-                if (err){
-                  console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
-                }
-                else {
-                  console.log("++++++++++++++ppppp", results)
-                  WidgetHome.chatMessageData= results;
-                    //$scope.complains = results;
-                  $scope.$apply();
-                }
-              });
+                WidgetHome.getChatdata();
               $scope.$apply();
               console.log("+++++++++++++++success")
             }
@@ -205,6 +216,24 @@
            * DataStore.onUpdate() is bound to listen any changes in datastore
            */
           DataStore.onUpdate().then(null, null, onUpdateCallback);
+
+          buildfire.messaging.onReceivedMessage = function (event) {
+              console.log('Content syn called method in content.home.controller called-----', event);
+              if (event) {
+                  console.log("++++++++++++", event)
+                  switch (event.name) {
+                      case EVENTS.CHAT_ADDED :
+                          if (event.data.data) {
+                              WidgetHome.chatMessageData.push(event.data);
+                          }
+                          break;
+                      default :
+                          break;
+                  }
+                  if (!$scope.$$phase)
+                      $scope.$digest();
+              }
+          };
       }]);
 })(window.angular, window.buildfire);
 
