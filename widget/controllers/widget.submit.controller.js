@@ -93,7 +93,7 @@
               console.log("+++++++++555",WidgetSubmit.currentLoggedInUser)
               if (err) console.error(JSON.stringify(err));
               else {
-                if (results ) {
+                if (results && results.length) {
                   console.log("++++++++++33", results)
                   WidgetSubmit.Feedback = results[results.length-1].data;
                   WidgetSubmit.isUpdate = results.length;

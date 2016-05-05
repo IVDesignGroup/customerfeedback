@@ -43,6 +43,19 @@
                     console.error('Error while getting data', err);
                 };
             DataStore.get(TAG_NAMES.FEEDBACK_APP_INFO).then(success, error);
+
+            /**
+             * Check for current logged in user, if not show ogin screen
+             */
+            buildfire.auth.getCurrentUser(function (err, user) {
+                console.log("_______________________ssss", user);
+                if (user) {
+                    WidgetHome.currentLoggedInUser = user;
+                    WidgetHome.getChatData();
+                }
+                else
+                    WidgetHome.openLogin();
+            });
         }
 
         init();
@@ -79,17 +92,20 @@
                 });
         }
 
-        buildfire.userData.search({}, 'chatData', function (err, results) {
-          if (err){
-            console.error("Error",JSON.stringify(err));
-          }
-          else {
-            console.log("++++++++++++++successsChat", results)
-            WidgetHome.chatMessageData= results;
-            //$scope.complains = results;
-            $scope.$apply();
-          }
-        });
+        WidgetHome.getChatData = function () {
+            var tagName = 'chatData-' + WidgetHome.currentLoggedInUser._id;
+            buildfire.userData.get(tagName, function (err, result) {
+                if (err){
+                    console.error("Error",JSON.stringify(err));
+                }
+                else {
+                    console.log("++++++++++++++successsChat", result);
+                    WidgetHome.chatMessageData= result && result.data;
+                    //$scope.complains = results;
+                    $scope.$apply();
+                }
+            });
+        }
 
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
@@ -113,6 +129,7 @@
             $scope.$digest();
             if (user) {
               WidgetHome.currentLoggedInUser = user;
+              WidgetHome.getChatData();
               $location.path('/submit');
               $scope.$apply();
             }
@@ -124,55 +141,41 @@
         }
 
         WidgetHome.sendMessage = function(){
+            var tagName = 'chatData-' + WidgetHome.currentLoggedInUser._id;
             WidgetHome.chatMessageObj=
             {
                 chatMessage:WidgetHome.chatData,
                 chatTime: new Date(),
-                chatFrom: 'App User'
+                chatFrom: WidgetHome.currentLoggedInUser.displayName,
+                id: WidgetHome.currentLoggedInUser._id
             }
 
-            WidgetHome.getChatdata = function(){
-                buildfire.userData.search({}, 'chatData', function (err, results) {
-                    if (err){
-                        console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
-                    }
+            WidgetHome.getChatData();
+          if(WidgetHome.chatData!=''){
+            buildfire.userData.get(tagName, function (err, result) {
+                var saveResult = [];
+                if(result && result.data && result.data.length) {
+                    saveResult = result && result.data;
+                }
+                saveResult.push(WidgetHome.chatMessageObj);
+                buildfire.userData.save(saveResult, tagName, function (e, data) {
+                    if (e) console.error("+++++++++++++++err", JSON.stringify(e));
                     else {
-                        console.log("++++++++++++++ppppp", results)
-                        WidgetHome.chatMessageData= results;
-                        //$scope.complains = results;
+                        WidgetHome.chatData = '';
+                        buildfire.messaging.sendMessageToControl({'name': EVENTS.CHAT_ADDED, 'data': data});
+                        // $location.path('/chatHome')
+                        WidgetHome.getChatData();
                         $scope.$apply();
+                        console.log("+++++++++++++++success")
                     }
                 });
-            }
-          if(WidgetHome.chatData!=''){
-          buildfire.userData.insert(WidgetHome.chatMessageObj , 'chatData', WidgetHome.data.reviews.userToken, function (e, data) {
-            if (e) console.error("+++++++++++++++err",JSON.stringify(e));
-            else{
-                WidgetHome.chatData = '';
-                buildfire.messaging.sendMessageToControl({'name': EVENTS.CHAT_ADDED, 'data': data});
-             // $location.path('/chatHome')
-                WidgetHome.getChatdata();
-              $scope.$apply();
-              console.log("+++++++++++++++success")
-            }
-          });}
+            });
+          }
         }
         /**
          * onLogin() listens when user logins using buildfire.auth api.
          */
         buildfire.auth.onLogin(loginCallback);
-
-        /**
-         * Check for current logged in user, if not show ogin screen
-         */
-        buildfire.auth.getCurrentUser(function (err, user) {
-          console.log("_______________________ssss", user);
-          if (user) {
-            WidgetHome.currentLoggedInUser = user;
-          }
-          else
-            WidgetHome.openLogin();
-        });
 
           $rootScope.$on("Carousel:LOADED", function () {
               WidgetHome.view = null;
