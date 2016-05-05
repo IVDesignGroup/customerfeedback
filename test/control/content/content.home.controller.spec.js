@@ -1,6 +1,6 @@
 describe('Unit : Customer Feedback Plugin content.home.controller.js', function () {
     var ContentHome, $scope, $rootScope, $controller, STATUS_CODE, TAG_NAMES, Buildfire, $location, $timeout;
-    beforeEach(module('customerFeedbackPluginContent'));
+    beforeEach(angular.mock.module('customerFeedbackPluginContent'));
     beforeEach(inject(function (_$rootScope_, _$controller_, _$timeout_) {
         $rootScope = _$rootScope_;
         $scope = $rootScope.$new();
@@ -19,9 +19,13 @@ describe('Unit : Customer Feedback Plugin content.home.controller.js', function 
                     editor: {}
                 }
             },
-            datastore: {}
+            datastore: {},
+             messaging:{onReceivedMessage:{}}
         };
-        Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['search', 'save', 'update', 'bulkInsert']);
+        Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['get', 'save', 'update']);
+
+        Buildfire.messaging = jasmine.createSpyObj('Buildfire.messaging', [ 'onReceivedMessage']);
+
         Buildfire.components.carousel = jasmine.createSpyObj('Buildfire.components.carousel', ['editor']);
 
         Buildfire.components.carousel.editor.and.callFake(function () {
@@ -31,15 +35,16 @@ describe('Unit : Customer Feedback Plugin content.home.controller.js', function 
                 }
             };
         });
-        Buildfire.datastore.search.and.callFake(function (opts, tname, cb) {
-            cb({}, null);      // error case handle
-        });
         Buildfire.datastore.update.and.callFake(function (id, data, tName, cb) {
             cb({}, null);     // error case handle
         });
-        Buildfire.datastore.bulkInsert.and.callFake(function (rows, tName, cb) {
-            cb({}, null);
+        Buildfire.datastore.get.and.callFake(function (id, data, tName, cb) {
+            cb({}, null);     // error case handle
         });
+
+       // Buildfire.messagging.onReceivedMessage.and.callFake("aaaa")// {
+            //cb({}, null);     // error case handle
+       // });
         $timeout = _$timeout_;
     }));
 
@@ -57,13 +62,6 @@ describe('Unit : Customer Feedback Plugin content.home.controller.js', function 
             expect(Buildfire).toBeDefined();
             expect(typeof Buildfire).toEqual('object');
         });
-        it('TAG_NAMES should be defined and be an object', function () {
-            expect(TAG_NAMES).toBeDefined();
-            expect(typeof TAG_NAMES).toEqual('object');
-        });
-        it('STATUS_CODE should be defined and be an object', function () {
-            expect(STATUS_CODE).toBeDefined();
-            expect(typeof STATUS_CODE).toEqual('object');
-        });
+
     });
 })

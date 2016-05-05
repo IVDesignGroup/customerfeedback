@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('customerFeedbackPluginContent')
-    .controller('ContentHomeCtrl', ['$scope', '$location', 'Buildfire', 'TAG_NAMES', 'STATUS_CODE', 'EVENTS', 'DataStore',
-      function ($scope, $location, Buildfire, TAG_NAMES, STATUS_CODE, EVENTS, DataStore) {
+    .controller('ContentHomeCtrl', ['$scope', '$location', 'Buildfire', 'DataStore', 'TAG_NAME', 'STATUS_CODE', 'EVENTS',
+      function ($scope, $location, Buildfire, DataStore, TAG_NAME, STATUS_CODE, EVENTS) {
         var _data = {
           "content": {
             "carouselImages": [],
@@ -101,7 +101,7 @@
                 if (tmrDelay)clearTimeout(tmrDelay);
               }
             };
-          DataStore.get(TAG_NAMES.FEEDBACK_APP_INFO).then(success, error);
+            DataStore.get(TAG_NAME.FEEDBACK_APP_INFO).then(success, error);
         };
 
         /*

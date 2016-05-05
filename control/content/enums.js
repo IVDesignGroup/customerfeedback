@@ -2,8 +2,12 @@
 
 (function (angular) {
     angular.module('customerFeedbackPluginContent')
-        .constant('TAG_NAMES', {
-            FEEDBACK_APP_INFO: 'FeedbackAppInfo'
+     .constant('EVENTS', {
+        REVIEW_CREATED: "REVIEW_CREATED",
+        CHAT_ADDED: "CHAT_ADDED"
+       })
+        .constant('TAG_NAME', {
+            FEEDBACK_APP_INFO: "FeedbackAppInfo"
         })
         .constant('STATUS_CODE', {
             INSERTED: 'inserted',
@@ -22,9 +26,6 @@
             NOT_ITEM_ARRAY: 'Array of Items not provided',
             ITEM_ARRAY_FOUND: 'Array of Items provided'
         })
-        .constant('EVENTS', {
-            REVIEW_CREATED: "REVIEW_CREATED",
-            CHAT_ADDED: "CHAT_ADDED"
-        });
+
 
 })(window.angular);
