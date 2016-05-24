@@ -223,11 +223,11 @@
           buildfire.messaging.onReceivedMessage = function (event) {
               console.log('Content syn called method in content.home.controller called-----', event);
               if (event) {
-                  console.log("++++++++++++", event)
+                  console.log("++++++++++++", event);
                   switch (event.name) {
                       case EVENTS.CHAT_ADDED :
                           if (event.data.data) {
-                              WidgetHome.chatMessageData.push(event.data);
+                              WidgetHome.chatMessageData = event.data.data;
                           }
                           break;
                       default :
