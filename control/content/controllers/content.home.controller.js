@@ -135,7 +135,7 @@
               clearTimeout(tmrDelay);
             }
             tmrDelay = setTimeout(function () {
-              saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.FEEDBACK_APP_INFO);
+              saveData(JSON.parse(angular.toJson(newObj)), TAG_NAME.FEEDBACK_APP_INFO);
             }, 500);
           }
         };

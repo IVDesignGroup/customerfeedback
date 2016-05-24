@@ -3,8 +3,8 @@
 (function (angular) {
     angular
         .module('customerFeedbackPluginContent')
-        .controller('ContentChatCtrl', ['$scope', '$routeParams', '$location', 'Buildfire', 'TAG_NAMES', 'STATUS_CODE', 'DataStore','EVENTS',
-            function ($scope, $routeParams, $location, Buildfire, TAG_NAMES, STATUS_CODE, DataStore, EVENTS) {
+        .controller('ContentChatCtrl', ['$scope', '$routeParams', '$location', 'Buildfire', 'TAG_NAME', 'STATUS_CODE', 'DataStore','EVENTS',
+            function ($scope, $routeParams, $location, Buildfire, TAG_NAME, STATUS_CODE, DataStore, EVENTS) {
                 var ContentChat = this;
                 var tagName = 'chatData-' + $routeParams.userToken;
                 ContentChat.chatData = "";
@@ -55,10 +55,10 @@
                         id: ContentChat.currentLoggedInUser._id
                     }
                     if (ContentChat.chatData) {
-                        buildfire.userData.get(tagName, function (err, result) {
+                        buildfire.userData.search({}, tagName, function (err, result) {
                             var saveResult = [];
-                            if(result && result.data && result.data.length) {
-                                saveResult = result && result.data;
+                            if(result && result.length && result[0].data && result[0].data.length) {
+                                saveResult = result[0].data;
                             }
                             saveResult.push(ContentChat.chatMessageObj);
                             buildfire.userData.save(saveResult, tagName, ContentChat.currentLoggedInUser._id, function (e, data) {
