@@ -96,7 +96,7 @@
                         switch (event.name) {
                             case EVENTS.CHAT_ADDED :
                                 if (event.data.data) {
-                                    ContentChat.chatMessageData.push(event.data);
+                                    ContentChat.chatMessageData = event.data.data;
                                 }
                                 break;
                             default :
