@@ -16,8 +16,13 @@
         };
 
         var ContentHome = this;
+        var skip = 0;
+        var limit = 15;
+        ContentHome.avgRating = 0;
+        ContentHome.totalReviews = 0;
         ContentHome.masterData = null;
         ContentHome.showChat = false;
+        ContentHome.noMore = false;
         ContentHome.reviews = [];
 
         ContentHome.bodyWYSIWYGOptions = {
@@ -86,14 +91,32 @@
               }
               updateMasterItem(ContentHome.data);
               if (tmrDelay)clearTimeout(tmrDelay);
-                  buildfire.userData.search({}, 'AppRatings2', function (err, results) {
+                 /* buildfire.userData.search({skip: 0, limit: 50}, 'AppRatings2', function (err, results) {
+                      var uniqueTokens = [];
+                      var uniqueReviews = [];
+                      var avgRating = 0;
+                      var elemCount = 0;
                       if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
                       else {
                           console.log("++++++++++++++ctrl", results);
                           ContentHome.reviews = results;
+                          results.sort(function(a, b) {
+                              return new Date(b.data.addedDate) - new Date(a.data.addedDate);
+                          });
+                          results.forEach(function (result) {
+                              if (uniqueTokens.indexOf(result.userToken) == -1) {
+                                  uniqueTokens.push(result.userToken);
+                                  uniqueReviews.push(result);
+                                  elemCount = elemCount + 1;
+                                  avgRating = avgRating + result.data.startRating;
+                              }
+                          });
+                          ContentHome.avgRating = elemCount ? avgRating / elemCount : 0;
+                          ContentHome.totalReviews = elemCount;
+                          console.log("ContentHome.avgRating", ContentHome.avgRating);
                           $scope.$apply();
                       }
-                  });
+                  });*/
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -103,6 +126,40 @@
             };
             DataStore.get(TAG_NAME.FEEDBACK_APP_INFO).then(success, error);
         };
+
+        ContentHome.loadMoreItems = function () {
+            console.log('inside loadMoreItems ----------');
+            buildfire.userData.search({skip: skip, limit: limit}, 'AppRatings2', function (err, results) {
+                var uniqueTokens = [];
+                var uniqueReviews = [];
+                var avgRating = 0;
+                var elemCount = 0;
+                if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
+                else {
+                    console.log("++++++++++++++ctrl", results);
+                    ContentHome.reviews = results;
+                    results.sort(function(a, b) {
+                        return new Date(b.data.addedDate) - new Date(a.data.addedDate);
+                    });
+                    if (results.length < limit ) {
+                        ContentHome.noMore = true;
+                    }
+                    results.forEach(function (result) {
+                        if (uniqueTokens.indexOf(result.userToken) == -1) {
+                            uniqueTokens.push(result.userToken);
+                            uniqueReviews.push(result);
+                            elemCount = elemCount + 1;
+                            avgRating = avgRating + result.data.startRating;
+                        }
+                    });
+                    ContentHome.avgRating = elemCount ? avgRating / elemCount : 0;
+                    ContentHome.totalReviews = elemCount;
+                    skip = skip + results.length;
+                    console.log("ContentHome.avgRating", ContentHome.avgRating);
+                    $scope.$apply();
+                }
+            });
+        }
 
         /*
          * Call the datastore to save the data object

@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular) {
-    angular.module('customerFeedbackPluginContent', ['ngRoute', 'ui.tinymce', 'ui.bootstrap', 'ngRateIt'])
+    angular.module('customerFeedbackPluginContent', ['ngRoute', 'ui.tinymce', 'ui.bootstrap', 'ngRateIt', 'infinite-scroll'])
         //injected ngRoute for routing
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider

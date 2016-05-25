@@ -22,16 +22,21 @@
     <div class="main col-xs-10 pull-right">
       <div class="intro text-left">
         <p class="margin-zero">Total Reviews: <span
-            style="font-weight:400;">4</span></p>
+            style="font-weight:400;" ng-if="ContentHome.totalReviews">{{ContentHome.totalReviews}}</span></p>
 
-        <p class="margin-zero">Average Rating: <span style="font-weight:400;">4.8/5</span>
+        <p class="margin-zero">Average Rating: <span style="font-weight:400;" ng-if="ContentHome.avgRating">{{ContentHome.avgRating}}/5</span>
         </p>
       </div>
     </div>
   </div>
   <hr class="none">
-  <div class="item clearfix row">
+  <div class="item clearfix row infinite-scroll-parent" style="height: 500px;">
     <div class="main col-xs-12 pull-left">
+        <div style="margin-bottom: 50px;"
+             infinite-scroll-distance="1"
+             data-infinite-container=".infinite-scroll-parent"
+             infinite-scroll="ContentHome.loadMoreItems()"
+             infinite-scroll-disabled="ContentHome.noMore">
       <div class="review-item" ng-repeat="review in ContentHome.reviews | orderBy:'-data.addedDate' | unique:'userToken'">
         <div class="rating br-wrapper br-theme-css-stars">
           <!--<div class="br-widget">
@@ -50,6 +55,7 @@
           <img ng-src="{{review.data.userImage}}" ng-if="review.data.userImage">
           {{review.data.displayName}} on {{review.data.addedDate |date:'medium'}}
         </p>
+      </div>
       </div>
     </div>
   </div>
