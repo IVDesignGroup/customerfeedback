@@ -1,0 +1,65 @@
+<div class="holder padding-zero has-bottom sticky-bottom-menu clearfix">
+    <div class="scrollable">
+    <div class="feedback-plugin review">
+        <div class="media-center-banner plugin-banner clearfix" ng-if="WidgetHome.data">
+            <div id="carousel" ng-if="WidgetHome.data.content.carouselImages.length" build-fire-carousel=""
+                 ng-style="WidgetHome.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"></div>
+        </div>
+        <div class="padded padding-bottom-zero" ng-if="WidgetHome.showDescription(WidgetHome.data.content.description)">
+            <p ng-bind-html='WidgetHome.safeHtml(WidgetHome.data.content.description)'></p>
+        </div>
+        <div class="intro text-center padding-top-twenty padding-bottom-ten">
+            <div class="intro text-center padding-top-ten padding-bottom-twenty">
+                <p class="margin-top-ten margin-bottom-zero" ng-if="WidgetHome.data.reviews.length">Reviews: <span style="font-weight:400;">{{WidgetHome.data.reviews.length}}</span></p>
+                <p ng-if="WidgetHome.data.reviews.length">Last Rating: <span style="font-weight:400;">{{WidgetHome.lastRating}}/5</span></p>
+                <div class="rating br-wrapper br-theme-css-stars" ng-if="WidgetHome.data.reviews.length">
+                    <ng-rate-it ng-model="WidgetHome.lastRating" class="custom"  read-only = "true"></ng-rate-it>
+                </div>
+                <p ng-if="WidgetHome.lastRating >= 0 && WidgetHome.lastRating <=1" ng-if="WidgetHome.data.reviews.length">Poor</p>
+                <p ng-if="WidgetHome.lastRating>1 && WidgetHome.lastRating<=2" ng-if="WidgetHome.data.reviews.length">Average</p>
+                <p ng-if="WidgetHome.lastRating>2 && WidgetHome.lastRating<=3" ng-if="WidgetHome.data.reviews.length">Good</p>
+                <p ng-if="WidgetHome.lastRating>3 && WidgetHome.lastRating<=4" ng-if="WidgetHome.data.reviews.length">Excellent</p>
+                <p ng-if="WidgetHome.lastRating>4" ng-if="WidgetHome.data.reviews.length">Outstanding</p>
+                <p ng-if="WidgetHome.data.reviews.length">{{WidgetHome.lastReviewComment}}</p>
+                <a class="btn btn-success btn-sm" ng-if="WidgetHome.data && WidgetHome.data.reviews.length" href="#/wall">Wall</a>
+                <a class="btn btn-success btn-sm"  ng-if="WidgetHome.data && !WidgetHome.data.reviews.length" href="#/submit">Submit Review</a>
+            </div>
+        </div>
+        <!--<div class="review-comments clearfix" ng-if="WidgetHome.chatMessageData.length">
+            <div class="comment">
+                <hr class="small">
+
+                <div class="inner" ng-repeat = "data in WidgetHome.chatMessageData"> <p class="info margin-bottom-zero opacity-seventy" style="float: right">{{data.chatFrom}}</p>
+                     <p class="info margin-bottom-zero opacity-seventy">{{data.chatTime | date:"short"}}</p>
+
+                    <p class="margin-bottom-zero">{{data.chatMessage}}</p>
+                </div>
+            </div>
+        </div>-->
+
+    <div class="review-comments clearfix" ng-if="WidgetHome.chatMessageData.length">
+        <div class="comment" ng-repeat = "data in WidgetHome.chatMessageData">
+            <hr class="small">
+            <div class="inner">
+                <p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">{{data.chatFrom}}</a> - {{data.chatTime | date:"short"}}</p>
+                <p class="margin-bottom-zero">{{data.chatMessage}}</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+<!--<a ng-click="WidgetHome.goBack()">Edit</a>-->
+<div class="holder padding-zero bottom-post">
+
+    <hr class="small">
+    <div class="post-holder clearfix">
+        <div class="add-message pull-left">
+            <input type="text" class="form-control" ng-model="WidgetHome.chatData"
+                   placeholder="Type your message...">
+        </div>
+        <div class="send-message">
+            <input type="submit" class="text-primary" value="Send" ng-click="WidgetHome.sendMessage()">
+        </div>
+    </div>
+</div>

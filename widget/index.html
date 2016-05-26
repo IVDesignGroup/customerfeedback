@@ -1,77 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="buildfire" buildfire="Widget">
+<html lang="en" ng-app="customerFeedbackPluginWidget" buildfire="Widget">
 <head>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="../../../../styles/bootstrap.css">
-    <link rel="stylesheet" href="../../../../styles/appStyle.css">
-    <link rel="stylesheet" href="../../../../styles/siteIcons.css">
-    <link rel="stylesheet" href="../../../../styles/helper.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/barrating.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="../../../styles/bootstrap.css">
+  <link rel="stylesheet" href="../../../styles/siteIcons.css">
+  <link rel="stylesheet" href="../../../styles/helper.css">
+  <link rel="stylesheet" href="../../../scripts/owlCarousel/owlCarousel.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/barrating.css">
+  <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
 
-    <!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
-	
+  <!-- JS -->
+  <script src="../../../scripts/buildfire.js"></script>
+  <!-- Angular, jQuery & Owl Carousel-->
+
+  <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+  <script src="../../../scripts/owlCarousel/owlCarousel.js"></script>
+  <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
+  <script src="../../../scripts/angular/angular.min.js"></script>
+  <script src="../../../scripts/angular/angular-route.min.js"></script>
+  <script type="text/javascript" src="assets/jquery.barrating.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="assets/ng-rateit.css" />
+  <script src="assets/ng-rateit.js"></script>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- App -->
+  <script src="app.js" type="application/javascript"></script>
+  <script src="controllers/widget.home.controller.js"
+          type="application/javascript"></script>
+  <script src="controllers/widget.wall.controller.js"
+          type="application/javascript"></script>
+  <script src="controllers/widget.submit.controller.js"
+          type="application/javascript"></script>
+  <script src="enums.js"></script>
+  <script src="app.services.js"></script>
+  <!-- Meta -->
+  <style>
+    .custom .ngrateit-background,
+    .custom .ngrateit-hover,
+    .custom .ngrateit-value{
+      /*background-image: url('assets/custom.png');*/
+    }
+  </style>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+
 </head>
-<body class="no-scroll holder padding-zero has-bottom">
-	<div class="scrollable">
-		<div class="feedback-plugin review">
-			<div class="intro text-center padding-top-twenty padding-bottom-ten">
-				<div class="rating br-wrapper br-theme-css-stars">
-					<div class="br-widget">
-						<a class="br-selected"></a>
-						<a class="br-selected"></a>
-						<a class="br-selected"></a>
-						<a class="br-selected"></a>
-						<a></a>
-					</div>
-				</div>
-				<p>Excellent</p>
-				<p style="font-weight:400;">4/5</p>
-			</div>				
-			<div class="review-comments clearfix">
-				<div class="comment">
-					<hr class="small">
-					<div class="inner">
-						<p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">John Doe</a> - 1h ago</p>
-						<p class="margin-bottom-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-					</div>
-				</div>
-				<div class="comment">
-					<hr class="small">
-					<div class="inner">
-						<p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">John Doe</a> - 1h ago</p>
-						<p class="margin-bottom-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-					</div>
-				</div>
-				<div class="comment">
-					<hr class="small">
-					<div class="inner">
-						<p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">John Doe</a> - 1h ago</p>
-						<p class="margin-bottom-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-					</div>
-				</div>
-				<div class="comment">
-					<hr class="small">
-					<div class="inner">
-						<p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">John Doe</a> - 1h ago</p>
-						<p class="margin-bottom-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="holder padding-zero bottom-post">
-	<hr class="small">
-	<div class="post-holder clearfix">
-		<div class="add-message pull-left">
-			<input type="text" class="form-control" placeholder="Type your message...">
-		</div>
-		<div class="send-message">
-			<input type="submit" class="text-primary" value="Send">
-		</div>
-	</div>
-</div>
+<body class="no-scroll" data-ng-attr-style="background:url({{ backgroundImage | cropImage:deviceWidth:deviceHeight:true}}) !important; background-size:cover !important;">
+<div class = "slide no-background" ng-view=""></div>
+</body>
+</html>
