@@ -16,7 +16,7 @@
         </div>
     </div>
 </div>-->
-<div class="review-item">
+<div class="review-item" ng-if="ContentChat.chatMessageData">
 <div class="comments-container margin-top-fifteen well well-sm margin-bottom-zero">
     <div class="comment" ng-repeat = "chatData in ContentChat.chatMessageData">
         <p class="no-icon info margin-zero"><a class="text-primary">{{chatData.chatFrom}}</a> - {{chatData.chatTime | date:"short"}}</p>

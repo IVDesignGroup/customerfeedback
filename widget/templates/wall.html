@@ -19,7 +19,7 @@
 			<p ng-if="WidgetWall.startPoints>2 && WidgetWall.startPoints<=3" ng-if="WidgetWall.data.reviews.length">Good</p>
 			<p ng-if="WidgetWall.startPoints>3 && WidgetWall.startPoints<=4" ng-if="WidgetWall.data.reviews.length">Excellent</p>
 			<p ng-if="WidgetWall.startPoints>4" ng-if="WidgetWall.data.reviews.length">Outstanding</p>
-			<a class="btn btn-success btn-sm" href="#/submit/{{WidgetWall.lastRating}}">Submit Review</a>
+			<a class="btn btn-success btn-sm" ng-if="WidgetWall.data.reviews" href="#/submit/{{WidgetWall.lastRating}}">Submit Review</a>
 			<!--<a class="btn btn-success btn-sm" href="#/">Home</a>-->
 			<!--<a href="#/chatHome" ng-if="WidgetWall.data.reviews.length">Chat</a>-->
 		</div>

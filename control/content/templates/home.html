@@ -8,7 +8,8 @@
         <p class="margin-zero">Total Reviews: <span
             style="font-weight:400;" ng-if="ContentHome.totalReviews >= 0">{{ContentHome.totalReviews}}</span></p>
 
-        <p class="margin-zero">Average Rating: <span style="font-weight:400;" ng-if="ContentHome.avgRating >= 0">{{ContentHome.avgRating}}/5</span>
+        <p class="margin-zero" ng-if="ContentHome.avgRating > 0">Average Rating: <span style="font-weight:400;">{{ContentHome.avgRating | number : 2}}/5</span>
+        <p class="margin-zero" ng-if="ContentHome.avgRating == 0">Average Rating: <span style="font-weight:400;">{{ContentHome.avgRating}}/5</span>
         </p>
       </div>
     </div>
