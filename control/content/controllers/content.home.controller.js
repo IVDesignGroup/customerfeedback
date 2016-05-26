@@ -6,10 +6,10 @@
     .controller('ContentHomeCtrl', ['$scope', '$location', 'Buildfire', 'DataStore', 'TAG_NAME', 'STATUS_CODE', 'EVENTS',
       function ($scope, $location, Buildfire, DataStore, TAG_NAME, STATUS_CODE, EVENTS) {
         var _data = {
-          "content": {
+          /*"content": {
             "carouselImages": [],
             "description": '<p>&nbsp;<br></p>'
-          },
+          },*/
           "design": {
             "backgroundImage": ""
           }
@@ -29,17 +29,17 @@
         ContentHome.noMore = false;
         ContentHome.reviews = [];
 
-        ContentHome.bodyWYSIWYGOptions = {
+        /*ContentHome.bodyWYSIWYGOptions = {
           plugins: 'advlist autolink link image lists charmap print preview',
           skin: 'lightgray',
           trusted: true,
           theme: 'modern'
-        };
+        };*/
         // create a new instance of the buildfire carousel editor
-        var editor = new Buildfire.components.carousel.editor("#carousel");
+//        var editor = new Buildfire.components.carousel.editor("#carousel");
 
-        console.log(">>>-----------------------", editor);
-        // this method will be called when a new item added to the list
+//        console.log(">>>-----------------------", editor);
+        /*// this method will be called when a new item added to the list
         editor.onAddItems = function (items) {
           if (!ContentHome.data.content)
             ContentHome.data.content = {};
@@ -65,7 +65,7 @@
           ContentHome.data.content.carouselImages[newIndex] = temp;
           $scope.$digest();
         };
-
+*/
         updateMasterItem(_data);
 
         function updateMasterItem(data) {
@@ -85,14 +85,14 @@
               ContentHome.data = result.data;
               if (!ContentHome.data || (Object.keys(ContentHome.data).length === 0 && JSON.stringify(ContentHome.data) === JSON.stringify({}))) {
                 ContentHome.data = angular.copy(_data);
-              } else {
+              } /*else {
                 if (!ContentHome.data.content)
                   ContentHome.data.content = {};
-                if (!ContentHome.data.content.carouselImages)
+               *//* if (!ContentHome.data.content.carouselImages)
                   editor.loadItems([]);
                 else
-                  editor.loadItems(ContentHome.data.content.carouselImages);
-              }
+                  editor.loadItems(ContentHome.data.content.carouselImages);*//*
+              }*/
               updateMasterItem(ContentHome.data);
               if (tmrDelay)clearTimeout(tmrDelay);
                  /* buildfire.userData.search({skip: 0, limit: 50}, 'AppRatings2', function (err, results) {

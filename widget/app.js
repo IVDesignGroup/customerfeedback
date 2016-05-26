@@ -56,13 +56,13 @@
           //});
 
       }])
-      .directive("buildFireCarousel", ["$rootScope", function ($rootScope) {
+      /*.directive("buildFireCarousel", ["$rootScope", function ($rootScope) {
           return {
               restrict: 'A',
               link: function (scope, elem, attrs) {
                   $rootScope.$broadcast("Carousel:LOADED");
               }
           };
-      }])
+      }])*/
       ;
 })(window.angular, window.buildfire);

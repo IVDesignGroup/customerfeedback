@@ -29,11 +29,45 @@
   <script src="controllers/content.home.controller.js"></script>
   <script src="controllers/content.chat.controller.js"></script>
     <!-- Meta -->
-    <style>
+    <style type="text/css" media="screen">
         .custom .ngrateit-background,
         .custom .ngrateit-hover,
         .custom .ngrateit-value{
             /*background-image: url('assets/custom.png');*/
+        }
+        .review-item{
+            border-radius:3px;
+            border:1px solid #ddd;
+            padding:15px;
+        }
+        .review-item:nth-child(even){
+            text-align:right;
+            background:#eef0f0;
+        }
+        .review-item:nth-child(even) .comment{
+            text-align:left;
+        }
+        .review-item:nth-child(even) .well{
+            background:#fff;
+        }
+        .review-item .well .comment:nth-child(even){
+            text-align:right;
+        }
+        .review-item .well .comment + .comment{
+            margin-top:10px;
+            border-top:1px solid #ccc;
+            padding-top:10px;
+        }
+        .review-item + .review-item{
+            margin-top:10px;
+        }
+        .review-item p.author img{
+            border-radius:100%;
+            max-width:28px;
+            height:auto;
+            position:relative;
+            top:-5px;
+            margin-right:8px;
         }
     </style>
 </head>

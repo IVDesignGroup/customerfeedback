@@ -29,8 +29,8 @@
                     WidgetHome.data = result.data;
                     if (!WidgetHome.data.design)
                         WidgetHome.data.design = {};
-                    if (!WidgetHome.data.content)
-                        WidgetHome.data.content = {};
+                    /*if (!WidgetHome.data.content)
+                        WidgetHome.data.content = {};*/
                     console.log("WidgetHome.data.design.backgroundImage", WidgetHome.data.design.backgroundImage);
                     if (!WidgetHome.data.design.backgroundImage) {
                         $rootScope.backgroundImage = "";
@@ -177,7 +177,7 @@
          */
         buildfire.auth.onLogin(loginCallback);
 
-          $rootScope.$on("Carousel:LOADED", function () {
+          /*$rootScope.$on("Carousel:LOADED", function () {
               WidgetHome.view = null;
               if (!WidgetHome.view) {
                   WidgetHome.view = new buildfire.components.carousel.view("#carousel", [], "WideScreen");
@@ -188,7 +188,7 @@
                   WidgetHome.view.loadItems([]);
               }
           });
-
+*/
           var onUpdateCallback = function (event) {
 
               setTimeout(function () {
@@ -198,16 +198,16 @@
                               WidgetHome.data = event.data;
                               if (!WidgetHome.data.design)
                                   WidgetHome.data.design = {};
-                              if (!WidgetHome.data.content)
-                                  WidgetHome.data.content = {};
+                              /*if (!WidgetHome.data.content)
+                                  WidgetHome.data.content = {};*/
                               if (!event.data.design.backgroundImage) {
                                   $rootScope.backgroundImage = "";
                               } else {
                                   $rootScope.backgroundImage = event.data.design.backgroundImage;
                               }
-                              if (WidgetHome.view) {
+                              /*if (WidgetHome.view) {
                                   WidgetHome.view.loadItems(WidgetHome.data.content.carouselImages);
-                              }
+                              }*/
                               break;
                       }
                       $rootScope.$digest();
