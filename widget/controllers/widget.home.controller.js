@@ -76,16 +76,16 @@
                         $scope.$apply();
                     }
                     else {
-                        console.log("++++++++++++++ctrldd home", results)
+                        console.log("++++++++++++++ctrldd home", results);
 
-                        WidgetHome.data.reviews = results;
+                        WidgetHome.data.reviews = results || [];
                         //WidgetWall.lastRating = results[results.length-1].data.startRating;
-                        WidgetHome.lastRating = results.reduce(function (a, b) {
+                        WidgetHome.lastRating = results && results.length && results.reduce(function (a, b) {
                             return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
                         })
-                        WidgetHome.startPoints = WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
-                        WidgetHome.lastReviewComment = WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
-                        WidgetHome.lastRating = WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.startRating;
+                        WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
+                        WidgetHome.lastReviewComment = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
+                        WidgetHome.lastRating = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.startRating;
                         //$scope.complains = results;
                         $scope.$apply();
                     }

@@ -18,7 +18,7 @@
               templateUrl: 'templates/wall.html',
               controllerAs: 'WidgetWall',
               controller: 'WidgetWallCtrl'
-            }).when('/submit', {
+            }).when('/submit/:lastReviewCount?', {
               templateUrl: 'templates/submit.html',
               controllerAs: 'WidgetSubmit',
               controller: 'WidgetSubmitCtrl'

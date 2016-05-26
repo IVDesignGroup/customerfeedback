@@ -49,10 +49,11 @@
 
                         WidgetWall.data.reviews = results;
                         //WidgetWall.lastRating = results[results.length-1].data.startRating;
-                        WidgetWall.lastRating = results.reduce(function (a, b) {
+                        WidgetWall.ratingsTotal = results.reduce(function (a, b) {
                             return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
                         })
-                        WidgetWall.startPoints = WidgetWall.lastRating.data.startRating / (WidgetWall.data.reviews.length )
+                        WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.data.reviews.length );
+                        WidgetWall.lastRating = WidgetWall.data && WidgetWall.data.reviews && WidgetWall.data.reviews.length && WidgetWall.data.reviews[WidgetWall.data.reviews.length-1].data.startRating;
                         //$scope.complains = results;
                         $scope.$apply();
                     }

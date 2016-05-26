@@ -18,6 +18,10 @@
         var ContentHome = this;
         var skip = 0;
         var limit = 15;
+          var uniqueTokens = [];
+          var uniqueReviews = [];
+          var avgRating = 0;
+          var elemCount = 0;
         ContentHome.avgRating = 0;
         ContentHome.totalReviews = 0;
         ContentHome.masterData = null;
@@ -130,14 +134,10 @@
         ContentHome.loadMoreItems = function () {
             console.log('inside loadMoreItems ----------');
             buildfire.userData.search({skip: skip, limit: limit}, 'AppRatings2', function (err, results) {
-                var uniqueTokens = [];
-                var uniqueReviews = [];
-                var avgRating = 0;
-                var elemCount = 0;
                 if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
                 else {
                     console.log("++++++++++++++ctrl", results);
-                    ContentHome.reviews = results;
+                    ContentHome.reviews = ContentHome.reviews.concat(results);
                     results.sort(function(a, b) {
                         return new Date(b.data.addedDate) - new Date(a.data.addedDate);
                     });
@@ -216,6 +216,13 @@
                       case EVENTS.REVIEW_CREATED :
                           if (event.data) {
                               ContentHome.reviews.push(event.data);
+                              if (uniqueTokens.indexOf(event.data.userToken) == -1) {
+                                  uniqueTokens.push(event.data.userToken);
+                                  uniqueReviews.push(event.data);
+                                  elemCount = elemCount + 1;
+                                  ContentHome.totalReviews = elemCount;
+                              }
+                              ContentHome.avgRating = ((ContentHome.avgRating * ContentHome.totalReviews) - event.lastReviewCount + event.data.data.startRating)/ContentHome.totalReviews;
                           }
                           break;
                       default :

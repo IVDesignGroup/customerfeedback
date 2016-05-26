@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetSubmitCtrl', ['$scope','$location', 'EVENTS',
-      function ($scope, $location, EVENTS) {
+    .controller('WidgetSubmitCtrl', ['$scope','$location', '$routeParams', 'EVENTS',
+      function ($scope, $location, $routeParams, EVENTS) {
 
         var WidgetSubmit = this;
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -48,7 +48,7 @@
             else{
               data.userToken = WidgetSubmit.currentLoggedInUser._id;
               console.log('>>>>>>>>>>>>>>>>>>>', data);
-              buildfire.messaging.sendMessageToControl({'name': EVENTS.REVIEW_CREATED, 'data': data});
+              buildfire.messaging.sendMessageToControl({'name': EVENTS.REVIEW_CREATED, 'data': data, 'lastReviewCount' : ($routeParams.lastReviewCount || 0)});
               $location.path('/');
               $scope.$apply();
               console.log("+++++++++++++++success")
