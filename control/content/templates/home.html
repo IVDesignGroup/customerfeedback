@@ -22,9 +22,9 @@
     <div class="main col-xs-10 pull-right">
       <div class="intro text-left">
         <p class="margin-zero">Total Reviews: <span
-            style="font-weight:400;" ng-if="ContentHome.totalReviews">{{ContentHome.totalReviews}}</span></p>
+            style="font-weight:400;" ng-if="ContentHome.totalReviews >= 0">{{ContentHome.totalReviews}}</span></p>
 
-        <p class="margin-zero">Average Rating: <span style="font-weight:400;" ng-if="ContentHome.avgRating">{{ContentHome.avgRating}}/5</span>
+        <p class="margin-zero">Average Rating: <span style="font-weight:400;" ng-if="ContentHome.avgRating >= 0">{{ContentHome.avgRating}}/5</span>
         </p>
       </div>
     </div>
