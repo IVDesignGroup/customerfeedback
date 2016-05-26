@@ -1,5 +1,6 @@
 <div class="holder padding-zero has-bottom sticky-bottom-menu clearfix">
-    <div class="feedback-plugin review scrollable">
+    <div class="scrollable">
+    <div class="feedback-plugin review">
         <div class="media-center-banner plugin-banner clearfix" ng-if="WidgetHome.data">
             <div id="carousel" ng-if="WidgetHome.data.content.carouselImages.length" build-fire-carousel=""
                  ng-style="WidgetHome.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"></div>
@@ -24,8 +25,7 @@
                 <a class="btn btn-success btn-sm"  ng-if="WidgetHome.data && !WidgetHome.data.reviews.length" href="#/submit">Submit Review</a>
             </div>
         </div>
-    </div>
-        <div class="review-comments clearfix" ng-if="WidgetHome.chatMessageData.length">
+        <!--<div class="review-comments clearfix" ng-if="WidgetHome.chatMessageData.length">
             <div class="comment">
                 <hr class="small">
 
@@ -35,8 +35,19 @@
                     <p class="margin-bottom-zero">{{data.chatMessage}}</p>
                 </div>
             </div>
+        </div>-->
+
+    <div class="review-comments clearfix" ng-if="WidgetHome.chatMessageData.length">
+        <div class="comment" ng-repeat = "data in WidgetHome.chatMessageData">
+            <hr class="small">
+            <div class="inner">
+                <p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">{{data.chatFrom}}</a> - {{data.chatTime | date:"short"}}</p>
+                <p class="margin-bottom-zero">{{data.chatMessage}}</p>
+            </div>
         </div>
     </div>
+    </div>
+</div>
 </div>
 <!--<a ng-click="WidgetHome.goBack()">Edit</a>-->
 <div class="holder padding-zero bottom-post">
