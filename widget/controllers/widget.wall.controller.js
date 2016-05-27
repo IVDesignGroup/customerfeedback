@@ -3,10 +3,11 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-      .controller('WidgetWallCtrl', ['$scope','$location', '$rootScope', 'DataStore', 'TAG_NAMES',
-        function ($scope, $location, $rootScope, DataStore, TAG_NAMES) {
+      .controller('WidgetWallCtrl', ['$scope','$location', '$rootScope', 'DataStore', 'TAG_NAMES', 'ViewStack', 'EVENTS',
+        function ($scope, $location, $rootScope, DataStore, TAG_NAMES, ViewStack, EVENTS) {
 
           var WidgetWall = this;
+            var currentView = ViewStack.getCurrentView();
 
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
@@ -84,9 +85,31 @@
             });
           };
 
-          WidgetWall.goBack = function(){
+         /* WidgetWall.goBack = function(){
             $location.path("/submit");
-          }
+          }*/
+
+            WidgetWall.submitReview = function () {
+                ViewStack.push({
+                    template: 'submit',
+                    params: {
+                        lastReviewCount: WidgetWall.lastRating
+                     }
+                });
+            };
+
+            $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
+                console.log('inside review added event listener:::::::::::', result);
+                WidgetWall.data.reviews.push(result.data);
+                WidgetWall.ratingsTotal = WidgetWall.data.reviews.reduce(function (a, b) {
+                    return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                })
+                WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.data.reviews.length );
+                WidgetWall.lastRating = WidgetWall.data && WidgetWall.data.reviews && WidgetWall.data.reviews.length && WidgetWall.data.reviews[WidgetWall.data.reviews.length-1].data.startRating;
+                if (!$scope.$$phase)
+                    $scope.$digest();
+            });
+
           /**
            * onLogin() listens when user logins using buildfire.auth api.
            */

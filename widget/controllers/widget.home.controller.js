@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', '$sce', 'DataStore', 'TAG_NAMES','EVENTS',
-      function ($scope, $location, $rootScope, $sce, DataStore, TAG_NAMES, EVENTS) {
+    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', '$sce', 'DataStore', 'TAG_NAMES','EVENTS', 'ViewStack',
+      function ($scope, $location, $rootScope, $sce, DataStore, TAG_NAMES, EVENTS, ViewStack) {
         var WidgetHome = this;
         WidgetHome.chatData = "";
           $rootScope.deviceHeight = window.innerHeight;
@@ -60,6 +60,24 @@
 
         init();
 
+          WidgetHome.openWall = function () {
+              ViewStack.push({
+                  template: 'wall'
+              });
+              /*if (WidgetHome.data && WidgetHome.data.content && WidgetHome.data.content.storeURL)
+               buildfire.navigation.openWindow(WidgetHome.data.content.storeURL + '/cart', "_system");*/
+          };
+
+          WidgetHome.openSubmit = function () {
+              ViewStack.push({
+                  template: 'submit'
+              });
+              /*if (WidgetHome.data && WidgetHome.data.content && WidgetHome.data.content.storeURL)
+               buildfire.navigation.openWindow(WidgetHome.data.content.storeURL + '/cart', "_system");*/
+          };
+
+
+
           WidgetHome.showDescription = function (description) {
               console.log('Description---------------------------------------', description);
               if (typeof description != 'undefined')
@@ -88,6 +106,13 @@
                         WidgetHome.lastRating = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.startRating;
                         //$scope.complains = results;
                         $scope.$apply();
+                        /*ViewStack.push({
+                            template: 'home',
+                            params: {
+                                controller: "WidgetHomeCtrl as WidgetHome",
+                                shouldUpdateTemplate: true
+                            }
+                        });*/
                     }
                 });
         }
@@ -219,6 +244,23 @@
            * DataStore.onUpdate() is bound to listen any changes in datastore
            */
           DataStore.onUpdate().then(null, null, onUpdateCallback);
+
+
+          $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
+              console.log('inside review added event listener:::::::::::', result);
+                  if (!WidgetHome.data.reviews) {
+                      WidgetHome.data.reviews = [];
+                  }
+              WidgetHome.data.reviews.push(result.data);
+              WidgetHome.lastRating = WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews.reduce(function (a, b) {
+                  return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+              })
+              WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
+              WidgetHome.lastReviewComment = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
+              WidgetHome.lastRating = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.startRating;
+              if (!$scope.$$phase)
+                  $scope.$digest();
+          });
 
           buildfire.messaging.onReceivedMessage = function (event) {
               console.log('Content syn called method in content.home.controller called-----', event);

@@ -21,8 +21,8 @@
                 <p ng-if="WidgetHome.lastRating>3 && WidgetHome.lastRating<=4" ng-if="WidgetHome.data.reviews.length">Excellent</p>
                 <p ng-if="WidgetHome.lastRating>4" ng-if="WidgetHome.data.reviews.length">Outstanding</p>
                 <p ng-if="WidgetHome.data.reviews.length">{{WidgetHome.lastReviewComment}}</p>
-                <a class="btn btn-success btn-sm" ng-if="WidgetHome.data && WidgetHome.data.reviews.length" href="#/wall">Wall</a>
-                <a class="btn btn-success btn-sm"  ng-if="WidgetHome.data && !WidgetHome.data.reviews.length" href="#/submit">Submit Review</a>
+                <a class="btn btn-success btn-sm" ng-if="WidgetHome.data && WidgetHome.data.reviews.length" ng-click="WidgetHome.openWall()">Wall</a>
+                <a class="btn btn-success btn-sm"  ng-if="WidgetHome.data && !WidgetHome.data.reviews.length" ng-click="WidgetHome.openSubmit()">Submit Review</a>
             </div>
         </div>
         <!--<div class="review-comments clearfix" ng-if="WidgetHome.chatMessageData.length">

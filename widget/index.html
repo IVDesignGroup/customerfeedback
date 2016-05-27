@@ -50,7 +50,13 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
 
 </head>
-<body class="no-scroll" data-ng-attr-style="background:url({{ backgroundImage | cropImage:deviceWidth:deviceHeight:true}}) !important; background-size:cover !important;">
-<div class = "slide no-background" ng-view=""></div>
+<body class="no-scroll slide content" >
+<!--<div class = "slide no-background" ng-view=""></div>-->
+<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content" data-ng-attr-style="background:url({{ backgroundImage | cropImage:deviceWidth:deviceHeight:true}}) !important; background-size:cover !important;">
+    <div ng-include="'templates/home.html'">
+    </div>
+</div>
+<div view-switcher="">
+</div>
 </body>
 </html>
