@@ -16,8 +16,8 @@
         </div>
     </div>
 </div>-->
-<div class="review-item" ng-if="ContentChat.chatMessageData">
-<div class="comments-container margin-top-fifteen well well-sm margin-bottom-zero">
+<div class="review-item" ng-if="ContentChat.chatMessageData" style="border: none;">
+<div class="comments-container margin-top-fifteen well well-sm margin-bottom-zero" style="background: #fff;">
     <div class="comment" ng-repeat = "chatData in ContentChat.chatMessageData">
         <p class="no-icon info margin-zero"><a class="text-primary">{{chatData.chatFrom}}</a> - {{chatData.chatTime | date:"short"}}</p>
         <p class="margin-zero">{{chatData.chatMessage}}</p>
