@@ -6,7 +6,7 @@
 	  	});
 	});
 </script>
-<div class="holder padding-zero scrollable">
+<div class="holder padding-zero scrollable" ng-controller="WidgetWallCtrl as WidgetWall">
 	<div class="feedback-plugin review-wall">
 		<div class="intro text-center padding-top-ten padding-bottom-twenty">
 			<p class="margin-top-ten margin-bottom-zero" ng-if="WidgetWall.data.reviews.length">Reviews: <span style="font-weight:400;">{{WidgetWall.data.reviews.length}}</span></p>
@@ -19,7 +19,7 @@
 			<p ng-if="WidgetWall.startPoints>2 && WidgetWall.startPoints<=3" ng-if="WidgetWall.data.reviews.length">Good</p>
 			<p ng-if="WidgetWall.startPoints>3 && WidgetWall.startPoints<=4" ng-if="WidgetWall.data.reviews.length">Excellent</p>
 			<p ng-if="WidgetWall.startPoints>4" ng-if="WidgetWall.data.reviews.length">Outstanding</p>
-			<a class="btn btn-success btn-sm" ng-if="WidgetWall.data.reviews" href="#/submit/{{WidgetWall.lastRating}}">Submit Review</a>
+			<a class="btn btn-success btn-sm" ng-if="WidgetWall.data.reviews" ng-click="WidgetWall.submitReview()">Submit Review</a>
 			<!--<a class="btn btn-success btn-sm" href="#/">Home</a>-->
 			<!--<a href="#/chatHome" ng-if="WidgetWall.data.reviews.length">Chat</a>-->
 		</div>

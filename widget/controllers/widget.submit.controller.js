@@ -3,10 +3,11 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetSubmitCtrl', ['$scope','$location', '$routeParams', 'EVENTS',
-      function ($scope, $location, $routeParams, EVENTS) {
+    .controller('WidgetSubmitCtrl', ['$scope','$location', '$rootScope', 'EVENTS', 'ViewStack',
+      function ($scope, $location, $rootScope, EVENTS, ViewStack) {
 
         var WidgetSubmit = this;
+        WidgetSubmit.currentView = ViewStack.getCurrentView();
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
          */
@@ -49,10 +50,12 @@
                   else {
                       data.userToken = WidgetSubmit.currentLoggedInUser._id;
                       console.log('>>>>>>>>>>>>>>>>>>>', data);
-                      buildfire.messaging.sendMessageToControl({'name': EVENTS.REVIEW_CREATED, 'data': data, 'lastReviewCount': ($routeParams.lastReviewCount || 0)});
-                      $location.path('/');
+                      buildfire.messaging.sendMessageToControl({'name': EVENTS.REVIEW_CREATED, 'data': data, 'lastReviewCount': ((WidgetSubmit.currentView && WidgetSubmit.currentView.params && WidgetSubmit.currentView.params.lastReviewCount) || 0)});
+                      $rootScope.$broadcast(EVENTS.REVIEW_CREATED, {'data': data, 'lastReviewCount': ((WidgetSubmit.currentView && WidgetSubmit.currentView.params && WidgetSubmit.currentView.params.lastReviewCount) || 0)});
+//                      $location.path('/');
                       $scope.$apply();
-                      console.log("+++++++++++++++success")
+                      console.log("+++++++++++++++success");
+                      ViewStack.pop();
                   }
               });
           }
