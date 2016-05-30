@@ -7,7 +7,11 @@
         function ($scope, $location, $rootScope, DataStore, TAG_NAMES, ViewStack, EVENTS) {
 
           var WidgetWall = this;
-            var currentView = ViewStack.getCurrentView();
+          var skip = 0;
+          var limit = 5;
+          var currentView = ViewStack.getCurrentView();
+          WidgetWall.waitAPICompletion = false;
+          WidgetWall.noMore = false;
 
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
@@ -27,7 +31,7 @@
                         } else {
                             $rootScope.backgroundImage = WidgetWall.data.design.backgroundImage;
                         }
-                        getReviews();
+//                        getReviews();
                     }
                     , error = function (err) {
                         console.error('Error while getting data', err);
@@ -37,28 +41,37 @@
 
             init();
 
-            function getReviews() {
+            WidgetWall.getReviews = function () {
                 // buildfire.history.push('Submit Reviewsss', {});
-                buildfire.userData.search({}, 'AppRatings2', function (err, results) {
-                    if (err){
-                        console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
-                        $location.path('/');
-                        $scope.$apply();
-                    }
-                    else {
-                        console.log("++++++++++++++ctrldd", results)
-
-                        WidgetWall.data.reviews = results;
-                        //WidgetWall.lastRating = results[results.length-1].data.startRating;
-                        WidgetWall.ratingsTotal = results.reduce(function (a, b) {
-                            return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
-                        })
-                        WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.data.reviews.length );
-                        WidgetWall.lastRating = WidgetWall.data && WidgetWall.data.reviews && WidgetWall.data.reviews.length && WidgetWall.data.reviews[WidgetWall.data.reviews.length-1].data.startRating;
-                        //$scope.complains = results;
-                        $scope.$apply();
-                    }
-                });
+                console.log('Inside getReviews---------');
+                if(!WidgetWall.waitAPICompletion) {
+                    WidgetWall.waitAPICompletion = true;
+                    buildfire.userData.search({sort: {addedDate: -1}, skip: skip, limit: limit}, 'AppRatings2', function (err, results) {
+                        if (err) {
+                            console.error("++++++++++++++ctrlerrddd", JSON.stringify(err));
+                            $location.path('/');
+                            $scope.$apply();
+                        }
+                        else {
+                            console.log("++++++++++++++ctrldd", results)
+                            if (results.length < limit) {
+                                WidgetWall.noMore = true;
+                            }
+                            WidgetWall.data.reviews = WidgetWall.data.reviews ? WidgetWall.data.reviews : [];
+                            WidgetWall.data.reviews = WidgetWall.data.reviews.concat(results);
+                            //WidgetWall.lastRating = results[results.length-1].data.startRating;
+                            WidgetWall.ratingsTotal = results.reduce(function (a, b) {
+                                return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                            })
+                            WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.data.reviews.length );
+                            WidgetWall.lastRating = WidgetWall.data && WidgetWall.data.reviews && WidgetWall.data.reviews.length && WidgetWall.data.reviews[WidgetWall.data.reviews.length - 1].data.startRating;
+                            //$scope.complains = results;
+                            skip = skip + results.length;
+                            $scope.$apply();
+                        }
+                        WidgetWall.waitAPICompletion = false;
+                    });
+                }
             }
 
           /**

@@ -23,6 +23,12 @@
 			<!--<a class="btn btn-success btn-sm" href="#/">Home</a>-->
 			<!--<a href="#/chatHome" ng-if="WidgetWall.data.reviews.length">Chat</a>-->
 		</div>
+        <div class="infinite-scroll-parent scrollable" style="height: 500px !important; overflow-y: auto;">
+        <div style="margin-bottom: 50px;" id="top"
+             infinite-scroll-distance="1"
+             data-infinite-container=".infinite-scroll-parent"
+             infinite-scroll="WidgetWall.getReviews()"
+             infinite-scroll-disabled="WidgetWall.noMore">
 		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.data.reviews | orderBy:'-data.addedDate'" >
 			<hr class="small">
 			<div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen">
@@ -46,6 +52,7 @@
 				<p class="margin-zero">{{data.data.Message}}</p>
 			</div>
 		</div>
-
+     </div>
 	</div>
+    </div>
 </div>

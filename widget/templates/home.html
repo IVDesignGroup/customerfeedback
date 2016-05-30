@@ -43,7 +43,7 @@
              data-infinite-container=".infinite-scroll-parent"
              infinite-scroll="WidgetHome.getChatData()"
              infinite-scroll-disabled="WidgetHome.noMore">
-        <div class="comment" ng-repeat = "data in WidgetHome.chatMessageData">
+        <div class="comment" ng-repeat = "data in WidgetHome.chatMessageData | orderBy:'-data.chatTime'">
             <hr class="small">
             <div class="inner">
                 <p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">{{data.data.chatFrom}}</a> - {{data.data.chatTime | date:"short"}}</p>
