@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-      .controller('WidgetWallCtrl', ['$scope','$location', '$rootScope', 'DataStore', 'TAG_NAMES', 'ViewStack', 'EVENTS',
-        function ($scope, $location, $rootScope, DataStore, TAG_NAMES, ViewStack, EVENTS) {
+      .controller('WidgetWallCtrl', ['$scope','$location', '$rootScope', '$filter', 'DataStore', 'TAG_NAMES', 'ViewStack', 'EVENTS',
+        function ($scope, $location, $rootScope, $filter, DataStore, TAG_NAMES, ViewStack, EVENTS) {
 
           var WidgetWall = this;
           var skip = 0;
@@ -59,6 +59,7 @@
                             }
                             WidgetWall.reviews = WidgetWall.reviews ? WidgetWall.reviews : [];
                             WidgetWall.reviews = WidgetWall.reviews.concat(results);
+                            WidgetWall.reviews = $filter('unique')(WidgetWall.reviews, 'id');
                             //WidgetWall.lastRating = results[results.length-1].data.startRating;
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
                                 return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x

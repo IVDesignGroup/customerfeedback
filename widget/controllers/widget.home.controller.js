@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', '$sce', '$anchorScroll', 'DataStore', 'TAG_NAMES','EVENTS', 'ViewStack',
-      function ($scope, $location, $rootScope, $sce, $anchorScroll, DataStore, TAG_NAMES, EVENTS, ViewStack) {
+    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', '$sce', '$anchorScroll', '$filter', 'DataStore', 'TAG_NAMES','EVENTS', 'ViewStack',
+      function ($scope, $location, $rootScope, $sce, $anchorScroll, $filter, DataStore, TAG_NAMES, EVENTS, ViewStack) {
         var WidgetHome = this;
         var skip = 0;
         var limit = 5;
@@ -180,6 +180,7 @@
                           console.log("++++++++++++++successsChat", results);
                           WidgetHome.chatMessageData = WidgetHome.chatMessageData ? WidgetHome.chatMessageData : [];
                           WidgetHome.chatMessageData = WidgetHome.chatMessageData.concat(results);
+                          WidgetHome.chatMessageData = $filter('unique')(WidgetHome.chatMessageData, 'id');
                           skip = skip + results.length;
                           //$scope.complains = results;
                           $scope.$apply();
