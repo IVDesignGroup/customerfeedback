@@ -3,10 +3,14 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', '$sce', 'DataStore', 'TAG_NAMES','EVENTS', 'ViewStack',
-      function ($scope, $location, $rootScope, $sce, DataStore, TAG_NAMES, EVENTS, ViewStack) {
+    .controller('WidgetHomeCtrl', ['$scope','$location', '$rootScope', '$sce', '$anchorScroll', 'DataStore', 'TAG_NAMES','EVENTS', 'ViewStack',
+      function ($scope, $location, $rootScope, $sce, $anchorScroll, DataStore, TAG_NAMES, EVENTS, ViewStack) {
         var WidgetHome = this;
+        var skip = 0;
+        var limit = 5;
         WidgetHome.chatData = "";
+        WidgetHome.waitAPICompletion = false;
+        WidgetHome.noMore = false;
           $rootScope.deviceHeight = window.innerHeight;
           $rootScope.deviceWidth = window.innerWidth;
           $rootScope.backgroundImage = "";
@@ -22,6 +26,30 @@
                   });
                   return $sce.trustAsHtml($html.html());
               }
+          };
+
+          /**
+           * Method to open buildfire auth login pop up and allow user to login using credentials.
+           */
+          WidgetHome.openLogin = function () {
+              buildfire.auth.login({}, function () {
+
+              });
+              $scope.$apply();
+          };
+
+          var loginCallback = function () {
+              buildfire.auth.getCurrentUser(function (err, user) {
+                  console.log("_______________________rrr", user);
+
+                  $scope.$digest();
+                  if (user) {
+                      WidgetHome.currentLoggedInUser = user;
+//              WidgetHome.getChatData();
+                      $location.path('/submit');
+                      $scope.$apply();
+                  }
+              });
           };
 
         function init() {
@@ -51,11 +79,16 @@
                 console.log("_______________________ssss", user);
                 if (user) {
                     WidgetHome.currentLoggedInUser = user;
-                    WidgetHome.getChatData();
+//                    WidgetHome.getChatData();
                 }
                 else
                     WidgetHome.openLogin();
             });
+
+            /**
+             * onLogin() listens when user logins using buildfire.auth api.
+             */
+            buildfire.auth.onLogin(loginCallback);
         }
 
         init();
@@ -98,12 +131,16 @@
 
                         WidgetHome.data.reviews = results || [];
                         //WidgetWall.lastRating = results[results.length-1].data.startRating;
-                        WidgetHome.lastRating = results && results.length && results.reduce(function (a, b) {
-                            return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
-                        })
+                        if(results && results.length) {
+                            WidgetHome.lastRating = results.reduce(function (a, b) {
+                                return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                            })
+                        }
                         WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
                         WidgetHome.lastReviewComment = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
-                        WidgetHome.lastRating = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.startRating;
+                        if(WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length) {
+                            WidgetHome.lastRating = WidgetHome.data.reviews[WidgetHome.data.reviews.length - 1].data.startRating;
+                        }
                         //$scope.complains = results;
                         $scope.$apply();
                         /*ViewStack.push({
@@ -117,55 +154,67 @@
                 });
         }
 
-        WidgetHome.getChatData = function () {
-            var tagName = 'chatData-' + WidgetHome.currentLoggedInUser._id;
-            buildfire.userData.get(tagName, function (err, result) {
-                if (err){
-                    console.error("Error",JSON.stringify(err));
-                }
-                else {
-                    console.log("++++++++++++++successsChat", result);
-                    WidgetHome.chatMessageData= result && result.data;
-                    //$scope.complains = results;
-                    $scope.$apply();
-                }
-            });
-        }
+          WidgetHome.getChatData = function () {
+              console.log('Inside getChatData -----------');
+              if (!WidgetHome.currentLoggedInUser) {
+                  buildfire.auth.getCurrentUser(function (err, user) {
+                      console.log("_____fff", user);
+                      if (user) {
+                          WidgetHome.currentLoggedInUser = user;
+                          WidgetHome.getChatData();
+                      }
+                      else
+                          WidgetHome.openLogin();
+                  });
+              } else if (!WidgetHome.waitAPICompletion) {
+                  WidgetHome.waitAPICompletion = true;
+                  var tagName = 'chatData-' + WidgetHome.currentLoggedInUser._id;
+                  buildfire.userData.search({sort: {chatTime: -1}, skip: skip, limit: limit}, tagName, function (err, results) {
+                      if (err) {
+                          console.error("Error", JSON.stringify(err));
+                      }
+                      else {
+                          if (results.length < limit) {
+                              WidgetHome.noMore = true;
+                          }
+                          console.log("++++++++++++++successsChat", results);
+                          WidgetHome.chatMessageData = WidgetHome.chatMessageData ? WidgetHome.chatMessageData : [];
+                          WidgetHome.chatMessageData = WidgetHome.chatMessageData.concat(results);
+                          skip = skip + results.length;
+                          //$scope.complains = results;
+                          $scope.$apply();
+                      }
+                      WidgetHome.waitAPICompletion = false;
+                  });
+              }
+          }
 
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+          /*WidgetHome.getChatData = function () {
+              var tagName = 'chatData-' + WidgetHome.currentLoggedInUser._id;
+              buildfire.userData.get(tagName, function (err, result) {
+                  if (err){
+                      console.error("Error",JSON.stringify(err));
+                  }
+                  else {
+                      console.log("++++++++++++++successsChat", result);
+                      WidgetHome.chatMessageData= result && result.data;
+                      //$scope.complains = results;
+                      $scope.$apply();
+                  }
+              });
+          }
+*/
+
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
          */
         WidgetHome.currentLoggedInUser = null;
-
-        /**
-         * Method to open buildfire auth login pop up and allow user to login using credentials.
-         */
-        WidgetHome.openLogin = function () {
-          buildfire.auth.login({}, function () {
-
-          });
-          $scope.$apply();
-        };
-
-        var loginCallback = function () {
-          buildfire.auth.getCurrentUser(function (err, user) {
-            console.log("_______________________rrr", user);
-
-            $scope.$digest();
-            if (user) {
-              WidgetHome.currentLoggedInUser = user;
-              WidgetHome.getChatData();
-              $location.path('/submit');
-              $scope.$apply();
-            }
-          });
-        };
 
         WidgetHome.goBack = function(){
           $location.path("/submit");
         }
 
-        WidgetHome.sendMessage = function(){
+        /*WidgetHome.sendMessage = function(){
             var tagName = 'chatData-' + WidgetHome.currentLoggedInUser._id;
             WidgetHome.chatMessageObj=
             {
@@ -196,11 +245,62 @@
                 });
             });
           }
+        };*/
+
+          WidgetHome.sendMessage = function(){
+            var tagName = 'chatData-' + WidgetHome.currentLoggedInUser._id;
+            WidgetHome.chatMessageObj=
+            {
+                chatMessage:WidgetHome.chatData,
+                chatTime: new Date(),
+                chatFrom: WidgetHome.currentLoggedInUser.displayName,
+                id: WidgetHome.currentLoggedInUser._id
+            }
+
+           /* WidgetHome.getChatData();
+          if(WidgetHome.chatData!=''){
+            buildfire.userData.get(tagName, function (err, result) {
+                var saveResult = [];
+                if(result && result.data && result.data.length) {
+                    saveResult = result && result.data;
+                }
+                saveResult.push(WidgetHome.chatMessageObj);
+                buildfire.userData.save(saveResult, tagName, function (e, data) {
+                    if (e) console.error("+++++++++++++++err", JSON.stringify(e));
+                    else {
+                        WidgetHome.chatData = '';
+                        buildfire.messaging.sendMessageToControl({'name': EVENTS.CHAT_ADDED, 'data': data});
+                        // $location.path('/chatHome')
+                        WidgetHome.getChatData();
+                        $scope.$apply();
+                        console.log("+++++++++++++++success")
+                    }
+                });
+            });
+          }*/
+              if(WidgetHome.chatData != '') {
+                  buildfire.userData.insert(WidgetHome.chatMessageObj, tagName, function (err, result) {
+                      if (err) console.error("+++++++++++++++err", JSON.stringify(err));
+                      else {
+                          WidgetHome.chatData = '';
+                          buildfire.messaging.sendMessageToControl({'name': EVENTS.CHAT_ADDED, 'data': result});
+                          // $location.path('/chatHome')
+//                          WidgetHome.getChatData();
+                          WidgetHome.chatMessageData = WidgetHome.chatMessageData ? WidgetHome.chatMessageData : [];
+                          WidgetHome.chatMessageData.unshift(result);
+                          $scope.$apply();
+                          // the element you wish to scroll to.
+                          $location.hash('top');
+
+                          // call $anchorScroll()
+                          $anchorScroll();
+                          buildfire.navigation.scrollTop();
+                          console.log("+++++++++++++++success")
+                      }
+                  });
+              }
+
         }
-        /**
-         * onLogin() listens when user logins using buildfire.auth api.
-         */
-        buildfire.auth.onLogin(loginCallback);
 
           /*$rootScope.$on("Carousel:LOADED", function () {
               WidgetHome.view = null;
@@ -252,12 +352,16 @@
                       WidgetHome.data.reviews = [];
                   }
               WidgetHome.data.reviews.push(result.data);
-              WidgetHome.lastRating = WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews.reduce(function (a, b) {
-                  return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
-              })
+              if(WidgetHome.data.reviews && WidgetHome.data.reviews.length) {
+                  WidgetHome.lastRating = WidgetHome.data.reviews.reduce(function (a, b) {
+                      return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                  })
+              }
               WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
               WidgetHome.lastReviewComment = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
-              WidgetHome.lastRating = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.startRating;
+              if(WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length) {
+                  WidgetHome.lastRating = WidgetHome.data.reviews[WidgetHome.data.reviews.length - 1].data.startRating;
+              }
               if (!$scope.$$phase)
                   $scope.$digest();
           });
