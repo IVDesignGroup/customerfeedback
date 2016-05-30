@@ -57,14 +57,14 @@
                             if (results.length < limit) {
                                 WidgetWall.noMore = true;
                             }
-                            WidgetWall.data.reviews = WidgetWall.data.reviews ? WidgetWall.data.reviews : [];
-                            WidgetWall.data.reviews = WidgetWall.data.reviews.concat(results);
+                            WidgetWall.reviews = WidgetWall.reviews ? WidgetWall.reviews : [];
+                            WidgetWall.reviews = WidgetWall.reviews.concat(results);
                             //WidgetWall.lastRating = results[results.length-1].data.startRating;
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
                                 return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
                             })
-                            WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.data.reviews.length );
-                            WidgetWall.lastRating = WidgetWall.data && WidgetWall.data.reviews && WidgetWall.data.reviews.length && WidgetWall.data.reviews[WidgetWall.data.reviews.length - 1].data.startRating;
+                            WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.reviews.length );
+                            WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.startRating;
                             //$scope.complains = results;
                             skip = skip + results.length;
                             $scope.$apply();
@@ -113,12 +113,12 @@
 
             $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
                 console.log('inside review added event listener:::::::::::', result);
-                WidgetWall.data.reviews.push(result.data);
-                WidgetWall.ratingsTotal = WidgetWall.data.reviews.reduce(function (a, b) {
+                WidgetWall.reviews.push(result.data);
+                WidgetWall.ratingsTotal = WidgetWall.reviews.reduce(function (a, b) {
                     return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
                 })
-                WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.data.reviews.length );
-                WidgetWall.lastRating = WidgetWall.data && WidgetWall.data.reviews && WidgetWall.data.reviews.length && WidgetWall.data.reviews[WidgetWall.data.reviews.length-1].data.startRating;
+                WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.reviews.length );
+                WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length-1].data.startRating;
                 if (!$scope.$$phase)
                     $scope.$digest();
             });
