@@ -19,8 +19,8 @@
 <div class="review-item" ng-if="ContentChat.chatMessageData" style="border: none;">
 <div class="comments-container margin-top-fifteen well well-sm margin-bottom-zero" style="background: #fff;">
     <div class="comment" ng-repeat = "chatData in ContentChat.chatMessageData">
-        <p class="no-icon info margin-zero"><a class="text-primary">{{chatData.chatFrom}}</a> - {{chatData.chatTime | date:"short"}}</p>
-        <p class="margin-zero">{{chatData.chatMessage}}</p>
+        <p class="no-icon info margin-zero"><a class="text-primary">{{chatData.data.chatFrom}}</a> - {{chatData.data.chatTime | date:"short"}}</p>
+        <p class="margin-zero">{{chatData.data.chatMessage}}</p>
     </div>
 </div>
 </div>

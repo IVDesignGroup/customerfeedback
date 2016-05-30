@@ -27,7 +27,7 @@
                         }
                         else {
                             console.log("++++++++++++++successsChat", results);
-                            ContentChat.chatMessageData= results && results.length && results[0].data;
+                            ContentChat.chatMessageData = results;
                             //$scope.complains = results;
                             $scope.$apply();
                         }
@@ -56,12 +56,13 @@
                     }
                     if (ContentChat.chatData) {
                         buildfire.userData.search({}, tagName, function (err, result) {
-                            var saveResult = [];
+                            /*var saveResult = [];
                             if(result && result.length && result[0].data && result[0].data.length) {
                                 saveResult = result[0].data;
-                            }
-                            saveResult.push(ContentChat.chatMessageObj);
-                            buildfire.userData.save(saveResult, tagName, ContentChat.currentLoggedInUser._id, function (e, data) {
+                            }*/
+                            result = result ? result : [];
+                            result.push(ContentChat.chatMessageObj);
+                            buildfire.userData.save(result, tagName, ContentChat.currentLoggedInUser._id, function (e, data) {
                                 if (e) console.error("+++++++++++++++err", JSON.stringify(e));
                                 else {
                                     console.log("+++++++++++++++success")
