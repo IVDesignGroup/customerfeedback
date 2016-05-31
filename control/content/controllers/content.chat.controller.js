@@ -55,7 +55,7 @@
                         id: ContentChat.currentLoggedInUser._id
                     }
                     if (ContentChat.chatData) {
-                            buildfire.userData.insert(ContentChat.chatMessageObj, tagName, ContentChat.currentLoggedInUser._id, function (err, result) {
+                            buildfire.userData.insert(ContentChat.chatMessageObj, tagName, $routeParams.userToken, function (err, result) {
                                 if (err) console.error("Error : ", JSON.stringify(err));
                                 else {
                                     ContentChat.chatMessageData.unshift(result);
