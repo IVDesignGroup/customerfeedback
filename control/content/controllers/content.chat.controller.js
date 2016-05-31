@@ -3,8 +3,8 @@
 (function (angular) {
     angular
         .module('customerFeedbackPluginContent')
-        .controller('ContentChatCtrl', ['$scope', '$routeParams', '$location', 'Buildfire', 'TAG_NAME', 'STATUS_CODE', 'DataStore','EVENTS',
-            function ($scope, $routeParams, $location, Buildfire, TAG_NAME, STATUS_CODE, DataStore, EVENTS) {
+        .controller('ContentChatCtrl', ['$scope', '$routeParams', '$location', '$filter', 'Buildfire', 'TAG_NAME', 'STATUS_CODE', 'DataStore','EVENTS',
+            function ($scope, $routeParams, $location, $filter, Buildfire, TAG_NAME, STATUS_CODE, DataStore, EVENTS) {
                 var ContentChat = this;
                 var tagName = 'chatData-' + $routeParams.userToken;
                 var skip = 0;
@@ -39,6 +39,7 @@
                                 console.log("++++++++++++++successsChat", results);
                                 ContentChat.chatMessageData = ContentChat.chatMessageData ? ContentChat.chatMessageData : [];
                                 ContentChat.chatMessageData = ContentChat.chatMessageData.concat(results);
+                                ContentChat.chatMessageData = $filter('unique')(ContentChat.chatMessageData, 'id');
                                 skip = skip + results.length;
                                 //$scope.complains = results;
                                 $scope.$apply();
