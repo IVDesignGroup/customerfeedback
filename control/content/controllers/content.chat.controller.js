@@ -55,37 +55,16 @@
                         id: ContentChat.currentLoggedInUser._id
                     }
                     if (ContentChat.chatData) {
-                        buildfire.userData.search({}, tagName, function (err, result) {
-                            /*var saveResult = [];
-                            if(result && result.length && result[0].data && result[0].data.length) {
-                                saveResult = result[0].data;
-                            }*/
-                            result = result ? result : [];
-                            result.push(ContentChat.chatMessageObj);
-                            buildfire.userData.save(result, tagName, ContentChat.currentLoggedInUser._id, function (e, data) {
-                                if (e) console.error("+++++++++++++++err", JSON.stringify(e));
+                            buildfire.userData.insert(ContentChat.chatMessageObj, tagName, ContentChat.currentLoggedInUser._id, function (err, result) {
+                                if (err) console.error("Error : ", JSON.stringify(err));
                                 else {
-                                    console.log("+++++++++++++++success")
-                                    ContentChat.getChatData();
-                                    buildfire.messaging.sendMessageToWidget({'name': EVENTS.CHAT_ADDED, 'data': data});
-                                    // $location.path('/chatHome')
+                                    ContentChat.chatMessageData.unshift(result);
+                                    buildfire.messaging.sendMessageToWidget({'name': EVENTS.CHAT_ADDED, 'data': result});
                                     ContentChat.chatData = '';
                                     $scope.$apply();
-                                    $location.path('/chat/' + $routeParams.userToken);
+//                                    $location.path('/chat/' + $routeParams.userToken);
                                 }
                             });
-                        });
-                        /*buildfire.userData.insert(ContentChat.chatMessageObj, 'chatData', $routeParams.userToken, function (e, data) {
-                            if (e) console.error("+++++++++++++++err", JSON.stringify(e));
-                            else {
-                                console.log("+++++++++++++++success")
-                                ContentChat.getChatData();
-                                buildfire.messaging.sendMessageToWidget({'name': EVENTS.CHAT_ADDED, 'data': data});
-                                ContentChat.chatData = '';
-                                $scope.$apply();
-                                $location.path('/chat/' + $routeParams.userToken)
-                            }
-                        });*/
                     }
                 }
 
@@ -97,7 +76,8 @@
                         switch (event.name) {
                             case EVENTS.CHAT_ADDED :
                                 if (event.data.data) {
-                                    ContentChat.chatMessageData = event.data.data;
+                                    ContentChat.chatMessageData = ContentChat.chatMessageData ? ContentChat.chatMessageData : [];
+                                    ContentChat.chatMessageData.unshift(event.data);
                                 }
                                 break;
                             default :

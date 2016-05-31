@@ -373,8 +373,10 @@
                   console.log("++++++++++++", event);
                   switch (event.name) {
                       case EVENTS.CHAT_ADDED :
-                          if (event.data.data) {
-                              WidgetHome.chatMessageData = event.data.data;
+                          if (event.data && event.data.data) {
+//                              WidgetHome.chatMessageData = event.data.data;
+                              WidgetHome.chatMessageData = WidgetHome.chatMessageData ? WidgetHome.chatMessageData : [];
+                              WidgetHome.chatMessageData.unshift(event.data);
                           }
                           break;
                       default :
