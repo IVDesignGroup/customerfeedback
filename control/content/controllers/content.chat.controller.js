@@ -7,7 +7,11 @@
             function ($scope, $routeParams, $location, Buildfire, TAG_NAME, STATUS_CODE, DataStore, EVENTS) {
                 var ContentChat = this;
                 var tagName = 'chatData-' + $routeParams.userToken;
+                var skip = 0;
+                var limit = 10;
                 ContentChat.chatData = "";
+                ContentChat.noMore = false;
+                ContentChat.waitAPICompletion = false;
                 /*
                  * Go pull any previously saved data
                  * */
@@ -16,25 +20,35 @@
                     console.log("_______________________ssss", user);
                     if (user) {
                         ContentChat.currentLoggedInUser = user;
-                        ContentChat.getChatData();
+//                        ContentChat.getChatData();
                     }
                 });
 
                 ContentChat.getChatData = function(){
-                    buildfire.userData.search({}, tagName, function (err, results) {
-                        if (err){
-                            console.error("Error",JSON.stringify(err));
-                        }
-                        else {
-                            console.log("++++++++++++++successsChat", results);
-                            ContentChat.chatMessageData = results;
-                            //$scope.complains = results;
-                            $scope.$apply();
-                        }
-                    });
+                    console.log('inside getChatData-------------');
+                    if(!ContentChat.waitAPICompletion) {
+                        ContentChat.waitAPICompletion = true;
+                        buildfire.userData.search({skip: skip, limit: limit}, tagName, function (err, results) {
+                            if (err) {
+                                console.error("Error", JSON.stringify(err));
+                            }
+                            else {
+                                if (results.length < limit) {
+                                    ContentChat.noMore = true;
+                                }
+                                console.log("++++++++++++++successsChat", results);
+                                ContentChat.chatMessageData = ContentChat.chatMessageData ? ContentChat.chatMessageData : [];
+                                ContentChat.chatMessageData = ContentChat.chatMessageData.concat(results);
+                                skip = skip + results.length;
+                                //$scope.complains = results;
+                                $scope.$apply();
+                            }
+                            ContentChat.waitAPICompletion = false;
+                        });
+                    }
                 }
                  var init = function () {
-                     ContentChat.getChatData();
+//                     ContentChat.getChatData();
                      /**
                       * Check for current logged in user, if not show ogin screen
                       */
