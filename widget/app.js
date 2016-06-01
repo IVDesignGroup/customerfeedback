@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('customerFeedbackPluginWidget', ['ngRoute', 'ngRateIt'])
+  angular.module('customerFeedbackPluginWidget', ['ngRoute', 'ngRateIt', 'infinite-scroll'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
@@ -133,5 +133,34 @@
                   buildfire.navigation._goBackOne();
               }
           };
-      }]);
+      }])
+      .directive("loadImage", [function () {
+          return {
+              restrict: 'A',
+              link: function (scope, element, attrs) {
+                  element.attr("src", "../../../styles/media/holder-" + attrs.loadImage + ".gif");
+
+                  var elem = $("<img>");
+                  elem[0].onload = function () {
+                      element.attr("src", attrs.finalSrc);
+                      elem.remove();
+                  };
+                  elem.attr("src", attrs.finalSrc);
+              }
+          };
+      }])
+      .filter('unique', function () {
+          return function (collection, keyname) {
+              var output = [],
+                  keys = [];
+              angular.forEach(collection, function (item) {
+                  var key = item[keyname];
+                  if (keys.indexOf(key) === -1) {
+                      keys.push(key);
+                      output.push(item);
+                  }
+              });
+              return output;
+          };
+      });
 })(window.angular, window.buildfire);

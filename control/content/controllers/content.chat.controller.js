@@ -3,11 +3,15 @@
 (function (angular) {
     angular
         .module('customerFeedbackPluginContent')
-        .controller('ContentChatCtrl', ['$scope', '$routeParams', '$location', 'Buildfire', 'TAG_NAME', 'STATUS_CODE', 'DataStore','EVENTS',
-            function ($scope, $routeParams, $location, Buildfire, TAG_NAME, STATUS_CODE, DataStore, EVENTS) {
+        .controller('ContentChatCtrl', ['$scope', '$routeParams', '$location', '$filter', 'Buildfire', 'TAG_NAME', 'STATUS_CODE', 'DataStore','EVENTS',
+            function ($scope, $routeParams, $location, $filter, Buildfire, TAG_NAME, STATUS_CODE, DataStore, EVENTS) {
                 var ContentChat = this;
                 var tagName = 'chatData-' + $routeParams.userToken;
+                var skip = 0;
+                var limit = 10;
                 ContentChat.chatData = "";
+                ContentChat.noMore = false;
+                ContentChat.waitAPICompletion = false;
                 /*
                  * Go pull any previously saved data
                  * */
@@ -16,25 +20,36 @@
                     console.log("_______________________ssss", user);
                     if (user) {
                         ContentChat.currentLoggedInUser = user;
-                        ContentChat.getChatData();
+//                        ContentChat.getChatData();
                     }
                 });
 
                 ContentChat.getChatData = function(){
-                    buildfire.userData.search({}, tagName, function (err, results) {
-                        if (err){
-                            console.error("Error",JSON.stringify(err));
-                        }
-                        else {
-                            console.log("++++++++++++++successsChat", results);
-                            ContentChat.chatMessageData= results && results.length && results[0].data;
-                            //$scope.complains = results;
-                            $scope.$apply();
-                        }
-                    });
+                    console.log('inside getChatData-------------');
+                    if(!ContentChat.waitAPICompletion) {
+                        ContentChat.waitAPICompletion = true;
+                        buildfire.userData.search({skip: skip, limit: limit}, tagName, function (err, results) {
+                            if (err) {
+                                console.error("Error", JSON.stringify(err));
+                            }
+                            else {
+                                if (results.length < limit) {
+                                    ContentChat.noMore = true;
+                                }
+                                console.log("++++++++++++++successsChat", results);
+                                ContentChat.chatMessageData = ContentChat.chatMessageData ? ContentChat.chatMessageData : [];
+                                ContentChat.chatMessageData = ContentChat.chatMessageData.concat(results);
+                                ContentChat.chatMessageData = $filter('unique')(ContentChat.chatMessageData, 'id');
+                                skip = skip + results.length;
+                                //$scope.complains = results;
+                                $scope.$apply();
+                            }
+                            ContentChat.waitAPICompletion = false;
+                        });
+                    }
                 }
                  var init = function () {
-                     ContentChat.getChatData();
+//                     ContentChat.getChatData();
                      /**
                       * Check for current logged in user, if not show ogin screen
                       */
@@ -55,36 +70,16 @@
                         id: ContentChat.currentLoggedInUser._id
                     }
                     if (ContentChat.chatData) {
-                        buildfire.userData.search({}, tagName, function (err, result) {
-                            var saveResult = [];
-                            if(result && result.length && result[0].data && result[0].data.length) {
-                                saveResult = result[0].data;
-                            }
-                            saveResult.push(ContentChat.chatMessageObj);
-                            buildfire.userData.save(saveResult, tagName, ContentChat.currentLoggedInUser._id, function (e, data) {
-                                if (e) console.error("+++++++++++++++err", JSON.stringify(e));
+                            buildfire.userData.insert(ContentChat.chatMessageObj, tagName, $routeParams.userToken, function (err, result) {
+                                if (err) console.error("Error : ", JSON.stringify(err));
                                 else {
-                                    console.log("+++++++++++++++success")
-                                    ContentChat.getChatData();
-                                    buildfire.messaging.sendMessageToWidget({'name': EVENTS.CHAT_ADDED, 'data': data});
-                                    // $location.path('/chatHome')
+                                    ContentChat.chatMessageData.unshift(result);
+                                    buildfire.messaging.sendMessageToWidget({'name': EVENTS.CHAT_ADDED, 'data': result});
                                     ContentChat.chatData = '';
                                     $scope.$apply();
-                                    $location.path('/chat/' + $routeParams.userToken);
+//                                    $location.path('/chat/' + $routeParams.userToken);
                                 }
                             });
-                        });
-                        /*buildfire.userData.insert(ContentChat.chatMessageObj, 'chatData', $routeParams.userToken, function (e, data) {
-                            if (e) console.error("+++++++++++++++err", JSON.stringify(e));
-                            else {
-                                console.log("+++++++++++++++success")
-                                ContentChat.getChatData();
-                                buildfire.messaging.sendMessageToWidget({'name': EVENTS.CHAT_ADDED, 'data': data});
-                                ContentChat.chatData = '';
-                                $scope.$apply();
-                                $location.path('/chat/' + $routeParams.userToken)
-                            }
-                        });*/
                     }
                 }
 
@@ -96,7 +91,8 @@
                         switch (event.name) {
                             case EVENTS.CHAT_ADDED :
                                 if (event.data.data) {
-                                    ContentChat.chatMessageData = event.data.data;
+                                    ContentChat.chatMessageData = ContentChat.chatMessageData ? ContentChat.chatMessageData : [];
+                                    ContentChat.chatMessageData.unshift(event.data);
                                 }
                                 break;
                             default :

@@ -37,13 +37,19 @@
             </div>
         </div>-->
 
-    <div class="review-comments clearfix" ng-if="WidgetHome.chatMessageData.length">
-        <div class="comment" ng-repeat = "data in WidgetHome.chatMessageData">
+    <div class="review-comments clearfix infinite-scroll-parent scrollable" style="height: 300px !important; overflow-y: auto;">
+        <div style="margin-bottom: 50px;" id="top"
+             infinite-scroll-distance="1"
+             data-infinite-container=".infinite-scroll-parent"
+             infinite-scroll="WidgetHome.getChatData()"
+             infinite-scroll-disabled="WidgetHome.noMore">
+        <div class="comment" ng-repeat = "data in WidgetHome.chatMessageData | orderBy:'-data.chatTime'">
             <hr class="small">
             <div class="inner">
-                <p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">{{data.chatFrom}}</a> - {{data.chatTime | date:"short"}}</p>
-                <p class="margin-bottom-zero">{{data.chatMessage}}</p>
+                <p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">{{data.data.chatFrom}}</a> - {{data.data.chatTime | date:"short"}}</p>
+                <p class="margin-bottom-zero">{{data.data.chatMessage}}</p>
             </div>
+        </div>
         </div>
     </div>
     </div>
