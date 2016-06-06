@@ -15,7 +15,7 @@
        // buildfire.history.push('Events', { elementToShow: 'Event' });
         WidgetSubmit.Feedback = {
           Message : "",
-          startRating:"",
+          startRating:"0.5",
           UserId:"",
           UserName: ""
         }
@@ -42,7 +42,7 @@
 
         WidgetSubmit.save = function () {
           //  $scope.complain.data.response = "";
-          var objData = {startRating:WidgetSubmit.Feedback.startRating || 0, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username, userImage:WidgetSubmit.currentLoggedInUser.imageUrl }
+          var objData = {startRating:WidgetSubmit.Feedback.startRating || 0.5, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username, userImage:WidgetSubmit.currentLoggedInUser.imageUrl }
            console.log("++++++++++++++",objData);
           if(WidgetSubmit.Feedback.Message) {
               buildfire.userData.insert(objData, 'AppRatings2', function (err, data) {
@@ -84,7 +84,7 @@
         buildfire.auth.onLogin(loginCallback);
 
         /**
-         * Check for current logged in user, if not show ogin screen
+         * Check for current logged in user, if not show Login screen
          */
         buildfire.auth.getCurrentUser(function (err, user) {
           console.log("_______________________", user);
@@ -94,7 +94,7 @@
               userName:WidgetSubmit.currentLoggedInUser.username
             }
 
-            buildfire.userData.search(searchData,'AppRatings2', function (err, results) {
+           /* buildfire.userData.search(searchData,'AppRatings2', function (err, results) {
               console.log("+++++++++555",WidgetSubmit.currentLoggedInUser)
               if (err) console.error(JSON.stringify(err));
               else {
@@ -109,7 +109,7 @@
                   $scope.$apply();
                 }
               }
-            });
+            });*/
           }
           else
             WidgetSubmit.openLogin();
