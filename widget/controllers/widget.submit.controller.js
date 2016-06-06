@@ -15,7 +15,7 @@
        // buildfire.history.push('Events', { elementToShow: 'Event' });
         WidgetSubmit.Feedback = {
           Message : "",
-          startRating:"",
+          startRating:"0.5",
           UserId:"",
           UserName: ""
         }
@@ -42,7 +42,7 @@
 
         WidgetSubmit.save = function () {
           //  $scope.complain.data.response = "";
-          var objData = {startRating:WidgetSubmit.Feedback.startRating || 0, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username, userImage:WidgetSubmit.currentLoggedInUser.imageUrl }
+          var objData = {startRating:WidgetSubmit.Feedback.startRating || 0.5, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username, userImage:WidgetSubmit.currentLoggedInUser.imageUrl }
            console.log("++++++++++++++",objData);
           if(WidgetSubmit.Feedback.Message) {
               buildfire.userData.insert(objData, 'AppRatings2', function (err, data) {
