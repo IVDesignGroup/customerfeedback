@@ -62,7 +62,7 @@
                             WidgetWall.reviews = $filter('unique')(WidgetWall.reviews, 'id');
                             //WidgetWall.lastRating = results[results.length-1].data.startRating;
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
-                                return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                                return {data: {startRating: parseFloat(a.data.startRating) + parseFloat(b.data.startRating)}}; // returns object with property x
                             })
                             WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.reviews.length );
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.startRating;

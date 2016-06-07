@@ -1,5 +1,5 @@
 <div class="holder padding-zero" ng-controller="WidgetSubmitCtrl as WidgetSubmit">
-	<div class="feedback-plugin submit-review">
+	<form class="feedback-plugin submit-review">
 		<div class="item clearfix padded">
 			<p>Submit Review</p>			
 		</div>
@@ -21,15 +21,16 @@
 				<span>Message:</span>
 			</div>
 			<div class="col-xs-12 pull-right margin-top-five">
-				<textarea class="form-control" placeholder="Enter message..." ng-model="WidgetSubmit.Feedback.Message"></textarea>
+				<textarea ng-if="WidgetSubmit.currentLoggedInUser" class="form-control" placeholder="Enter message..." ng-model="WidgetSubmit.Feedback.Message" required></textarea>
+				<textarea ng-if="!WidgetSubmit.currentLoggedInUser" class="form-control" placeholder="Enter message..." ng-model="WidgetSubmit.Feedback.Message"></textarea>
 			</div>
 
 		</div>
 		<hr class="none">
 		<div class="col-xs-12 pull-left text-center">
-			<a class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-click="WidgetSubmit.save()" >Submit Review</a>
+			<input type="submit" class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-click="WidgetSubmit.save()" value="Submit Review">
 			<!--<a class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-click="WidgetSubmit.update()" ng-if="WidgetSubmit.isUpdate">Update Review</a>-->
 		</div>
 
-	</div>
+	</form>
 </div>

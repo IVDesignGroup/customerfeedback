@@ -40,25 +40,34 @@
           });
         };
 
+        var logoutCallback = function () {
+            WidgetSubmit.currentLoggedInUser = null;
+        };
+
         WidgetSubmit.save = function () {
-          //  $scope.complain.data.response = "";
-          var objData = {startRating:WidgetSubmit.Feedback.startRating || 0.5, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username, userImage:WidgetSubmit.currentLoggedInUser.imageUrl }
-           console.log("++++++++++++++",objData);
-          if(WidgetSubmit.Feedback.Message) {
-              buildfire.userData.insert(objData, 'AppRatings2', function (err, data) {
-                  if (err) console.error("+++++++++++++++err", JSON.stringify(err));
-                  else {
-                      data.userToken = WidgetSubmit.currentLoggedInUser._id;
-                      console.log('>>>>>>>>>>>>>>>>>>>', data);
-                      buildfire.messaging.sendMessageToControl({'name': EVENTS.REVIEW_CREATED, 'data': data, 'lastReviewCount': ((WidgetSubmit.currentView && WidgetSubmit.currentView.params && WidgetSubmit.currentView.params.lastReviewCount) || 0)});
-                      $rootScope.$broadcast(EVENTS.REVIEW_CREATED, {'data': data, 'lastReviewCount': ((WidgetSubmit.currentView && WidgetSubmit.currentView.params && WidgetSubmit.currentView.params.lastReviewCount) || 0)});
+            if (WidgetSubmit.currentLoggedInUser) {
+                //  $scope.complain.data.response = "";
+
+                var objData = {startRating: WidgetSubmit.Feedback.startRating || 0.5, Message: WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName: WidgetSubmit.currentLoggedInUser.username, userImage: WidgetSubmit.currentLoggedInUser.imageUrl }
+                console.log("++++++++++++++", objData);
+                if (WidgetSubmit.Feedback.Message) {
+                    buildfire.userData.insert(objData, 'AppRatings2', function (err, data) {
+                        if (err) console.error("+++++++++++++++err", JSON.stringify(err));
+                        else {
+                            data.userToken = WidgetSubmit.currentLoggedInUser._id;
+                            console.log('>>>>>>>>>>>>>>>>>>>', data);
+                            buildfire.messaging.sendMessageToControl({'name': EVENTS.REVIEW_CREATED, 'data': data, 'lastReviewCount': ((WidgetSubmit.currentView && WidgetSubmit.currentView.params && WidgetSubmit.currentView.params.lastReviewCount) || 0)});
+                            $rootScope.$broadcast(EVENTS.REVIEW_CREATED, {'data': data, 'lastReviewCount': ((WidgetSubmit.currentView && WidgetSubmit.currentView.params && WidgetSubmit.currentView.params.lastReviewCount) || 0)});
 //                      $location.path('/');
-                      $scope.$apply();
-                      console.log("+++++++++++++++success");
-                      ViewStack.pop();
-                  }
-              });
-          }
+                            $scope.$apply();
+                            console.log("+++++++++++++++success");
+                            ViewStack.pop();
+                        }
+                    });
+                }
+            } else {
+                WidgetSubmit.openLogin();
+            }
         }
 
         //WidgetSubmit.update = function () {
@@ -82,7 +91,7 @@
          * onLogin() listens when user logins using buildfire.auth api.
          */
         buildfire.auth.onLogin(loginCallback);
-
+        buildfire.auth.onLogout(logoutCallback);
         /**
          * Check for current logged in user, if not show Login screen
          */
