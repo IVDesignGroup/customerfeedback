@@ -33,7 +33,12 @@
            */
           WidgetHome.openLogin = function () {
               buildfire.auth.login({}, function () {
-
+                    if(!WidgetHome.reviews || !WidgetHome.reviews.length) {
+                        getReviews();
+                    }
+                    if(!WidgetHome.chatMessageData || !WidgetHome.chatMessageData.length) {
+                        WidgetHome.getChatData();
+                    }
               });
               $scope.$apply();
           };
@@ -65,12 +70,12 @@
                     } else {
                         $rootScope.backgroundImage = WidgetHome.data.design.backgroundImage;
                     }
-                    getReviews();
                 }
                 , error = function (err) {
                     console.error('Error while getting data', err);
                 };
             DataStore.get(TAG_NAMES.FEEDBACK_APP_INFO).then(success, error);
+            getReviews();
 
             /**
              * Check for current logged in user, if not show ogin screen
@@ -129,17 +134,17 @@
                     else {
                         console.log("++++++++++++++ctrldd home", results);
 
-                        WidgetHome.data.reviews = results || [];
+                        WidgetHome.reviews = results || [];
                         //WidgetWall.lastRating = results[results.length-1].data.startRating;
                         if(results && results.length) {
                             WidgetHome.lastRating = results.reduce(function (a, b) {
                                 return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
                             })
                         }
-                        WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
-                        WidgetHome.lastReviewComment = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
-                        if(WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length) {
-                            WidgetHome.lastRating = WidgetHome.data.reviews[WidgetHome.data.reviews.length - 1].data.startRating;
+                        WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.reviews.length )
+                        WidgetHome.lastReviewComment = WidgetHome.reviews && WidgetHome.reviews.length && WidgetHome.reviews[WidgetHome.reviews.length-1].data.Message;
+                        if(WidgetHome.data && WidgetHome.reviews && WidgetHome.reviews.length) {
+                            WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.startRating;
                         }
                         //$scope.complains = results;
                         $scope.$apply();
@@ -349,19 +354,19 @@
 
           $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
               console.log('inside review added event listener:::::::::::', result);
-                  if (!WidgetHome.data.reviews) {
-                      WidgetHome.data.reviews = [];
+                  if (!WidgetHome.reviews) {
+                      WidgetHome.reviews = [];
                   }
-              WidgetHome.data.reviews.push(result.data);
-              if(WidgetHome.data.reviews && WidgetHome.data.reviews.length) {
-                  WidgetHome.lastRating = WidgetHome.data.reviews.reduce(function (a, b) {
+              WidgetHome.reviews.push(result.data);
+              if(WidgetHome.reviews && WidgetHome.reviews.length) {
+                  WidgetHome.lastRating = WidgetHome.reviews.reduce(function (a, b) {
                       return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
                   })
               }
-              WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
-              WidgetHome.lastReviewComment = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
-              if(WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length) {
-                  WidgetHome.lastRating = WidgetHome.data.reviews[WidgetHome.data.reviews.length - 1].data.startRating;
+              WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.reviews.length )
+              WidgetHome.lastReviewComment = WidgetHome.reviews && WidgetHome.reviews.length && WidgetHome.reviews[WidgetHome.reviews.length-1].data.Message;
+              if(WidgetHome.reviews && WidgetHome.reviews.length) {
+                  WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.startRating;
               }
               if (!$scope.$$phase)
                   $scope.$digest();
