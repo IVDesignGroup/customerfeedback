@@ -183,7 +183,7 @@
       template:
       '<ul class="star-rating" ng-class="{readonly: readonly}">' +
       '  <li ng-repeat="star in stars" class="star"  ng-click="toggle($index)">' +
-      '    <i class="icon icon-star" ng-class="filled? \"bodyTextTheme opacity-seventy\":\"\""></i>' + // or &#9733
+      '    <i class="icon icon-star" ng-class="filled? \'bodyTextTheme opacity-seventy\':\'\'"></i>' + // or &#9733
       '  </li>' +
       '</ul>',
       scope: {
