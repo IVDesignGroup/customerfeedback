@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('customerFeedbackPluginWidget', ['ngRoute', 'ngRateIt', 'infinite-scroll'])
+  angular.module('customerFeedbackPluginWidget', ['ngRoute', 'ngTouch', 'ngRateIt', 'infinite-scroll'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
