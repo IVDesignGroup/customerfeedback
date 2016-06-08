@@ -15,7 +15,7 @@
        // buildfire.history.push('Events', { elementToShow: 'Event' });
         WidgetSubmit.Feedback = {
           Message : "",
-          startRating:"0.5",
+          startRating:"1",
           UserId:"",
           UserName: ""
         }
@@ -123,6 +123,12 @@
           else
             WidgetSubmit.openLogin();
         });
+        WidgetSubmit.rating1 = 5;
+        WidgetSubmit.rating2 = 2;
+        WidgetSubmit.isReadonly = true;
+        WidgetSubmit.rateFunction = function(rating) {
+          console.log('Rating selected: ' + rating);
+        };
       }]);
 })(window.angular, window.buildfire);
 
