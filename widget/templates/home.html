@@ -20,7 +20,7 @@
                 <p ng-if="WidgetHome.lastRating>2 && WidgetHome.lastRating<=3" ng-if="WidgetHome.reviews.length">Good</p>
                 <p ng-if="WidgetHome.lastRating>3 && WidgetHome.lastRating<=4" ng-if="WidgetHome.reviews.length">Excellent</p>
                 <p ng-if="WidgetHome.lastRating>4" ng-if="WidgetHome.reviews.length">Outstanding</p>
-                <p ng-if="WidgetHome.reviews.length">{{WidgetHome.lastReviewComment}}</p>
+                <p ng-if="WidgetHome.reviews.length"><span ng-bind-html="WidgetHome.lastReviewComment | newLine"></span></p>
                 <a class="btn btn-success btn-sm" ng-if="WidgetHome.data && WidgetHome.reviews.length" ng-click="WidgetHome.openWall()">Wall</a>
                 <a class="btn btn-success btn-sm"  ng-if="WidgetHome.data && !WidgetHome.reviews.length" ng-click="WidgetHome.openSubmit()">Submit Review</a>
             </div>
@@ -38,7 +38,7 @@
         </div>-->
 
     <div class="review-comments clearfix infinite-scroll-parent scrollable" style="height: 300px !important; overflow-y: auto;">
-        <div style="margin-bottom: 50px;" id="top"
+        <div id="top"
              infinite-scroll-distance="1"
              data-infinite-container=".infinite-scroll-parent"
              infinite-scroll="WidgetHome.getChatData()"
@@ -47,7 +47,7 @@
             <hr class="small">
             <div class="inner">
                 <p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">{{data.data.chatFrom}}</a> - {{data.data.chatTime | date:"short"}}</p>
-                <p class="margin-bottom-zero">{{data.data.chatMessage}}</p>
+                <p class="margin-bottom-zero"><span ng-bind-html="data.data.chatMessage | newLine"></span></p>
             </div>
         </div>
         </div>
@@ -56,7 +56,7 @@
 </div>
 </div>
 <!--<a ng-click="WidgetHome.goBack()">Edit</a>-->
-<div class="holder padding-zero bottom-post">
+<div class="holder padding-zero bottom-post post-container">
 
     <hr class="small">
     <div class="post-holder clearfix">

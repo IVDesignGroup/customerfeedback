@@ -120,3 +120,6 @@
     width:100%;
     overflow: hidden;
 }
+.post-container {
+    height: inherit !important;
+}
