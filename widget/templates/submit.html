@@ -10,8 +10,8 @@
 			</div>
 
 			<div class="col-xs-12 pull-right margin-top-five">
-			<ng-rate-it ng-model="WidgetSubmit.Feedback.startRating" class="custom" rated="" star-width = "100"
-									star-height = "100"></ng-rate-it>
+			<!--<ng-rate-it ng-model="WidgetSubmit.Feedback.startRating" class="custom" rated=""></ng-rate-it>-->
+				<div star-rating ng-model="WidgetSubmit.Feedback.startRating" max="10" on-rating-select="WidgetSubmit.rateFunction(rating)"></div>
 				{{WidgetSubmit.Feedback.startRating}}
 			</div>
 		</div>
