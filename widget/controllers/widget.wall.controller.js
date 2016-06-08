@@ -116,7 +116,7 @@
                 console.log('inside review added event listener:::::::::::', result);
                 WidgetWall.reviews.push(result.data);
                 WidgetWall.ratingsTotal = WidgetWall.reviews.reduce(function (a, b) {
-                    return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                    return {data:{startRating: parseFloat(a.data.startRating) + parseFloat(b.data.startRating)}}; // returns object with property x
                 })
                 WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.reviews.length );
                 WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length-1].data.startRating;
