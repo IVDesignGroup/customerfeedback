@@ -33,12 +33,7 @@
            */
           WidgetHome.openLogin = function () {
               buildfire.auth.login({}, function () {
-                    if(!WidgetHome.reviews || !WidgetHome.reviews.length) {
-                        getReviews();
-                    }
-                    if(!WidgetHome.chatMessageData || !WidgetHome.chatMessageData.length) {
-                        WidgetHome.getChatData();
-                    }
+
               });
               $scope.$apply();
           };
@@ -55,6 +50,10 @@
                       $scope.$apply();
                   }
               });
+          };
+
+          var logoutCallback = function () {
+              WidgetHome.currentLoggedInUser = null;
           };
 
         function init() {
@@ -94,22 +93,31 @@
              * onLogin() listens when user logins using buildfire.auth api.
              */
             buildfire.auth.onLogin(loginCallback);
+            buildfire.auth.onLogout(logoutCallback);
         }
 
         init();
 
           WidgetHome.openWall = function () {
-              ViewStack.push({
-                  template: 'wall'
-              });
+              if (WidgetHome.currentLoggedInUser) {
+                  ViewStack.push({
+                      template: 'wall'
+                  });
+              } else {
+                  WidgetHome.openLogin();
+              }
               /*if (WidgetHome.data && WidgetHome.data.content && WidgetHome.data.content.storeURL)
                buildfire.navigation.openWindow(WidgetHome.data.content.storeURL + '/cart', "_system");*/
           };
 
           WidgetHome.openSubmit = function () {
-              ViewStack.push({
-                  template: 'submit'
-              });
+              if(WidgetHome.currentLoggedInUser) {
+                  ViewStack.push({
+                      template: 'submit'
+                  });
+              } else {
+                  WidgetHome.openLogin();
+              }
               /*if (WidgetHome.data && WidgetHome.data.content && WidgetHome.data.content.storeURL)
                buildfire.navigation.openWindow(WidgetHome.data.content.storeURL + '/cart', "_system");*/
           };

@@ -79,10 +79,10 @@
            * Method to open buildfire auth login pop up and allow user to login using credentials.
            */
           WidgetWall.openLogin = function () {
-            buildfire.auth.login({}, function () {
+              buildfire.auth.login({}, function () {
 
-            });
-            $scope.$apply();
+              });
+              $scope.$apply();
           };
 
           var loginCallback = function () {
@@ -99,17 +99,25 @@
             });
           };
 
+          var logoutCallback = function () {
+              WidgetWall.currentLoggedInUser = null;
+          };
+
          /* WidgetWall.goBack = function(){
             $location.path("/submit");
           }*/
 
             WidgetWall.submitReview = function () {
-                ViewStack.push({
-                    template: 'submit',
-                    params: {
-                        lastReviewCount: WidgetWall.lastRating
-                     }
-                });
+                if(WidgetWall.currentLoggedInUser) {
+                    ViewStack.push({
+                        template: 'submit',
+                        params: {
+                            lastReviewCount: WidgetWall.lastRating
+                        }
+                    });
+                } else {
+                    WidgetWall.openLogin();
+                }
             };
 
             $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
@@ -128,6 +136,7 @@
            * onLogin() listens when user logins using buildfire.auth api.
            */
           buildfire.auth.onLogin(loginCallback);
+          buildfire.auth.onLogout(logoutCallback);
 
           /**
            * Check for current logged in user, if not show ogin screen
