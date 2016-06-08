@@ -38,7 +38,7 @@
         </div>-->
 
     <div class="review-comments clearfix infinite-scroll-parent scrollable" style="height: 300px !important; overflow-y: auto;">
-        <div style="margin-bottom: 50px;" id="top"
+        <div id="top"
              infinite-scroll-distance="1"
              data-infinite-container=".infinite-scroll-parent"
              infinite-scroll="WidgetHome.getChatData()"
@@ -47,7 +47,7 @@
             <hr class="small">
             <div class="inner">
                 <p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">{{data.data.chatFrom}}</a> - {{data.data.chatTime | date:"short"}}</p>
-                <p class="margin-bottom-zero">{{data.data.chatMessage}}</p>
+                <p class="margin-bottom-zero"><span ng-bind-html="data.data.chatMessage | newLine"></span></p>
             </div>
         </div>
         </div>
@@ -56,7 +56,7 @@
 </div>
 </div>
 <!--<a ng-click="WidgetHome.goBack()">Edit</a>-->
-<div class="holder padding-zero bottom-post">
+<div class="holder padding-zero bottom-post post-container">
 
     <hr class="small">
     <div class="post-holder clearfix">

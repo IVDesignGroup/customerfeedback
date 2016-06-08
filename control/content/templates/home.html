@@ -34,7 +34,7 @@
             <ng-rate-it ng-model="review.data.startRating" class="custom" rated="" read-only = "true"></ng-rate-it>
         </div>
 
-        <p>{{review.data.Message}}</p>
+        <p><span ng-bind-html="review.data.Message | newLine"></span></p>
           <div class="item clearfix row">
               <div class="col-md-6 pull-left text-left">
                   <p class="author no-icon info padding-zero margin-zero">
