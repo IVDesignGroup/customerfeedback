@@ -41,6 +41,7 @@
         };
 
         var logoutCallback = function () {
+            WidgetSubmit.openLogin();
             WidgetSubmit.currentLoggedInUser = null;
             $rootScope.$broadcast(EVENTS.LOGOUT);
             ViewStack.popAllViews();

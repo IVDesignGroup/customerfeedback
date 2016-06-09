@@ -391,6 +391,7 @@
 
           $rootScope.$on(EVENTS.LOGOUT, function (e) {
               console.log('inside logout event listener::::');
+              WidgetHome.lastRating = null;
               WidgetHome.currentLoggedInUser = null;
               WidgetHome.reviews = [];
               WidgetHome.chatMessageData = [];
