@@ -47,7 +47,7 @@
 }
 .holder.bottom-post .post-holder .add-message{
 	width:100%;
-	padding:0 49px 0 5px;
+	padding:0 55px 0 5px;
 }
 .holder.bottom-post .post-holder .add-message input{
 	border:none;
@@ -73,7 +73,7 @@
 }
 .holder.bottom-post .post-holder .send-message{
 	position:absolute;
-	right:0px;
+	right:6px;
 	top:0px; 
 	width:49px;
 	height:100%;
