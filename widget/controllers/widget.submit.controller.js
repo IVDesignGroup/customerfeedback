@@ -15,7 +15,7 @@
        // buildfire.history.push('Events', { elementToShow: 'Event' });
         WidgetSubmit.Feedback = {
           Message : "",
-          startRating:"1",
+          starRating:"1",
           UserId:"",
           UserName: ""
         }
@@ -50,8 +50,7 @@
         WidgetSubmit.save = function () {
             if (WidgetSubmit.currentLoggedInUser) {
                 //  $scope.complain.data.response = "";
-
-                var objData = {startRating: WidgetSubmit.Feedback.startRating || 0.5, Message: WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName: WidgetSubmit.currentLoggedInUser.username, userImage: WidgetSubmit.currentLoggedInUser.imageUrl }
+                var objData = {starRating: WidgetSubmit.Feedback.starRating || 1, Message: WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName: WidgetSubmit.currentLoggedInUser.username, userImage: WidgetSubmit.currentLoggedInUser.imageUrl }
                 console.log("++++++++++++++", objData);
                 if (WidgetSubmit.Feedback.Message) {
                     buildfire.userData.insert(objData, 'AppRatings2', function (err, data) {
@@ -75,7 +74,7 @@
 
         //WidgetSubmit.update = function () {
         //  //  $scope.complain.data.response = "";
-        //  var objData = {startRating:WidgetSubmit.Feedback.startRating, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username}
+        //  var objData = {starRating:WidgetSubmit.Feedback.starRating, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username}
         //  console.log("++++++++++++++",objData)
         //  buildfire.userData.update(WidgetSubmit.updateId, objData, 'AppRatings2', function (e) {
         //    if (e) console.error("+++++++++++++++err",JSON.stringify(e));

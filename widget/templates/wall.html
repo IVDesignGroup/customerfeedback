@@ -10,7 +10,7 @@
 	<div class="feedback-plugin review-wall">
 		<div class="intro text-center padding-top-ten padding-bottom-twenty">
 			<p class="margin-top-ten margin-bottom-zero" ng-if="WidgetWall.reviews.length">Reviews: <span style="font-weight:400;">{{WidgetWall.reviews.length}}</span></p>
-			<p ng-if="WidgetWall.reviews.length">Average Rating: <span style="font-weight:400;">{{WidgetWall.ratingsTotal.data.startRating / (WidgetWall.reviews.length) | number:2 }}/5</span></p>
+			<p ng-if="WidgetWall.reviews.length">Average Rating: <span style="font-weight:400;">{{WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length) | number:2 }}/5</span></p>
 			<div class="rating br-wrapper br-theme-css-stars" ng-if="WidgetWall.reviews.length">
 				<ng-rate-it ng-model="WidgetWall.startPoints" class="custom"  read-only = "true"></ng-rate-it>
 			</div>
@@ -48,7 +48,7 @@
 					</div>
 				</div>
 				<div class="col-xs-3 pull-right margin-top-ten text-right">
-					<span class="stars"><span style="font-weight:400;">{{data.data.startRating}}</span> stars</span>
+					<span class="stars"><span style="font-weight:400;">{{data.data.starRating}}</span> stars</span>
 				</div>
 			</div>
 			<div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen">

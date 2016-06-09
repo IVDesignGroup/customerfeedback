@@ -1,5 +1,5 @@
 <div class="holder padding-zero" ng-controller="WidgetSubmitCtrl as WidgetSubmit">
-	<form class="feedback-plugin submit-review">
+	<form name="reviewForm" class="feedback-plugin submit-review">
 		<div class="item clearfix padded">
 			<p>Submit Review</p>			
 		</div>
@@ -10,9 +10,9 @@
 			</div>
 
 			<div class="col-xs-12 pull-right margin-top-five">
-			<!--<ng-rate-it ng-model="WidgetSubmit.Feedback.startRating" class="custom" rated=""></ng-rate-it>-->
-				<star-rating ng-model="WidgetSubmit.Feedback.startRating" max="5" on-rating-select="WidgetSubmit.rateFunction(rating)"></star-rating>
-				{{WidgetSubmit.Feedback.startRating}}
+			<!--<ng-rate-it ng-model="WidgetSubmit.Feedback.starRating" class="custom" rated=""></ng-rate-it>-->
+				<star-rating ng-model="WidgetSubmit.Feedback.starRating" max="5" on-rating-select="WidgetSubmit.rateFunction(rating)"></star-rating>
+				{{WidgetSubmit.Feedback.starRating}}
 			</div>
 		</div>
 		<hr class="none">
@@ -22,14 +22,16 @@
 				<span>Message:</span>
 			</div>
 			<div class="col-xs-12 pull-right margin-top-five">
-				<textarea ng-if="WidgetSubmit.currentLoggedInUser" class="form-control" placeholder="Enter message..." ng-model="WidgetSubmit.Feedback.Message" required></textarea>
+				<textarea ng-if="WidgetSubmit.currentLoggedInUser" name="feedbackMessage" class="form-control" placeholder="Enter message..." ng-model="WidgetSubmit.Feedback.Message" required></textarea>
 				<textarea ng-if="!WidgetSubmit.currentLoggedInUser" class="form-control" placeholder="Enter message..." ng-model="WidgetSubmit.Feedback.Message"></textarea>
 			</div>
-
+            <div class="col-xs-12 pull-left">
+                <span style="color: #d14;" class="error" ng-show="reviewForm.feedbackMessage.$error.required">Please fill in this field</span>
+            </div>
 		</div>
 		<hr class="none">
 		<div class="col-xs-12 pull-left text-center">
-			<input type="submit" class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-click="WidgetSubmit.save()" value="Submit Review">
+			<input type="button" class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-click="WidgetSubmit.save()" value="Submit Review">
 			<!--<a class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-click="WidgetSubmit.update()" ng-if="WidgetSubmit.isUpdate">Update Review</a>-->
 		</div>
 

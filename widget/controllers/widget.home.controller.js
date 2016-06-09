@@ -152,16 +152,16 @@
                         console.log("++++++++++++++ctrldd home", results);
 
                         WidgetHome.reviews = results || [];
-                        //WidgetWall.lastRating = results[results.length-1].data.startRating;
+                        //WidgetWall.lastRating = results[results.length-1].data.starRating;
                         if(results && results.length) {
                             WidgetHome.lastRating = results.reduce(function (a, b) {
-                                return {data: {startRating: parseFloat(a.data.startRating) + parseFloat(b.data.startRating)}}; // returns object with property x
+                                return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                             })
                         }
-                        WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.reviews.length )
+                        WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.starRating / (WidgetHome.reviews.length )
                         WidgetHome.lastReviewComment = WidgetHome.reviews && WidgetHome.reviews.length && WidgetHome.reviews[WidgetHome.reviews.length-1].data.Message;
                         if(WidgetHome.data && WidgetHome.reviews && WidgetHome.reviews.length) {
-                            WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.startRating;
+                            WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.starRating;
                         }
                         //$scope.complains = results;
                         if (!$scope.$$phase)
@@ -380,13 +380,13 @@
               WidgetHome.reviews.push(result.data);
               if(WidgetHome.reviews && WidgetHome.reviews.length) {
                   WidgetHome.lastRating = WidgetHome.reviews.reduce(function (a, b) {
-                      return {data: {startRating: parseFloat(a.data.startRating) + parseFloat(b.data.startRating)}}; // returns object with property x
+                      return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                   })
               }
-              WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.reviews.length )
+              WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.starRating / (WidgetHome.reviews.length )
               WidgetHome.lastReviewComment = WidgetHome.reviews && WidgetHome.reviews.length && WidgetHome.reviews[WidgetHome.reviews.length-1].data.Message;
               if(WidgetHome.reviews && WidgetHome.reviews.length) {
-                  WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.startRating;
+                  WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.starRating;
               }
               if (!$scope.$$phase)
                   $scope.$digest();
