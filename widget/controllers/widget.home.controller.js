@@ -35,21 +35,33 @@
               buildfire.auth.login({}, function () {
 
               });
-              $scope.$apply();
+//              $scope.$apply();
           };
 
           var loginCallback = function () {
               buildfire.auth.getCurrentUser(function (err, user) {
                   console.log("_______________________rrr", user);
 
-                  $scope.$digest();
+//                  $scope.$digest();
                   if (user) {
                       WidgetHome.currentLoggedInUser = user;
-//              WidgetHome.getChatData();
-                      $location.path('/submit');
-                      $scope.$apply();
+                      if(!WidgetHome.chatMessageData || !WidgetHome.chatMessageData.length)
+                        WidgetHome.getChatData();
+                      if(!WidgetHome.reviews || !WidgetHome.reviews.length)
+                        getReviews();
+                      if (!$scope.$$phase)
+                          $scope.$digest();
                   }
               });
+          };
+
+          var logoutCallback = function () {
+              WidgetHome.currentLoggedInUser = null;
+              WidgetHome.lastRating = null;
+              WidgetHome.reviews = [];
+              WidgetHome.chatMessageData = [];
+              if (!$scope.$$phase)
+                  $scope.$digest();
           };
 
         function init() {
@@ -65,12 +77,12 @@
                     } else {
                         $rootScope.backgroundImage = WidgetHome.data.design.backgroundImage;
                     }
-                    getReviews();
                 }
                 , error = function (err) {
                     console.error('Error while getting data', err);
                 };
             DataStore.get(TAG_NAMES.FEEDBACK_APP_INFO).then(success, error);
+            getReviews();
 
             /**
              * Check for current logged in user, if not show ogin screen
@@ -89,22 +101,31 @@
              * onLogin() listens when user logins using buildfire.auth api.
              */
             buildfire.auth.onLogin(loginCallback);
+            buildfire.auth.onLogout(logoutCallback);
         }
 
         init();
 
           WidgetHome.openWall = function () {
-              ViewStack.push({
-                  template: 'wall'
-              });
+              if (WidgetHome.currentLoggedInUser) {
+                  ViewStack.push({
+                      template: 'wall'
+                  });
+              } else {
+                  WidgetHome.openLogin();
+              }
               /*if (WidgetHome.data && WidgetHome.data.content && WidgetHome.data.content.storeURL)
                buildfire.navigation.openWindow(WidgetHome.data.content.storeURL + '/cart', "_system");*/
           };
 
           WidgetHome.openSubmit = function () {
-              ViewStack.push({
-                  template: 'submit'
-              });
+              if(WidgetHome.currentLoggedInUser) {
+                  ViewStack.push({
+                      template: 'submit'
+                  });
+              } else {
+                  WidgetHome.openLogin();
+              }
               /*if (WidgetHome.data && WidgetHome.data.content && WidgetHome.data.content.storeURL)
                buildfire.navigation.openWindow(WidgetHome.data.content.storeURL + '/cart', "_system");*/
           };
@@ -123,26 +144,28 @@
                 buildfire.userData.search({}, 'AppRatings2', function (err, results) {
                     if (err){
                         console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
-                        $location.path('/');
-                        $scope.$apply();
+//                        $location.path('/');
+                        if (!$scope.$$phase)
+                            $scope.$digest();
                     }
                     else {
                         console.log("++++++++++++++ctrldd home", results);
 
-                        WidgetHome.data.reviews = results || [];
-                        //WidgetWall.lastRating = results[results.length-1].data.startRating;
+                        WidgetHome.reviews = results || [];
+                        //WidgetWall.lastRating = results[results.length-1].data.starRating;
                         if(results && results.length) {
                             WidgetHome.lastRating = results.reduce(function (a, b) {
-                                return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                                return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                             })
                         }
-                        WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
-                        WidgetHome.lastReviewComment = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
-                        if(WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length) {
-                            WidgetHome.lastRating = WidgetHome.data.reviews[WidgetHome.data.reviews.length - 1].data.startRating;
+                        WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.starRating / (WidgetHome.reviews.length )
+                        WidgetHome.lastReviewComment = WidgetHome.reviews && WidgetHome.reviews.length && WidgetHome.reviews[WidgetHome.reviews.length-1].data.Message;
+                        if(WidgetHome.data && WidgetHome.reviews && WidgetHome.reviews.length) {
+                            WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.starRating;
                         }
                         //$scope.complains = results;
-                        $scope.$apply();
+                        if (!$scope.$$phase)
+                            $scope.$digest();
                         /*ViewStack.push({
                             template: 'home',
                             params: {
@@ -183,7 +206,8 @@
                           WidgetHome.chatMessageData = $filter('unique')(WidgetHome.chatMessageData, 'id');
                           skip = skip + results.length;
                           //$scope.complains = results;
-                          $scope.$apply();
+                          if (!$scope.$$phase)
+                              $scope.$digest();
                       }
                       WidgetHome.waitAPICompletion = false;
                   });
@@ -211,10 +235,10 @@
          */
         WidgetHome.currentLoggedInUser = null;
 
-        WidgetHome.goBack = function(){
+        /*WidgetHome.goBack = function(){
           $location.path("/submit");
         }
-
+*/
         /*WidgetHome.sendMessage = function(){
             var tagName = 'chatData-' + WidgetHome.currentLoggedInUser._id;
             WidgetHome.chatMessageObj=
@@ -289,7 +313,8 @@
 //                          WidgetHome.getChatData();
                           WidgetHome.chatMessageData = WidgetHome.chatMessageData ? WidgetHome.chatMessageData : [];
                           WidgetHome.chatMessageData.unshift(result);
-                          $scope.$apply();
+                          if (!$scope.$$phase)
+                              $scope.$digest();
                           // the element you wish to scroll to.
                           $location.hash('top');
 
@@ -349,20 +374,30 @@
 
           $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
               console.log('inside review added event listener:::::::::::', result);
-                  if (!WidgetHome.data.reviews) {
-                      WidgetHome.data.reviews = [];
+                  if (!WidgetHome.reviews) {
+                      WidgetHome.reviews = [];
                   }
-              WidgetHome.data.reviews.push(result.data);
-              if(WidgetHome.data.reviews && WidgetHome.data.reviews.length) {
-                  WidgetHome.lastRating = WidgetHome.data.reviews.reduce(function (a, b) {
-                      return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+              WidgetHome.reviews.push(result.data);
+              if(WidgetHome.reviews && WidgetHome.reviews.length) {
+                  WidgetHome.lastRating = WidgetHome.reviews.reduce(function (a, b) {
+                      return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                   })
               }
-              WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.data.reviews.length )
-              WidgetHome.lastReviewComment = WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length && WidgetHome.data.reviews[WidgetHome.data.reviews.length-1].data.Message;
-              if(WidgetHome.data && WidgetHome.data.reviews && WidgetHome.data.reviews.length) {
-                  WidgetHome.lastRating = WidgetHome.data.reviews[WidgetHome.data.reviews.length - 1].data.startRating;
+              WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.starRating / (WidgetHome.reviews.length )
+              WidgetHome.lastReviewComment = WidgetHome.reviews && WidgetHome.reviews.length && WidgetHome.reviews[WidgetHome.reviews.length-1].data.Message;
+              if(WidgetHome.reviews && WidgetHome.reviews.length) {
+                  WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.starRating;
               }
+              if (!$scope.$$phase)
+                  $scope.$digest();
+          });
+
+          $rootScope.$on(EVENTS.LOGOUT, function (e) {
+              console.log('inside logout event listener::::');
+              WidgetHome.lastRating = null;
+              WidgetHome.currentLoggedInUser = null;
+              WidgetHome.reviews = [];
+              WidgetHome.chatMessageData = [];
               if (!$scope.$$phase)
                   $scope.$digest();
           });

@@ -109,3 +109,37 @@
 	height: 100%;
 	overflow-y: auto;
 }
+.text-area-custom{
+    border: none;
+    height: 38px !important;
+    resize: none;
+    padding: 2.5% 2%;
+    line-height:25px;
+    position:relative;
+    top:3px;
+    width:100%;
+    overflow: hidden;
+}
+.post-container {
+    height: inherit !important;
+}
+
+.star-rating {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+.star-rating .star {
+	padding: 1px;
+	color: #ddd;
+	font-size: 20px;
+	list-style-type: none;
+	display: inline-block;
+	cursor: pointer;
+}
+.star-rating .star.filled {
+	color: #ffac01 !important;
+}
+.star-rating.readonly .star.filled {
+	color: #666;
+}

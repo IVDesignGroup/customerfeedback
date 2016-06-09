@@ -60,12 +60,12 @@
                             WidgetWall.reviews = WidgetWall.reviews ? WidgetWall.reviews : [];
                             WidgetWall.reviews = WidgetWall.reviews.concat(results);
                             WidgetWall.reviews = $filter('unique')(WidgetWall.reviews, 'id');
-                            //WidgetWall.lastRating = results[results.length-1].data.startRating;
+                            //WidgetWall.lastRating = results[results.length-1].data.starRating;
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
-                                return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                                return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                             })
-                            WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.reviews.length );
-                            WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.startRating;
+                            WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );
+                            WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
                             //$scope.complains = results;
                             skip = skip + results.length;
                             $scope.$apply();
@@ -79,10 +79,10 @@
            * Method to open buildfire auth login pop up and allow user to login using credentials.
            */
           WidgetWall.openLogin = function () {
-            buildfire.auth.login({}, function () {
+              buildfire.auth.login({}, function () {
 
-            });
-            $scope.$apply();
+              });
+              $scope.$apply();
           };
 
           var loginCallback = function () {
@@ -93,10 +93,19 @@
               if (user) {
                 WidgetWall.currentLoggedInUser = user;
                 console.log("_______________________rrr22", user);
-                $location.path('/');
+                  if(!WidgetWall.reviews || !WidgetWall.reviews.length) {
+                      WidgetWall.getReviews();
+                  }
                 $scope.$apply();
               }
             });
+          };
+
+          var logoutCallback = function () {
+              WidgetWall.openLogin();
+              WidgetWall.currentLoggedInUser = null;
+              $rootScope.$broadcast(EVENTS.LOGOUT);
+              ViewStack.popAllViews();
           };
 
          /* WidgetWall.goBack = function(){
@@ -104,22 +113,26 @@
           }*/
 
             WidgetWall.submitReview = function () {
-                ViewStack.push({
-                    template: 'submit',
-                    params: {
-                        lastReviewCount: WidgetWall.lastRating
-                     }
-                });
+                if(WidgetWall.currentLoggedInUser) {
+                    ViewStack.push({
+                        template: 'submit',
+                        params: {
+                            lastReviewCount: WidgetWall.lastRating
+                        }
+                    });
+                } else {
+                    WidgetWall.openLogin();
+                }
             };
 
             $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
                 console.log('inside review added event listener:::::::::::', result);
                 WidgetWall.reviews.push(result.data);
                 WidgetWall.ratingsTotal = WidgetWall.reviews.reduce(function (a, b) {
-                    return {data:{startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                    return {data:{starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                 })
-                WidgetWall.startPoints = WidgetWall.ratingsTotal.data.startRating / (WidgetWall.reviews.length );
-                WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length-1].data.startRating;
+                WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );
+                WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length-1].data.starRating;
                 if (!$scope.$$phase)
                     $scope.$digest();
             });
@@ -128,6 +141,7 @@
            * onLogin() listens when user logins using buildfire.auth api.
            */
           buildfire.auth.onLogin(loginCallback);
+          buildfire.auth.onLogout(logoutCallback);
 
           /**
            * Check for current logged in user, if not show ogin screen

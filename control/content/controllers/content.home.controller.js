@@ -112,7 +112,7 @@
                                   uniqueTokens.push(result.userToken);
                                   uniqueReviews.push(result);
                                   elemCount = elemCount + 1;
-                                  avgRating = avgRating + result.data.startRating;
+                                  avgRating = avgRating + result.data.starRating;
                               }
                           });
                           ContentHome.avgRating = elemCount ? avgRating / elemCount : 0;
@@ -149,7 +149,7 @@
                             uniqueTokens.push(result.userToken);
                             uniqueReviews.push(result);
                             elemCount = elemCount + 1;
-                            avgRating = avgRating + result.data.startRating;
+                            avgRating = avgRating + result.data.starRating;
                         }
                     });
                     ContentHome.avgRating = elemCount ? avgRating / elemCount : 0;
@@ -222,7 +222,7 @@
                                   elemCount = elemCount + 1;
                                   ContentHome.totalReviews = elemCount;
                               }
-                              ContentHome.avgRating = ((ContentHome.avgRating * ContentHome.totalReviews) - event.lastReviewCount + event.data.data.startRating)/ContentHome.totalReviews;
+                              ContentHome.avgRating = ((ContentHome.avgRating * ContentHome.totalReviews) - event.lastReviewCount + event.data.data.starRating)/ContentHome.totalReviews;
                           }
                           break;
                       default :
