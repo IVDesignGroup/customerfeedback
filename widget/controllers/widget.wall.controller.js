@@ -103,6 +103,8 @@
 
           var logoutCallback = function () {
               WidgetWall.currentLoggedInUser = null;
+              $rootScope.$broadcast(EVENTS.LOGOUT);
+              ViewStack.popAllViews();
           };
 
          /* WidgetWall.goBack = function(){

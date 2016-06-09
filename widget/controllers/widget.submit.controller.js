@@ -42,6 +42,8 @@
 
         var logoutCallback = function () {
             WidgetSubmit.currentLoggedInUser = null;
+            $rootScope.$broadcast(EVENTS.LOGOUT);
+            ViewStack.popAllViews();
         };
 
         WidgetSubmit.save = function () {

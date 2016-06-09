@@ -49,13 +49,16 @@
                         WidgetHome.getChatData();
                       if(!WidgetHome.reviews || !WidgetHome.reviews.length)
                         getReviews();
-                      if (!$scope.$$phase) $scope.$apply();
+                      if (!$scope.$$phase)
+                          $scope.$digest();
                   }
               });
           };
 
           var logoutCallback = function () {
               WidgetHome.currentLoggedInUser = null;
+              WidgetHome.reviews = [];
+              WidgetHome.chatMessageData = [];
           };
 
         function init() {
@@ -139,7 +142,8 @@
                     if (err){
                         console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
 //                        $location.path('/');
-                        if (!$scope.$$phase) $scope.$apply();
+                        if (!$scope.$$phase)
+                            $scope.$digest();
                     }
                     else {
                         console.log("++++++++++++++ctrldd home", results);
@@ -157,7 +161,8 @@
                             WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.startRating;
                         }
                         //$scope.complains = results;
-                        if (!$scope.$$phase) $scope.$apply();
+                        if (!$scope.$$phase)
+                            $scope.$digest();
                         /*ViewStack.push({
                             template: 'home',
                             params: {
@@ -198,7 +203,8 @@
                           WidgetHome.chatMessageData = $filter('unique')(WidgetHome.chatMessageData, 'id');
                           skip = skip + results.length;
                           //$scope.complains = results;
-                          if (!$scope.$$phase) $scope.$apply();
+                          if (!$scope.$$phase)
+                              $scope.$digest();
                       }
                       WidgetHome.waitAPICompletion = false;
                   });
@@ -304,7 +310,8 @@
 //                          WidgetHome.getChatData();
                           WidgetHome.chatMessageData = WidgetHome.chatMessageData ? WidgetHome.chatMessageData : [];
                           WidgetHome.chatMessageData.unshift(result);
-                          if (!$scope.$$phase) $scope.$apply();
+                          if (!$scope.$$phase)
+                              $scope.$digest();
                           // the element you wish to scroll to.
                           $location.hash('top');
 
@@ -378,6 +385,15 @@
               if(WidgetHome.reviews && WidgetHome.reviews.length) {
                   WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.startRating;
               }
+              if (!$scope.$$phase)
+                  $scope.$digest();
+          });
+
+          $rootScope.$on(EVENTS.LOGOUT, function (e) {
+              console.log('inside logout event listener::::');
+              WidgetHome.currentLoggedInUser = null;
+              WidgetHome.reviews = [];
+              WidgetHome.chatMessageData = [];
               if (!$scope.$$phase)
                   $scope.$digest();
           });
