@@ -73,7 +73,7 @@ module
 
 	$scope.min = $scope.min || 0;
 	$scope.max = $scope.max || 5;
-	$scope.step = $scope.step || 0.5;
+	$scope.step = $scope.step || 1;
 
 	$scope.pristine = $scope.orgValue === $scope.ngModel;
 	
@@ -99,7 +99,7 @@ module
 		if ($scope.isHovering && !$scope.readOnly()) {
 			var tmpValue = angular.copy($scope.min + $scope.hoverValue);
 			$scope.beforeRated(tmpValue).then(function () {
-				$scope.ngModel = tmpValue || 0.5;
+				$scope.ngModel = tmpValue || 1;
 				$scope.isHovering = false;
 				$timeout(function () {
 					$scope.rated();

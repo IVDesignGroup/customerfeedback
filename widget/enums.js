@@ -24,6 +24,7 @@
         })
         .constant('EVENTS', {
             REVIEW_CREATED: "REVIEW_CREATED",
-            CHAT_ADDED: "CHAT_ADDED"
+            CHAT_ADDED: "CHAT_ADDED",
+            LOGOUT: "LOGOUT"
         });
 })(window.angular);
