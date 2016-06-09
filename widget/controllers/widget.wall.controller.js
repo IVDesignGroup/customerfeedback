@@ -93,7 +93,9 @@
               if (user) {
                 WidgetWall.currentLoggedInUser = user;
                 console.log("_______________________rrr22", user);
-                $location.path('/');
+                  if(!WidgetWall.reviews || !WidgetWall.reviews.length) {
+                      WidgetWall.getReviews();
+                  }
                 $scope.$apply();
               }
             });

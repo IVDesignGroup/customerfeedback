@@ -35,19 +35,21 @@
               buildfire.auth.login({}, function () {
 
               });
-              $scope.$apply();
+//              $scope.$apply();
           };
 
           var loginCallback = function () {
               buildfire.auth.getCurrentUser(function (err, user) {
                   console.log("_______________________rrr", user);
 
-                  $scope.$digest();
+//                  $scope.$digest();
                   if (user) {
                       WidgetHome.currentLoggedInUser = user;
-//              WidgetHome.getChatData();
-                      $location.path('/submit');
-                      $scope.$apply();
+                      if(!WidgetHome.chatMessageData || !WidgetHome.chatMessageData.length)
+                        WidgetHome.getChatData();
+                      if(!WidgetHome.reviews || !WidgetHome.reviews.length)
+                        getReviews();
+                      if (!$scope.$$phase) $scope.$apply();
                   }
               });
           };
@@ -136,8 +138,8 @@
                 buildfire.userData.search({}, 'AppRatings2', function (err, results) {
                     if (err){
                         console.error("++++++++++++++ctrlerrddd",JSON.stringify(err));
-                        $location.path('/');
-                        $scope.$apply();
+//                        $location.path('/');
+                        if (!$scope.$$phase) $scope.$apply();
                     }
                     else {
                         console.log("++++++++++++++ctrldd home", results);
@@ -155,7 +157,7 @@
                             WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.startRating;
                         }
                         //$scope.complains = results;
-                        $scope.$apply();
+                        if (!$scope.$$phase) $scope.$apply();
                         /*ViewStack.push({
                             template: 'home',
                             params: {
@@ -196,7 +198,7 @@
                           WidgetHome.chatMessageData = $filter('unique')(WidgetHome.chatMessageData, 'id');
                           skip = skip + results.length;
                           //$scope.complains = results;
-                          $scope.$apply();
+                          if (!$scope.$$phase) $scope.$apply();
                       }
                       WidgetHome.waitAPICompletion = false;
                   });
@@ -224,10 +226,10 @@
          */
         WidgetHome.currentLoggedInUser = null;
 
-        WidgetHome.goBack = function(){
+        /*WidgetHome.goBack = function(){
           $location.path("/submit");
         }
-
+*/
         /*WidgetHome.sendMessage = function(){
             var tagName = 'chatData-' + WidgetHome.currentLoggedInUser._id;
             WidgetHome.chatMessageObj=
@@ -302,7 +304,7 @@
 //                          WidgetHome.getChatData();
                           WidgetHome.chatMessageData = WidgetHome.chatMessageData ? WidgetHome.chatMessageData : [];
                           WidgetHome.chatMessageData.unshift(result);
-                          $scope.$apply();
+                          if (!$scope.$$phase) $scope.$apply();
                           // the element you wish to scroll to.
                           $location.hash('top');
 
