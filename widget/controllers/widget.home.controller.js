@@ -57,8 +57,11 @@
 
           var logoutCallback = function () {
               WidgetHome.currentLoggedInUser = null;
+              WidgetHome.lastRating = null;
               WidgetHome.reviews = [];
               WidgetHome.chatMessageData = [];
+              if (!$scope.$$phase)
+                  $scope.$digest();
           };
 
         function init() {
@@ -152,7 +155,7 @@
                         //WidgetWall.lastRating = results[results.length-1].data.startRating;
                         if(results && results.length) {
                             WidgetHome.lastRating = results.reduce(function (a, b) {
-                                return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                                return {data: {startRating: parseFloat(a.data.startRating) + parseFloat(b.data.startRating)}}; // returns object with property x
                             })
                         }
                         WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.reviews.length )
@@ -377,7 +380,7 @@
               WidgetHome.reviews.push(result.data);
               if(WidgetHome.reviews && WidgetHome.reviews.length) {
                   WidgetHome.lastRating = WidgetHome.reviews.reduce(function (a, b) {
-                      return {data: {startRating: a.data.startRating + b.data.startRating}}; // returns object with property x
+                      return {data: {startRating: parseFloat(a.data.startRating) + parseFloat(b.data.startRating)}}; // returns object with property x
                   })
               }
               WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.startRating / (WidgetHome.reviews.length )
