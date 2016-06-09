@@ -73,15 +73,15 @@
 }
 .holder.bottom-post .post-holder .send-message{
 	position:absolute;
-	right:6px;
+	right:0px;
 	top:0px; 
-	width:49px;
 	height:100%;
 }
 .holder.bottom-post .post-holder .send-message input{
 	border:none;
 	background:none;
 	height:100%;
+	padding:0 10px;
 }
 .holder.has-bottom{
 	padding-bottom:37px !important;
@@ -138,7 +138,7 @@
 	cursor: pointer;
 }
 .star-rating .star.filled {
-	color: #ffac01 !important;
+	color: #ffac01;
 }
 .star-rating.readonly .star.filled {
 	color: #666;
