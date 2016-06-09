@@ -37,7 +37,7 @@
               });
           };
       }])
-      .run(['$rootScope', '$location', function ($rootScope, $location) {
+      /*.run(['$rootScope', '$location', function ($rootScope, $location) {
           buildfire.navigation.onBackButtonClick = function () {
              // $location.path('/')
                if($location.path()=='/submit')
@@ -55,7 +55,7 @@
           //   console.log("=====================",breadcrumb)
           //});
 
-      }])
+      }])*/
       /*.directive("buildFireCarousel", ["$rootScope", function ($rootScope) {
           return {
               restrict: 'A',
