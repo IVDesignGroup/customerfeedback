@@ -46,7 +46,7 @@
         <div class="comment" ng-repeat = "data in WidgetHome.chatMessageData | orderBy:'-data.chatTime'">
             <hr class="small">
             <div class="inner">
-                <p class="info margin-bottom-zero opacity-seventy"><a class="text-primary">{{data.data.chatFrom}}</a> - {{data.data.chatTime |date:'medium'}}</p>
+                <p class="info margin-bottom-zero opacity-seventy"><a class="text-primary" ng-click="WidgetHome.buildfire.auth.openProfile(data.data.id)">{{data.data.chatFrom || 'No Name'}}</a> - {{data.data.chatTime |date:'medium'}}</p>
                 <p class="margin-bottom-zero"><span ng-bind-html="data.data.chatMessage | newLine"></span></p>
             </div>
         </div>
