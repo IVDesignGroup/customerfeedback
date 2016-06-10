@@ -9,12 +9,23 @@
         var skip = 0;
         var limit = 5;
         WidgetHome.chatData = "";
+        WidgetHome.listeners = {};
         WidgetHome.buildfire = buildfire;
         WidgetHome.waitAPICompletion = false;
         WidgetHome.noMore = false;
           $rootScope.deviceHeight = window.innerHeight;
           $rootScope.deviceWidth = window.innerWidth;
           $rootScope.backgroundImage = "";
+
+
+          //Refresh list of bookmarks on pulling the tile bar
+          buildfire.datastore.onRefresh(function () {
+              skip = 0;
+              WidgetHome.noMore = false;
+              WidgetHome.chatMessageData = [];
+              WidgetHome.getChatData();
+          });
+
 
           WidgetHome.safeHtml = function (html) {
               if (html) {
@@ -373,7 +384,7 @@
           DataStore.onUpdate().then(null, null, onUpdateCallback);
 
 
-          $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
+          WidgetHome.listeners[EVENTS.REVIEW_CREATED] = $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
               console.log('inside review added event listener:::::::::::', result);
                   if (!WidgetHome.reviews) {
                       WidgetHome.reviews = [];
@@ -393,7 +404,7 @@
                   $scope.$digest();
           });
 
-          $rootScope.$on(EVENTS.LOGOUT, function (e) {
+          WidgetHome.listeners[EVENTS.LOGOUT] = $rootScope.$on(EVENTS.LOGOUT, function (e) {
               console.log('inside logout event listener::::');
               WidgetHome.lastRating = null;
               WidgetHome.currentLoggedInUser = null;
@@ -423,6 +434,28 @@
                       $scope.$digest();
               }
           };
+
+          WidgetHome.listeners['CHANGED'] = $rootScope.$on('VIEW_CHANGED', function (e, type, view) {
+
+              if (!ViewStack.hasViews()) {
+                  //bind on refresh again
+
+                  buildfire.datastore.onRefresh(function () {
+                      skip = 0;
+                      WidgetHome.noMore = false;
+                      WidgetHome.chatMessageData = [];
+                      WidgetHome.getChatData();
+                  });
+              }
+          });
+          $scope.$on("$destroy", function () {
+              for (var i in WidgetHome.listeners) {
+                  if (WidgetHome.listeners.hasOwnProperty(i)) {
+                      WidgetHome.listeners[i]();
+                  }
+              }
+              DataStore.clearListener();
+          });
       }]);
 })(window.angular, window.buildfire);
 
