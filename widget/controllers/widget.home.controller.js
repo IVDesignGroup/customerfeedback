@@ -398,6 +398,7 @@
               WidgetHome.currentLoggedInUser = null;
               WidgetHome.reviews = [];
               WidgetHome.chatMessageData = [];
+              init();
               if (!$scope.$$phase)
                   $scope.$digest();
           });
