@@ -9,6 +9,7 @@
         var skip = 0;
         var limit = 5;
         WidgetHome.chatData = "";
+        WidgetHome.buildfire = buildfire;
         WidgetHome.waitAPICompletion = false;
         WidgetHome.noMore = false;
           $rootScope.deviceHeight = window.innerHeight;
