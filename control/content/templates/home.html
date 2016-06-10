@@ -41,7 +41,7 @@
                       <!--<img src="http://www.placehold.it/100x100" ng-if="!review.data.userImage">-->
                       <!--<img ng-src="{{review.data.userImage}}" ng-if="review.data.userImage">-->
                       <img ng-if="!review.data.userImage" load-image="1x1"
-                           data-final-src="../../../../../styles/media/avatar-placeholder.png">
+                           data-final-src="./assets/avatar-placeholder.png">
                       <img ng-if="review.data.userImage"  load-image="1x1"
                            data-final-src="{{review.data.userImage}}">
                       <a class="text-primary">{{review.data.displayName || 'No Name'}}</a> - {{review.data.addedDate |date:'medium'}}
