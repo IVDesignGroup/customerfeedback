@@ -35,9 +35,11 @@
 				<div class="col-xs-8 pull-left">
 					<div class="media-holder pull-left">
                         <img ng-if="!data.data.userImage" load-image="1x1"
-                             data-final-src="./assets/avatar-placeholder.png">
+                             crop-width="60" crop-height="60" crop-type="crop"
+                             data-final-src="../../../styles/media/avatar-placeholder.png">
 						<!--<img src="http://www.placehold.it/100x100" ng-if="!data.data.userImage">-->
 						<img ng-if="data.data.userImage"  load-image="1x1"
+                             crop-width="60" crop-height="60" crop-type="crop"
                              data-final-src="{{data.data.userImage}}">
 					</div>
 					<div>
