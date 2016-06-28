@@ -12,6 +12,7 @@
           var currentView = ViewStack.getCurrentView();
           WidgetWall.waitAPICompletion = false;
           WidgetWall.noMore = false;
+          WidgetWall.buildfire = buildfire;
 
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
@@ -102,7 +103,7 @@
           };
 
           var logoutCallback = function () {
-              WidgetWall.openLogin();
+//              WidgetWall.openLogin();
               WidgetWall.currentLoggedInUser = null;
               $rootScope.$broadcast(EVENTS.LOGOUT);
               ViewStack.popAllViews();
