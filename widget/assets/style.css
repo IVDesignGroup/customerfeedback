@@ -34,10 +34,11 @@
 	background:#fff;
 	position:fixed;
 	left:0;
-	bottom:0;
+	bottom:0px;
 	width:100%;
 	height:38px;
 	z-index:11;
+	overflow:hidden;
 }
 .holder.bottom-post hr{
 	margin:0;
@@ -47,7 +48,7 @@
 }
 .holder.bottom-post .post-holder .add-message{
 	width:100%;
-	padding:0 49px 0 5px;
+	padding:0 55px 0 5px;
 }
 .holder.bottom-post .post-holder .add-message input{
 	border:none;
@@ -74,14 +75,14 @@
 .holder.bottom-post .post-holder .send-message{
 	position:absolute;
 	right:0px;
-	top:0px; 
-	width:49px;
+	top:1px; 
 	height:100%;
 }
 .holder.bottom-post .post-holder .send-message input{
 	border:none;
 	background:none;
 	height:100%;
+	padding:0 10px;
 }
 .holder.has-bottom{
 	padding-bottom:37px !important;
@@ -115,8 +116,6 @@
     resize: none;
     padding: 2.5% 2%;
     line-height:25px;
-    position:relative;
-    top:3px;
     width:100%;
     overflow: hidden;
 }
@@ -138,7 +137,7 @@
 	cursor: pointer;
 }
 .star-rating .star.filled {
-	color: #ffac01 !important;
+	color: #ffac01;
 }
 .star-rating.readonly .star.filled {
 	color: #666;
