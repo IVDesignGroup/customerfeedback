@@ -36,7 +36,7 @@
 
         <p><span ng-bind-html="review.data.Message | newLine"></span></p>
           <div class="item clearfix row">
-              <div class="col-md-6 pull-left text-left">
+              <div class="col-xs-8 pull-left text-left">
                   <p class="author no-icon info padding-zero margin-zero">
                       <!--<img src="http://www.placehold.it/100x100" ng-if="!review.data.userImage">-->
                       <!--<img ng-src="{{review.data.userImage}}" ng-if="review.data.userImage">-->
@@ -47,7 +47,7 @@
                       <a class="text-primary">{{review.data.displayName || 'No Name'}}</a> - {{review.data.addedDate |date:'medium'}}
                   </p>
               </div>
-              <div class="col-md-6 pull-right text-right">
+              <div class="col-xs-4 pull-right text-right">
                   <a class="text-primary" ng-click="ContentHome.getUrl(review.userToken)">Comments</a>
               </div>
           </div>
