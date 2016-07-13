@@ -62,11 +62,13 @@
                             WidgetWall.reviews = WidgetWall.reviews.concat(results);
                             WidgetWall.reviews = $filter('unique')(WidgetWall.reviews, 'id');
                             //WidgetWall.lastRating = results[results.length-1].data.starRating;
+                          if(results.length) {
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
-                                return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
+                              return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                             })
                             WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
+                          }
                             //$scope.complains = results;
                             skip = skip + results.length;
                             $scope.$apply();
@@ -126,14 +128,26 @@
                 }
             };
 
+          WidgetWall.goToChat = function (data) {
+              ViewStack.push({
+                template: 'home',
+                params: {
+                  data: data
+                }
+              });
+          };
+
             $rootScope.$on(EVENTS.REVIEW_CREATED, function (e, result) {
                 console.log('inside review added event listener:::::::::::', result);
+              if(!WidgetWall.reviews) {
+                WidgetWall.reviews = [];
+              }
                 WidgetWall.reviews.push(result.data);
                 WidgetWall.ratingsTotal = WidgetWall.reviews.reduce(function (a, b) {
-                    return {data:{starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
+                  return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                 })
                 WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );
-                WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length-1].data.starRating;
+                WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
                 if (!$scope.$$phase)
                     $scope.$digest();
             });

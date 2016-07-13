@@ -19,7 +19,11 @@
 			<p ng-if="WidgetWall.startPoints>2 && WidgetWall.startPoints<=3" ng-if="WidgetWall.reviews.length">Good</p>
 			<p ng-if="WidgetWall.startPoints>3 && WidgetWall.startPoints<=4" ng-if="WidgetWall.reviews.length">Excellent</p>
 			<p ng-if="WidgetWall.startPoints>4" ng-if="WidgetWall.reviews.length">Outstanding</p>
-			<a class="btn btn-success btn-sm" ng-if="WidgetWall.reviews" ng-click="WidgetWall.submitReview()">Submit Review</a>
+			<div  ng-if="!WidgetWall.reviews" class="no-event-found padded">
+				<div class="well">No Reviews.</div>
+			</div>
+			<a class="btn btn-success btn-sm" ng-click="WidgetWall.submitReview()">Submit Review</a>
+
 			<!--<a class="btn btn-success btn-sm" href="#/">Home</a>-->
 			<!--<a href="#/chatHome" ng-if="WidgetWall.reviews.length">Chat</a>-->
 		</div>
@@ -29,7 +33,7 @@
              data-infinite-container=".infinite-scroll-parent"
              infinite-scroll="WidgetWall.getReviews()"
              infinite-scroll-disabled="WidgetWall.noMore">
-		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.reviews | orderBy:'-data.addedDate'" >
+		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.reviews | orderBy:'-data.addedDate'"  ng-click="WidgetWall.goToChat(data)">
 			<hr class="small">
 			<div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen">
 				<div class="col-xs-8 pull-left">
