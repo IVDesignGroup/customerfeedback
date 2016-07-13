@@ -54,8 +54,8 @@
 </head>
 <body class="no-scroll slide content" >
 <!--<div class = "slide no-background" ng-view=""></div>-->
-<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content" data-ng-attr-style="background:url({{ backgroundImage | cropImage:deviceWidth:deviceHeight:true}}) !important; background-size:cover !important;">
-    <div ng-include="'templates/home.html'">
+<div ng-controller="WidgetWallCtrl as WidgetWall" class="slide content" data-ng-attr-style="background:url({{ backgroundImage | cropImage:deviceWidth:deviceHeight:true}}) !important; background-size:cover !important;">
+    <div ng-include="'templates/wall.html'">
     </div>
 </div>
 <div view-switcher="">

@@ -72,6 +72,10 @@
             }
         }
 
+          WidgetSubmit.cancel= function () {
+              ViewStack.pop();
+          }
+
         //WidgetSubmit.update = function () {
         //  //  $scope.complain.data.response = "";
         //  var objData = {starRating:WidgetSubmit.Feedback.starRating, Message:WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName:WidgetSubmit.currentLoggedInUser.username}

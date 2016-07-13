@@ -17,8 +17,8 @@
           $rootScope.deviceWidth = window.innerWidth;
           $rootScope.backgroundImage = "";
 
-
-          //Refresh list of bookmarks on pulling the tile bar
+        WidgetHome.currentView = ViewStack.getCurrentView();
+           //Refresh list of bookmarks on pulling the tile bar
           buildfire.datastore.onRefresh(function () {
               skip = 0;
               WidgetHome.noMore = false;
@@ -57,7 +57,7 @@
 //                  $scope.$digest();
                   if (user) {
                       WidgetHome.currentLoggedInUser = user;
-                      if(!WidgetHome.chatMessageData || !WidgetHome.chatMessageData.length)
+                    if(!WidgetHome.chatMessageData || !WidgetHome.chatMessageData.length)
                         WidgetHome.getChatData();
                       if(!WidgetHome.reviews || !WidgetHome.reviews.length)
                         getReviews();
@@ -165,16 +165,17 @@
 
                         WidgetHome.reviews = results || [];
                         //WidgetWall.lastRating = results[results.length-1].data.starRating;
-                        if(results && results.length) {
-                            WidgetHome.lastRating = results.reduce(function (a, b) {
-                                return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
-                            })
-                        }
-                        WidgetHome.startPoints = WidgetHome.lastRating && WidgetHome.lastRating.data && WidgetHome.lastRating.data.starRating / (WidgetHome.reviews.length )
-                        WidgetHome.lastReviewComment = WidgetHome.reviews && WidgetHome.reviews.length && WidgetHome.reviews[WidgetHome.reviews.length-1].data.Message;
-                        if(WidgetHome.data && WidgetHome.reviews && WidgetHome.reviews.length) {
-                            WidgetHome.lastRating = WidgetHome.reviews[WidgetHome.reviews.length - 1].data.starRating;
-                        }
+                        //if(results && results.length) {
+                        //    WidgetHome.lastRating = results.reduce(function (a, b) {
+                        //        var startRating =  {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
+                        //        return startRating.data.starRating
+                        //    })
+                        //}
+                        WidgetHome.startPoints = WidgetHome.currentView.params.data.data.starRating / (WidgetHome.reviews.length )
+                        WidgetHome.lastReviewComment = WidgetHome.currentView.params.data.data.Message;
+                       // if(WidgetHome.data && WidgetHome.reviews && WidgetHome.reviews.length) {
+                            WidgetHome.lastRating = WidgetHome.currentView.params.data.data.starRating;
+                      //  }
                         //$scope.complains = results;
                         if (!$scope.$$phase)
                             $scope.$digest();

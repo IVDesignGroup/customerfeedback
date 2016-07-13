@@ -173,7 +173,28 @@
                   return "";
               }
           };
-      }]).directive('starRating', starRating);
+      }]).directive('starRating', starRating)
+      .directive('backImg', ["$filter", "$rootScope", "$window" , function ($filter, $rootScope, $window) {
+      return function (scope, element, attrs) {
+        attrs.$observe('backImg', function (value) {
+          var img = '';
+          if (value) {
+            img = $filter("cropImage")(value, $window.innerWidth, $window.innerHeight, true);
+            element.attr("style", 'background:url(' + img + ') !important');
+            element.css({
+              'background-size': 'cover'
+            });
+          }
+          else {
+            img = "";
+            element.attr("style", '');
+            element.css({
+              'background-size': 'cover'
+            });
+          }
+        });
+      };
+    }]);
 
 
 
