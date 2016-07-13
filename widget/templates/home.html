@@ -20,10 +20,16 @@
             <p ng-if="WidgetHome.lastRating>2 && WidgetHome.lastRating<=3 && WidgetHome.reviews.length">Good</p>
             <p ng-if="WidgetHome.lastRating>3 && WidgetHome.lastRating<=4 && WidgetHome.reviews.length">Excellent</p>
             <p ng-if="WidgetHome.lastRating>4 && WidgetHome.reviews.length">Outstanding</p>
-            <p ng-if="WidgetHome.reviews.length"><span ng-bind-html="WidgetHome.lastReviewComment | newLine"></span></p>
+
+            <!--<p ng-if="WidgetHome.reviews.length"><span ng-bind-html="WidgetHome.lastReviewComment | newLine"></span></p>-->
             <!--<a class="btn btn-success btn-sm" ng-if="WidgetHome.data && WidgetHome.reviews.length" ng-click="WidgetHome.openWall()">Wall</a>-->
             <!--<a class="btn btn-success btn-sm"  ng-if="WidgetHome.data && !WidgetHome.reviews.length" ng-click="WidgetHome.openSubmit()">Submit Review</a>-->
         </div>
+        <div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen">
+            <p class="margin-zero"><span ng-bind-html="WidgetHome.lastReviewComment | newLine"></span></p>
+        </div>
+        <hr class="small" ng-if="WidgetHome.reviews.length">
+
         <!--<div class="review-comments clearfix" ng-if="WidgetHome.chatMessageData.length">
             <div class="comment">
                 <hr class="small">
