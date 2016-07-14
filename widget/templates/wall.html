@@ -12,14 +12,16 @@
 			<p class="margin-top-ten margin-bottom-zero" ng-if="WidgetWall.reviews.length">Reviews: <span style="font-weight:400;">{{WidgetWall.reviews.length}}</span></p>
 			<p ng-if="WidgetWall.reviews.length">Average Rating: <span style="font-weight:400;">{{WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length) | number:2 }}/5</span></p>
 			<div class="rating br-wrapper br-theme-css-stars" ng-if="WidgetWall.reviews.length">
-				<ng-rate-it ng-model="WidgetWall.startPoints" class="custom"  read-only = "true"></ng-rate-it>
+				<!--<ng-rate-it ng-model="WidgetWall.startPoints" class="custom"  read-only = "true"></ng-rate-it>-->
+				<average-star-rating ng-model="WidgetWall.startPoints" max="5"><average-star-rating>
+
 			</div>
 			<p ng-if="WidgetWall.startPoints<=1" ng-if="WidgetWall.reviews.length">Poor</p>
 			<p ng-if="WidgetWall.startPoints>1 && WidgetWall.startPoints<=2" ng-if="WidgetWall.reviews.length">Average</p>
 			<p ng-if="WidgetWall.startPoints>2 && WidgetWall.startPoints<=3" ng-if="WidgetWall.reviews.length">Good</p>
 			<p ng-if="WidgetWall.startPoints>3 && WidgetWall.startPoints<=4" ng-if="WidgetWall.reviews.length">Excellent</p>
 			<p ng-if="WidgetWall.startPoints>4" ng-if="WidgetWall.reviews.length">Outstanding</p>
-			<div  ng-if="!WidgetWall.reviews" class="no-event-found padded">
+			<div  ng-if="WidgetWall.noReviews" class="no-event-found padded">
 				<div class="well">No Reviews.</div>
 			</div>
 			<a class="btn btn-success btn-sm" ng-click="WidgetWall.submitReview()">Create your Own Review</a>
@@ -40,7 +42,7 @@
 					<div class="media-holder pull-left">
                         <img ng-if="!data.data.userImage" load-image="1x1" data-final-src="./assets/avatar-placeholder.png">
 						<!--<img src="http://www.placehold.it/100x100" ng-if="!data.data.userImage">-->
-						<img ng-if="data.data.userImage"  load-image="1x1" data-final-src="{{data.data.userImage}}">
+						<img ng-if="data.data.userImage"  load-image="1x1" data-final-src="{{data.data.userImage| cropImage:60:60}}">
 					</div>
 					<div>
 						<p class="text-primary ellipsis margin-bottom-zero padding-left-ten">
