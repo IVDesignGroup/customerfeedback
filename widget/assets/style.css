@@ -142,3 +142,42 @@
 .star-rating.readonly .star.filled {
 	color: #666;
 }
+.primaryTheme, .text-primary, .text-primary:hover {
+	color: #f3958b !important;
+}
+
+
+.rating {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+.rating li {
+	padding: 1px;
+	color: #ddd;
+	font-size: 20px;
+	list-style-type: none;
+	display: inline-block;
+	cursor: pointer;
+}
+.rating li.filled {
+	color: #fd0;
+}
+.rating.readonly li.filled {
+	color: #666;
+}
+
+.average-rating-container {
+	position: relative;
+	height: 31px;
+	width: 110px;
+	overflow: hidden;
+}
+.average-rating-container .background,
+.average-rating-container .foreground {
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	white-space: nowrap;
+}

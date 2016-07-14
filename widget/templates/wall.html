@@ -12,7 +12,9 @@
 			<p class="margin-top-ten margin-bottom-zero" ng-if="WidgetWall.reviews.length">Reviews: <span style="font-weight:400;">{{WidgetWall.reviews.length}}</span></p>
 			<p ng-if="WidgetWall.reviews.length">Average Rating: <span style="font-weight:400;">{{WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length) | number:2 }}/5</span></p>
 			<div class="rating br-wrapper br-theme-css-stars" ng-if="WidgetWall.reviews.length">
-				<ng-rate-it ng-model="WidgetWall.startPoints" class="custom"  read-only = "true"></ng-rate-it>
+				<!--<ng-rate-it ng-model="WidgetWall.startPoints" class="custom"  read-only = "true"></ng-rate-it>-->
+				<average-star-rating ng-model="WidgetWall.startPoints" max="5"><average-star-rating>
+
 			</div>
 			<p ng-if="WidgetWall.startPoints<=1" ng-if="WidgetWall.reviews.length">Poor</p>
 			<p ng-if="WidgetWall.startPoints>1 && WidgetWall.startPoints<=2" ng-if="WidgetWall.reviews.length">Average</p>

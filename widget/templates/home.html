@@ -13,7 +13,9 @@
             <!--<p class="margin-top-ten margin-bottom-zero" ng-if="WidgetHome.reviews.length">Reviews: <span style="font-weight:400;">{{WidgetHome.reviews.length}}</span></p>-->
             <p ng-if="WidgetHome.reviews.length">Rating: <span style="font-weight:400;">{{WidgetHome.lastRating}}/5</span></p>
             <div class="rating br-wrapper br-theme-css-stars" ng-if="WidgetHome.reviews.length">
-                <ng-rate-it ng-model="WidgetHome.lastRating" class="custom"  read-only = "true"></ng-rate-it>
+                <!--<ng-rate-it ng-model="WidgetHome.lastRating" class="custom"  read-only = "true"></ng-rate-it>-->
+                <average-star-rating ng-model="WidgetHome.lastRating" max="5"><average-star-rating>
+
             </div>
             <p ng-if="WidgetHome.lastRating >= 0 && WidgetHome.lastRating <=1 && WidgetHome.reviews.length">Poor</p>
             <p ng-if="WidgetHome.lastRating>1 && WidgetHome.lastRating<=2 && WidgetHome.reviews.length">Average</p>
