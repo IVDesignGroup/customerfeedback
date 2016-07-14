@@ -13,7 +13,7 @@
           WidgetWall.waitAPICompletion = false;
           WidgetWall.noMore = false;
           WidgetWall.buildfire = buildfire;
-
+          WidgetWall.noReviews = false;
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
            */
@@ -47,7 +47,7 @@
                 console.log('Inside getReviews---------');
                 if(!WidgetWall.waitAPICompletion) {
                     WidgetWall.waitAPICompletion = true;
-                    buildfire.userData.search({sort: {addedDate: -1}, skip: skip, limit: limit}, 'AppRatings2', function (err, results) {
+                  buildfire.userData.search({sort: {addedDate: -1}, skip: skip, limit: limit}, 'AppRatings2', function (err, results) {
                         if (err) {
                             console.error("++++++++++++++ctrlerrddd", JSON.stringify(err));
                             $location.path('/');
@@ -63,11 +63,14 @@
                             WidgetWall.reviews = $filter('unique')(WidgetWall.reviews, 'id');
                             //WidgetWall.lastRating = results[results.length-1].data.starRating;
                           if(results.length) {
+                            WidgetWall.noReviews = false;
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
                               return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                             })
                             WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
+                          }else{
+                            WidgetWall.noReviews = true;
                           }
                             //$scope.complains = results;
                             skip = skip + results.length;
@@ -91,7 +94,7 @@
           var loginCallback = function () {
             buildfire.auth.getCurrentUser(function (err, user) {
               console.log("_______________________rrr", user);
-
+              WidgetWall.waitAPICompletion = false;
               $scope.$digest();
               if (user) {
                 WidgetWall.currentLoggedInUser = user;
@@ -143,7 +146,8 @@
                 WidgetWall.reviews = [];
               }
                 WidgetWall.reviews.push(result.data);
-                WidgetWall.ratingsTotal = WidgetWall.reviews.reduce(function (a, b) {
+              WidgetWall.noReviews = false;
+              WidgetWall.ratingsTotal = WidgetWall.reviews.reduce(function (a, b) {
                   return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                 })
                 WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );

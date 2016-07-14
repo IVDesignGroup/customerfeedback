@@ -21,7 +21,7 @@
 			<p ng-if="WidgetWall.startPoints>2 && WidgetWall.startPoints<=3" ng-if="WidgetWall.reviews.length">Good</p>
 			<p ng-if="WidgetWall.startPoints>3 && WidgetWall.startPoints<=4" ng-if="WidgetWall.reviews.length">Excellent</p>
 			<p ng-if="WidgetWall.startPoints>4" ng-if="WidgetWall.reviews.length">Outstanding</p>
-			<div  ng-if="!WidgetWall.reviews" class="no-event-found padded">
+			<div  ng-if="WidgetWall.noReviews" class="no-event-found padded">
 				<div class="well">No Reviews.</div>
 			</div>
 			<a class="btn btn-success btn-sm" ng-click="WidgetWall.submitReview()">Create your Own Review</a>
