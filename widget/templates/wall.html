@@ -40,7 +40,7 @@
 					<div class="media-holder pull-left">
                         <img ng-if="!data.data.userImage" load-image="1x1" data-final-src="./assets/avatar-placeholder.png">
 						<!--<img src="http://www.placehold.it/100x100" ng-if="!data.data.userImage">-->
-						<img ng-if="data.data.userImage"  load-image="1x1" data-final-src="{{data.data.userImage}}">
+						<img ng-if="data.data.userImage"  load-image="1x1" data-final-src="{{data.data.userImage| cropImage:60:60}}">
 					</div>
 					<div>
 						<p class="text-primary ellipsis margin-bottom-zero padding-left-ten">
