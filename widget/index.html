@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="../../../scripts/owlCarousel/owlCarousel.css">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/barrating.css">
-  <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
 
   <!-- JS -->
   <script src="../../../scripts/buildfire.js"></script>
@@ -39,6 +38,9 @@
           type="application/javascript"></script>
   <script src="enums.js"></script>
   <script src="app.services.js"></script>
+  <script src="../../../scripts/angular/angular-animate.min.js"></script>
+  <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
+
   <!-- Meta -->
   <style>
     .custom .ngrateit-background,
@@ -54,7 +56,7 @@
 </head>
 <body class="no-scroll slide content" >
 <!--<div class = "slide no-background" ng-view=""></div>-->
-<div ng-controller="WidgetWallCtrl as WidgetWall" class="slide content" data-ng-attr-style="background:url({{ backgroundImage | cropImage:deviceWidth:deviceHeight:true}}) !important; background-size:cover !important;">
+<div ng-controller="WidgetWallCtrl as WidgetWall" class="slide content" data-back-img="{{ backgroundImage }}">
     <div ng-include="'templates/wall.html'">
     </div>
 </div>

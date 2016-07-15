@@ -142,9 +142,9 @@
 .star-rating.readonly .star.filled {
 	color: #666;
 }
-.primaryTheme, .text-primary, .text-primary:hover {
-	color: #f3958b !important;
-}
+/*.primaryTheme, .text-primary, .text-primary:hover {*/
+	/*color: #f3958b !important;*/
+/*}*/
 
 
 .rating {

@@ -15,7 +15,7 @@
         WidgetHome.noMore = false;
           $rootScope.deviceHeight = window.innerHeight;
           $rootScope.deviceWidth = window.innerWidth;
-          $rootScope.backgroundImage = "";
+       //   $rootScope.backgroundImage = "";
 
         WidgetHome.currentView = ViewStack.getCurrentView();
            //Refresh list of bookmarks on pulling the tile bar
