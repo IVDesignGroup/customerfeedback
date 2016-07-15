@@ -6,11 +6,11 @@
 	  	});
 	});
 </script>
-<div class="holder padding-zero scrollable" ng-controller="WidgetWallCtrl as WidgetWall">
+<div class="holder padding-zero" ng-controller="WidgetWallCtrl as WidgetWall">
 	<div class="feedback-plugin review-wall">
 		<div class="intro text-center padding-top-ten padding-bottom-twenty">
 			<p class="margin-top-ten margin-bottom-zero" ng-if="WidgetWall.reviews.length">Reviews: <span style="font-weight:400;">{{WidgetWall.reviews.length}}</span></p>
-			<p ng-if="WidgetWall.reviews.length">Average Rating: <span style="font-weight:400;">{{WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length) | number:2 }}/5</span></p>
+			<p ng-if="WidgetWall.reviews.length">Average Rating: <span style="font-weight:400;">{{ WidgetWall.totalRating / (WidgetWall.reviews.length) | number:2 }}/5</span></p>
 			<div class="rating br-wrapper br-theme-css-stars" ng-if="WidgetWall.reviews.length">
 				<!--<ng-rate-it ng-model="WidgetWall.startPoints" class="custom"  read-only = "true"></ng-rate-it>-->
 				<average-star-rating ng-model="WidgetWall.startPoints" max="5"><average-star-rating>
@@ -29,8 +29,7 @@
 			<!--<a class="btn btn-success btn-sm" href="#/">Home</a>-->
 			<!--<a href="#/chatHome" ng-if="WidgetWall.reviews.length">Chat</a>-->
 		</div>
-        <div class="infinite-scroll-parent scrollable" style="height: 500px !important; overflow-y: auto;">
-        <div id="top"
+         <div id="top"
              infinite-scroll-distance="1"
              data-infinite-container=".infinite-scroll-parent"
              infinite-scroll="WidgetWall.getReviews()"
@@ -60,6 +59,5 @@
 			</div>
 		</div>
      </div>
-	</div>
     </div>
 </div>

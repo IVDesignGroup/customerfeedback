@@ -7,7 +7,7 @@
       function ($scope, $location, $rootScope, $sce, $anchorScroll, $filter, DataStore, TAG_NAMES, EVENTS, ViewStack) {
         var WidgetHome = this;
         var skip = 0;
-        var limit = 5;
+        var limit = 10;
         WidgetHome.chatData = "";
         WidgetHome.listeners = {};
         WidgetHome.buildfire = buildfire;
@@ -15,7 +15,7 @@
         WidgetHome.noMore = false;
           $rootScope.deviceHeight = window.innerHeight;
           $rootScope.deviceWidth = window.innerWidth;
-          $rootScope.backgroundImage = "";
+       //   $rootScope.backgroundImage = "";
 
         WidgetHome.currentView = ViewStack.getCurrentView();
            //Refresh list of bookmarks on pulling the tile bar
