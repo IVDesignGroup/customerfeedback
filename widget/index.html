@@ -56,7 +56,7 @@
 </head>
 <body class="no-scroll slide content" >
 <!--<div class = "slide no-background" ng-view=""></div>-->
-<div ng-controller="WidgetWallCtrl as WidgetWall" class="slide content" data-back-img="{{ backgroundImage }}">
+<div ng-controller="WidgetWallCtrl as WidgetWall" class="slide content  infinite-scroll-parent scrollable" data-back-img="{{ backgroundImage }}">
     <div ng-include="'templates/wall.html'">
     </div>
 </div>

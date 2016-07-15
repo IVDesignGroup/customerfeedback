@@ -14,6 +14,7 @@
           WidgetWall.noMore = false;
           WidgetWall.buildfire = buildfire;
           WidgetWall.noReviews = false;
+          WidgetWall.totalRating = 0;
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
            */
@@ -67,7 +68,9 @@
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
                               return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                             })
-                            WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );
+                            console.log("+++++++++++++++++++++SSSSSSSSSSSS", WidgetWall.reviews.length, WidgetWall.ratingsTotal.data.starRating)
+                            WidgetWall.totalRating = WidgetWall.totalRating + WidgetWall.ratingsTotal.data.starRating
+                            WidgetWall.startPoints =  WidgetWall.totalRating / (WidgetWall.reviews.length );
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
                           }else{
                             WidgetWall.noReviews = true;
@@ -150,7 +153,10 @@
               WidgetWall.ratingsTotal = WidgetWall.reviews.reduce(function (a, b) {
                   return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                 })
-                WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );
+              WidgetWall.totalRating = WidgetWall.ratingsTotal.data.starRating
+              console.log("+++++++++++++++++++++SSSSSSSSSSSS", WidgetWall.reviews.length, WidgetWall.ratingsTotal.data.starRating, WidgetWall.totalRating)
+
+              WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );
                 WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
                 if (!$scope.$$phase)
                     $scope.$digest();
