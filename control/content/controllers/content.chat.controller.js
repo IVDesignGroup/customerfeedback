@@ -66,7 +66,7 @@
                     {
                         chatMessage: ContentChat.chatData,
                         chatTime: new Date(),
-                        chatFrom: ContentChat.currentLoggedInUser.displayName,
+                        chatFrom: (ContentChat.currentLoggedInUser.firstName ? ContentChat.currentLoggedInUser.firstName + ' ' + ContentChat.currentLoggedInUser.lastName : ''),
                         id: ContentChat.currentLoggedInUser._id
                     }
                     if (ContentChat.chatData) {
