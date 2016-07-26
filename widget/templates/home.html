@@ -27,7 +27,7 @@
             <!--<a class="btn btn-success btn-sm" ng-if="WidgetHome.data && WidgetHome.reviews.length" ng-click="WidgetHome.openWall()">Wall</a>-->
             <!--<a class="btn btn-success btn-sm"  ng-if="WidgetHome.data && !WidgetHome.reviews.length" ng-click="WidgetHome.openSubmit()">Submit Review</a>-->
         </div>
-        <div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen">
+        <div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen"  ng-if="WidgetHome.reviews.length">
             <p class="margin-zero"><span ng-bind-html="WidgetHome.lastReviewComment | newLine"></span></p>
         </div>
         <hr class="small" ng-if="WidgetHome.reviews.length">

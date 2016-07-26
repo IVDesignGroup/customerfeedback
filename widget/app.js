@@ -205,7 +205,7 @@
         "</div>",
         scope : {
           averageRatingValue : "=ngModel",
-          max : "=?", //optional: default is 5
+          max : "=?" //optional: default is 5
         },
         link : function(scope, elem, attrs) {
           if (scope.max == undefined) { scope.max = 5; }
