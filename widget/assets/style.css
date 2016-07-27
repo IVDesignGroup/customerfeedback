@@ -181,3 +181,9 @@
 	overflow: hidden;
 	white-space: nowrap;
 }
+.icon-bubble {
+    font-size: 18px;
+    position: absolute;
+    margin-top: 45px;
+    margin-left: 80px !important;
+}
