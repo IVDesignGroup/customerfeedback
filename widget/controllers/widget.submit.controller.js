@@ -3,8 +3,8 @@
 (function (angular, buildfire) {
   angular
     .module('customerFeedbackPluginWidget')
-    .controller('WidgetSubmitCtrl', ['$scope','$location', '$rootScope', 'EVENTS', 'ViewStack',
-      function ($scope, $location, $rootScope, EVENTS, ViewStack) {
+    .controller('WidgetSubmitCtrl', ['$scope','$location', '$rootScope', '$timeout', 'EVENTS', 'ViewStack',
+      function ($scope, $location, $rootScope, $timeout, EVENTS, ViewStack) {
 
         var WidgetSubmit = this;
         WidgetSubmit.currentView = ViewStack.getCurrentView();
@@ -15,7 +15,7 @@
        // buildfire.history.push('Events', { elementToShow: 'Event' });
         WidgetSubmit.Feedback = {
           Message : "",
-          starRating:"1",
+          starRating:"5",
           UserId:"",
           UserName: ""
         }
@@ -63,7 +63,9 @@
 //                      $location.path('/');
                             $scope.$apply();
                             console.log("+++++++++++++++success");
-                            ViewStack.pop();
+                            $timeout(function () {
+                                ViewStack.pop();
+                            }, 500);
                         }
                     });
                 }

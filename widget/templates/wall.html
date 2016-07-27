@@ -13,7 +13,7 @@
 			<p ng-if="WidgetWall.reviews.length">Average Rating: <span style="font-weight:400;">{{ WidgetWall.totalRating / (WidgetWall.reviews.length) | number:2 }}/5</span></p>
 			<div class="rating br-wrapper br-theme-css-stars" ng-if="WidgetWall.reviews.length">
 				<!--<ng-rate-it ng-model="WidgetWall.startPoints" class="custom"  read-only = "true"></ng-rate-it>-->
-				<average-star-rating ng-model="WidgetWall.startPoints" max="5"><average-star-rating>
+				<average-star-rating ng-model="WidgetWall.startPoints" max="5"></average-star-rating>
 
 			</div>
 			<p ng-if="WidgetWall.startPoints<=1" ng-if="WidgetWall.reviews.length">Poor</p>
@@ -24,7 +24,8 @@
 			<div  ng-if="WidgetWall.noReviews" class="no-event-found padded">
 				<div class="well">No Reviews.</div>
 			</div>
-			<a class="btn btn-success btn-sm" ng-click="WidgetWall.submitReview()">Create your Own Review</a>
+			<a class="btn btn-success btn-sm" ng-if="WidgetWall.noReviews && WidgetWall.reviews" ng-click="WidgetWall.submitReview()">Create Your Own Review</a>
+            <a class="btn btn-success btn-sm" ng-if="!WidgetWall.noReviews && WidgetWall.reviews" ng-click="WidgetWall.submitReview()">Update Your Review</a>
 
 			<!--<a class="btn btn-success btn-sm" href="#/">Home</a>-->
 			<!--<a href="#/chatHome" ng-if="WidgetWall.reviews.length">Chat</a>-->
@@ -34,7 +35,7 @@
              data-infinite-container=".infinite-scroll-parent"
              infinite-scroll="WidgetWall.getReviews()"
              infinite-scroll-disabled="WidgetWall.noMore">
-		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.reviews | orderBy:'-data.addedDate'"  ng-click="WidgetWall.goToChat(data)">
+		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.reviews | orderBy:'-data.addedDate'">
 			<hr class="small">
 			<div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen">
 				<div class="col-xs-8 pull-left">
@@ -50,11 +51,14 @@
 						<p class="date opacity-seventy">{{data.data.addedDate | date:'medium'}}</p>
 					</div>
 				</div>
-				<div class="col-xs-3 pull-right margin-top-ten text-right">
+				<div class="col-xs-3 pull-right text-right">
 					<span class="stars"><span style="font-weight:400;">{{data.data.starRating}}</span> stars</span>
 				</div>
+                <a ng-click="WidgetWall.goToChat(data)">
+                    <span class="icon icon-bubble"></span>
+                </a>
 			</div>
-			<div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen">
+			<div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen" ng-click="WidgetWall.goToChat(data)">
 				<p class="margin-zero"><span ng-bind-html="data.data.Message | newLine"></span></p>
 			</div>
 		</div>

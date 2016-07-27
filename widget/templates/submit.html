@@ -31,7 +31,8 @@
 		</div>
 		<hr class="none">
 		<div class="col-xs-12 pull-left text-center">
-			<input type="button" class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-click="WidgetSubmit.save()" value="Create your Own Review"></br></br>
+			<input type="button" class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-if="WidgetSubmit.currentView.params.lastReviewCount" ng-click="WidgetSubmit.save()" value="Update Your Review">
+			<input type="button" class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-if="!WidgetSubmit.currentView.params.lastReviewCount" ng-click="WidgetSubmit.save()" value="Create Your Own Review"></br></br>
 			<input type="button" class="submit btn btn-danger padding-left-thirty padding-right-thirty" ng-click="WidgetSubmit.cancel()" value="Cancel">
 			<!--<a class="submit btn btn-success padding-left-thirty padding-right-thirty" ng-click="WidgetSubmit.update()" ng-if="WidgetSubmit.isUpdate">Update Review</a>-->
 		</div>
