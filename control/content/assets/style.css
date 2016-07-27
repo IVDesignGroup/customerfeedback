@@ -150,3 +150,6 @@
 .icon-bubble {
     font-size: 18px;
 }
+.no-decoration {
+    text-decoration: none !important;
+}

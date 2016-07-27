@@ -34,7 +34,7 @@
              data-infinite-container=".infinite-scroll-parent"
              infinite-scroll="WidgetWall.getReviews()"
              infinite-scroll-disabled="WidgetWall.noMore">
-		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.reviews | orderBy:'-data.addedDate'" ng-click="WidgetWall.goToChat(data)">
+		<div class="review-item clearfix" ng-repeat = "data in WidgetWall.reviews | orderBy:'-data.addedDate'">
 			<hr class="small">
 			<div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen">
 				<div class="col-xs-8 pull-left">
@@ -50,14 +50,14 @@
 						<p class="date opacity-seventy">{{data.data.addedDate | date:'medium'}}</p>
 					</div>
 				</div>
-				<div class="col-xs-3 pull-right margin-top-ten text-right">
+				<div class="col-xs-3 pull-right text-right">
 					<span class="stars"><span style="font-weight:400;">{{data.data.starRating}}</span> stars</span>
 				</div>
-                <a>
+                <a ng-click="WidgetWall.goToChat(data)">
                     <span class="icon icon-bubble"></span>
                 </a>
 			</div>
-			<div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen">
+			<div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen" ng-click="WidgetWall.goToChat(data)">
 				<p class="margin-zero"><span ng-bind-html="data.data.Message | newLine"></span></p>
 			</div>
 		</div>
