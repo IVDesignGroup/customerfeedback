@@ -55,7 +55,7 @@
                             $scope.$apply();
                         }
                         else {
-                            console.log("++++++++++++++ctrldd", results)
+                            console.log("++++++++++++++ctrldd", results);
                             if (results.length < limit) {
                                 WidgetWall.noMore = true;
                             }
@@ -72,7 +72,7 @@
                             WidgetWall.totalRating = WidgetWall.totalRating + WidgetWall.ratingsTotal.data.starRating
                             WidgetWall.startPoints =  WidgetWall.totalRating / (WidgetWall.reviews.length );
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
-                          }else{
+                          } else {
                             WidgetWall.noReviews = true;
                           }
                             //$scope.complains = results;
