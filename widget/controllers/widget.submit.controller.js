@@ -15,7 +15,7 @@
        // buildfire.history.push('Events', { elementToShow: 'Event' });
         WidgetSubmit.Feedback = {
           Message : "",
-          starRating:"1",
+          starRating:"5",
           UserId:"",
           UserName: ""
         }
