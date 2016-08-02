@@ -293,37 +293,15 @@
                 chatTime: new Date(),
                 chatFrom: WidgetHome.currentLoggedInUser.displayName,
                 id: WidgetHome.currentLoggedInUser._id
-            }
+            };
 
-           /* WidgetHome.getChatData();
-          if(WidgetHome.chatData!=''){
-            buildfire.userData.get(tagName, function (err, result) {
-                var saveResult = [];
-                if(result && result.data && result.data.length) {
-                    saveResult = result && result.data;
-                }
-                saveResult.push(WidgetHome.chatMessageObj);
-                buildfire.userData.save(saveResult, tagName, function (e, data) {
-                    if (e) console.error("+++++++++++++++err", JSON.stringify(e));
-                    else {
-                        WidgetHome.chatData = '';
-                        buildfire.messaging.sendMessageToControl({'name': EVENTS.CHAT_ADDED, 'data': data});
-                        // $location.path('/chatHome')
-                        WidgetHome.getChatData();
-                        $scope.$apply();
-                        console.log("+++++++++++++++success")
-                    }
-                });
-            });
-          }*/
               if(WidgetHome.chatData != '') {
                   buildfire.userData.insert(WidgetHome.chatMessageObj, tagName, function (err, result) {
                       if (err) console.error("+++++++++++++++err", JSON.stringify(err));
                       else {
                           WidgetHome.chatData = '';
+                          $rootScope.$broadcast("COMMENT_ADDED");
                           buildfire.messaging.sendMessageToControl({'name': EVENTS.CHAT_ADDED, 'data': result});
-                          // $location.path('/chatHome')
-//                          WidgetHome.getChatData();
                           WidgetHome.chatMessageData = WidgetHome.chatMessageData ? WidgetHome.chatMessageData : [];
                           WidgetHome.chatMessageData.unshift(result);
                           if (!$scope.$$phase)

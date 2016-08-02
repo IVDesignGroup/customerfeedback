@@ -8,13 +8,14 @@
 
           var WidgetWall = this;
           var skip = 0;
-          var limit = 5;
+          var limit = 15;
           var currentView = ViewStack.getCurrentView();
           WidgetWall.waitAPICompletion = false;
           WidgetWall.noMore = false;
           WidgetWall.buildfire = buildfire;
           WidgetWall.noReviews = false;
           WidgetWall.totalRating = 0;
+          WidgetWall.chatCommentCount = 0;
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
            */
@@ -67,13 +68,14 @@
                             WidgetWall.noReviews = false;
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
                               return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
-                            })
+                            });
                             console.log("+++++++++++++++++++++SSSSSSSSSSSS", WidgetWall.reviews.length, WidgetWall.ratingsTotal.data.starRating)
                             WidgetWall.totalRating = WidgetWall.totalRating + WidgetWall.ratingsTotal.data.starRating
                             WidgetWall.startPoints =  WidgetWall.totalRating / (WidgetWall.reviews.length );
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
                           } else {
                             WidgetWall.noReviews = true;
+                            WidgetWall.submitReview();
                           }
                             //$scope.complains = results;
                             skip = skip + results.length;
@@ -82,7 +84,7 @@
                         WidgetWall.waitAPICompletion = false;
                     });
                 }
-            }
+            };
 
           /**
            * Method to open buildfire auth login pop up and allow user to login using credentials.
@@ -176,9 +178,23 @@
             console.log("_______________________ssss", user);
             if (user) {
               WidgetWall.currentLoggedInUser = user;
+              var tagName = 'chatData-' + WidgetWall.currentLoggedInUser._id;
+              buildfire.userData.search({}, tagName, function (err, results) {
+                if (err) {
+                  console.error("Error", JSON.stringify(err));
+                }
+                else {
+                  console.log("_______result", results);
+                  if(results && results.length){
+                    WidgetWall.chatCommentCount = results.length;
+                    $scope.$digest();
+                  }
+                }
+              });
+            }else{
+              WidgetWall.noReviews = true;
+              WidgetWall.reviews = [];
             }
-            else
-              WidgetWall.openLogin();
           });
 
             var onUpdateCallback = function (event) {
@@ -208,6 +224,12 @@
              * DataStore.onUpdate() is bound to listen any changes in datastore
              */
             DataStore.onUpdate().then(null, null, onUpdateCallback);
+
+            //Update comment count when added on chat page
+          $rootScope.$on('COMMENT_ADDED', function (e) {
+            WidgetWall.chatCommentCount += 1;
+            $scope.$digest();
+          });
         }]);
 })(window.angular, window.buildfire);
 

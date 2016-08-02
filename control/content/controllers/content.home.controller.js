@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('customerFeedbackPluginContent')
-    .controller('ContentHomeCtrl', ['$scope', '$location', 'Buildfire', 'DataStore', 'TAG_NAME', 'STATUS_CODE', 'EVENTS',
-      function ($scope, $location, Buildfire, DataStore, TAG_NAME, STATUS_CODE, EVENTS) {
+    .controller('ContentHomeCtrl', ['$scope', '$location', 'Buildfire', 'DataStore', 'TAG_NAME', 'STATUS_CODE', 'EVENTS','$modal',
+      function ($scope, $location, Buildfire, DataStore, TAG_NAME, STATUS_CODE, EVENTS,$modal) {
         var _data = {
           /*"content": {
             "carouselImages": [],
@@ -29,43 +29,6 @@
         ContentHome.noMore = false;
         ContentHome.reviews = [];
 
-        /*ContentHome.bodyWYSIWYGOptions = {
-          plugins: 'advlist autolink link image lists charmap print preview',
-          skin: 'lightgray',
-          trusted: true,
-          theme: 'modern'
-        };*/
-        // create a new instance of the buildfire carousel editor
-//        var editor = new Buildfire.components.carousel.editor("#carousel");
-
-//        console.log(">>>-----------------------", editor);
-        /*// this method will be called when a new item added to the list
-        editor.onAddItems = function (items) {
-          if (!ContentHome.data.content)
-            ContentHome.data.content = {};
-          if (!ContentHome.data.content.carouselImages)
-            ContentHome.data.content.carouselImages = [];
-          ContentHome.data.content.carouselImages.push.apply(ContentHome.data.content.carouselImages, items);
-          $scope.$digest();
-        };
-        // this method will be called when an item deleted from the list
-        editor.onDeleteItem = function (item, index) {
-          ContentHome.data.content.carouselImages.splice(index, 1);
-          $scope.$digest();
-        };
-        // this method will be called when you edit item details
-        editor.onItemChange = function (item, index) {
-          ContentHome.data.content.carouselImages.splice(index, 1, item);
-          $scope.$digest();
-        };
-        // this method will be called when you change the order of items
-        editor.onOrderChange = function (item, oldIndex, newIndex) {
-          var temp = ContentHome.data.content.carouselImages[oldIndex];
-          ContentHome.data.content.carouselImages[oldIndex] = ContentHome.data.content.carouselImages[newIndex];
-          ContentHome.data.content.carouselImages[newIndex] = temp;
-          $scope.$digest();
-        };
-*/
         updateMasterItem(_data);
 
         function updateMasterItem(data) {
@@ -95,32 +58,6 @@
               }*/
               updateMasterItem(ContentHome.data);
               if (tmrDelay)clearTimeout(tmrDelay);
-                 /* buildfire.userData.search({skip: 0, limit: 50}, 'AppRatings2', function (err, results) {
-                      var uniqueTokens = [];
-                      var uniqueReviews = [];
-                      var avgRating = 0;
-                      var elemCount = 0;
-                      if (err) console.error("++++++++++++++ctrlerr",JSON.stringify(err));
-                      else {
-                          console.log("++++++++++++++ctrl", results);
-                          ContentHome.reviews = results;
-                          results.sort(function(a, b) {
-                              return new Date(b.data.addedDate) - new Date(a.data.addedDate);
-                          });
-                          results.forEach(function (result) {
-                              if (uniqueTokens.indexOf(result.userToken) == -1) {
-                                  uniqueTokens.push(result.userToken);
-                                  uniqueReviews.push(result);
-                                  elemCount = elemCount + 1;
-                                  avgRating = avgRating + result.data.starRating;
-                              }
-                          });
-                          ContentHome.avgRating = elemCount ? avgRating / elemCount : 0;
-                          ContentHome.totalReviews = elemCount;
-                          console.log("ContentHome.avgRating", ContentHome.avgRating);
-                          $scope.$apply();
-                      }
-                  });*/
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -159,7 +96,7 @@
                     $scope.$apply();
                 }
             });
-        }
+        };
 
         /*
          * Call the datastore to save the data object
@@ -232,6 +169,31 @@
                       $scope.$digest();
               }
           };
+
+        ContentHome.deleteReview = function (review, index) {
+          if(review && review.id && review.userToken){
+            var modalInstance = $modal.open({
+              templateUrl: 'templates/deleteReviewModal.html',
+              controller: 'RemovePopupCtrl',
+              controllerAs: 'RemovePopup',
+              size: 'sm'
+            });
+            modalInstance.result.then(function (message) {
+              if (message === 'yes') {
+                buildfire.userData.delete(review.id, 'AppRatings2',review.userToken, function (err, result) {
+                  if(err)
+                  console.log("Error occured while deleting review:", err);
+                  else{
+                    ContentHome.reviews.splice(index, 1);
+                    $scope.$digest();
+                  }
+                });
+              }
+            }, function (data) {
+              //do something on cancel
+            });
+          }
+        };
         init();
       }]);
 })(window.angular);
