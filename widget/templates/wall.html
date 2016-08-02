@@ -53,10 +53,12 @@
 				</div>
 				<div class="col-xs-3 pull-right text-right">
 					<span class="stars"><span style="font-weight:400;">{{data.data.starRating}}</span> stars</span>
+					<a ng-click="WidgetWall.goToChat(data)" style="position: relative; display: block; width: 30px; margin-left: 28px;">
+						<span class="icon icon-bubble"></span>
+						<span>{{WidgetWall.chatCommentCount || 0}}</span>
+					</a>
 				</div>
-                <a ng-click="WidgetWall.goToChat(data)">
-                    <span class="icon icon-bubble"></span>
-                </a>
+
 			</div>
 			<div class="copy padding-left-ten padding-right-ten margin-bottom-fifteen" ng-click="WidgetWall.goToChat(data)">
 				<p class="margin-zero"><span ng-bind-html="data.data.Message | newLine"></span></p>
