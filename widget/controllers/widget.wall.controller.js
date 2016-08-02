@@ -8,7 +8,7 @@
 
           var WidgetWall = this;
           var skip = 0;
-          var limit = 5;
+          var limit = 15;
           var currentView = ViewStack.getCurrentView();
           WidgetWall.waitAPICompletion = false;
           WidgetWall.noMore = false;
