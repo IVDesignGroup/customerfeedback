@@ -74,6 +74,7 @@
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
                           } else {
                             WidgetWall.noReviews = true;
+                            WidgetWall.submitReview();
                           }
                             //$scope.complains = results;
                             skip = skip + results.length;
@@ -172,13 +173,14 @@
            * Check for current logged in user, if not show ogin screen
            */
           buildfire.auth.getCurrentUser(function (err, user) {
-              init();
+             init();
             console.log("_______________________ssss", user);
             if (user) {
               WidgetWall.currentLoggedInUser = user;
+            }else{
+              WidgetWall.noReviews = true;
+              WidgetWall.reviews = [];
             }
-            else
-              WidgetWall.openLogin();
           });
 
             var onUpdateCallback = function (event) {
