@@ -153,3 +153,8 @@
 .no-decoration {
     text-decoration: none !important;
 }
+
+.dlt-review {
+    color: red;
+    cursor: pointer;
+}
