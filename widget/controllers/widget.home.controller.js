@@ -57,10 +57,13 @@
 //                  $scope.$digest();
                   if (user) {
                       WidgetHome.currentLoggedInUser = user;
+
                     if(!WidgetHome.chatMessageData || !WidgetHome.chatMessageData.length)
                         WidgetHome.getChatData();
-                      if(!WidgetHome.reviews || !WidgetHome.reviews.length)
+                      if(!WidgetHome.reviews || !WidgetHome.reviews.length) {
+                        $rootScope.$broadcast(EVENTS.LOGIN);
                         getReviews();
+                      }
                       if (!$scope.$$phase)
                           $scope.$digest();
                   }
@@ -68,10 +71,13 @@
           };
 
           var logoutCallback = function () {
-              WidgetHome.currentLoggedInUser = null;
+            WidgetHome.currentLoggedInUser = null;
               WidgetHome.lastRating = null;
               WidgetHome.reviews = [];
               WidgetHome.chatMessageData = [];
+            ViewStack.popAllViews();
+            $rootScope.$broadcast(EVENTS.LOGOUT);
+
               if (!$scope.$$phase)
                   $scope.$digest();
           };
@@ -383,16 +389,16 @@
                   $scope.$digest();
           });
 
-          WidgetHome.listeners[EVENTS.LOGOUT] = $rootScope.$on(EVENTS.LOGOUT, function (e) {
-              console.log('inside logout event listener::::');
-              WidgetHome.lastRating = null;
-              WidgetHome.currentLoggedInUser = null;
-              WidgetHome.reviews = [];
-              WidgetHome.chatMessageData = [];
-              init();
-              if (!$scope.$$phase)
-                  $scope.$digest();
-          });
+          //WidgetHome.listeners[EVENTS.LOGOUT] = $rootScope.$on(EVENTS.LOGOUT, function (e) {
+          //    console.log('inside logout event listener::::');
+          //    WidgetHome.lastRating = null;
+          //    WidgetHome.currentLoggedInUser = null;
+          //    WidgetHome.reviews = [];
+          //    WidgetHome.chatMessageData = [];
+          //    init();
+          //    if (!$scope.$$phase)
+          //        $scope.$digest();
+          //});
 
           buildfire.messaging.onReceivedMessage = function (event) {
               console.log('Content syn called method in content.home.controller called-----', event);
