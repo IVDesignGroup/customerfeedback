@@ -57,12 +57,13 @@
 //                  $scope.$digest();
                   if (user) {
                       WidgetHome.currentLoggedInUser = user;
-                    $rootScope.$broadcast(EVENTS.LOGIN);
 
                     if(!WidgetHome.chatMessageData || !WidgetHome.chatMessageData.length)
                         WidgetHome.getChatData();
-                      if(!WidgetHome.reviews || !WidgetHome.reviews.length)
+                      if(!WidgetHome.reviews || !WidgetHome.reviews.length) {
+                        $rootScope.$broadcast(EVENTS.LOGIN);
                         getReviews();
+                      }
                       if (!$scope.$$phase)
                           $scope.$digest();
                   }

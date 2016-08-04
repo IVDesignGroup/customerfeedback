@@ -139,12 +139,22 @@
             $location.path("/submit");
           }*/
           WidgetWall.listeners[EVENTS.LOGIN] = $rootScope.$on(EVENTS.LOGIN, function (e) {
-            skip = 0;
-            WidgetWall.startPoints = 0;
-            WidgetWall.totalRating= 0;
-            WidgetWall.getReviews();
-            if (!$scope.$$phase)
+            buildfire.auth.getCurrentUser(function (err, user) {
+              console.log("_______________________rrr", user);
+              WidgetWall.waitAPICompletion = false;
               $scope.$digest();
+              if (user) {
+                WidgetWall.currentLoggedInUser = user;
+                console.log("_______________________rrr22", user);
+                //if(!WidgetWall.reviews || !WidgetWall.reviews.length) {
+                skip = 0;
+                WidgetWall.startPoints = 0;
+                WidgetWall.totalRating= 0;
+                WidgetWall.getReviews();
+                //  }
+                $scope.$apply();
+              }
+            })
           });
 
           WidgetWall.submitReview = function () {
