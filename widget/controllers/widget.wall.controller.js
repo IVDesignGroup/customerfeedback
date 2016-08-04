@@ -15,7 +15,8 @@
           WidgetWall.buildfire = buildfire;
           WidgetWall.noReviews = false;
           WidgetWall.totalRating = 0;
-          WidgetWall.chatCommentCount = 0;
+          WidgetWall.chatCommentCount = 0
+          WidgetWall.listeners = [];
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
            */
@@ -93,7 +94,7 @@
               buildfire.auth.login({}, function () {
 
               });
-              $scope.$apply();
+             // $scope.$apply();
           };
 
           var loginCallback = function () {
@@ -104,26 +105,49 @@
               if (user) {
                 WidgetWall.currentLoggedInUser = user;
                 console.log("_______________________rrr22", user);
-                  if(!WidgetWall.reviews || !WidgetWall.reviews.length) {
-                      WidgetWall.getReviews();
-                  }
+                  //if(!WidgetWall.reviews || !WidgetWall.reviews.length) {
+                    skip = 0;
+                    WidgetWall.startPoints = 0;
+                    WidgetWall.totalRating= 0;
+                    WidgetWall.getReviews();
+                //  }
                 $scope.$apply();
               }
             });
           };
 
+
+
           var logoutCallback = function () {
-//              WidgetWall.openLogin();
-              WidgetWall.currentLoggedInUser = null;
-              $rootScope.$broadcast(EVENTS.LOGOUT);
-              ViewStack.popAllViews();
+            //init();
+            WidgetWall.currentLoggedInUser = null;
+           //ViewStack.popAllViews();
+            WidgetWall.noReviews = true;
+            WidgetWall.reviews = [];
+            $scope.$digest();
           };
 
-         /* WidgetWall.goBack = function(){
+
+          WidgetWall.listeners[EVENTS.LOGOUT] = $rootScope.$on(EVENTS.LOGOUT, function (e) {
+            WidgetWall.currentLoggedInUser = null;
+            WidgetWall.noReviews = true;
+            WidgetWall.reviews = [];
+            init();
+            if (!$scope.$$phase)
+              $scope.$digest();
+          });         /* WidgetWall.goBack = function(){
             $location.path("/submit");
           }*/
+          WidgetWall.listeners[EVENTS.LOGIN] = $rootScope.$on(EVENTS.LOGIN, function (e) {
+            skip = 0;
+            WidgetWall.startPoints = 0;
+            WidgetWall.totalRating= 0;
+            WidgetWall.getReviews();
+            if (!$scope.$$phase)
+              $scope.$digest();
+          });
 
-            WidgetWall.submitReview = function () {
+          WidgetWall.submitReview = function () {
                 if(WidgetWall.currentLoggedInUser) {
                     ViewStack.push({
                         template: 'submit',
@@ -230,6 +254,15 @@
             WidgetWall.chatCommentCount += 1;
             $scope.$digest();
           });
+
+          //$scope.$on("$destroy", function () {
+          //  for (var i in WidgetWall.listeners) {
+          //    if (WidgetWall.listeners.hasOwnProperty(i)) {
+          //      WidgetWall.listeners[i]();
+          //    }
+          //  }
+          //  DataStore.clearListener();
+          //});
         }]);
 })(window.angular, window.buildfire);
 

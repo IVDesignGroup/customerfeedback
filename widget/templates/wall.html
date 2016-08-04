@@ -16,11 +16,13 @@
 				<average-star-rating ng-model="WidgetWall.startPoints" max="5"></average-star-rating>
 
 			</div>
+			<div  ng-if="!WidgetWall.noReviews">
 			<p ng-if="WidgetWall.startPoints<=1" ng-if="WidgetWall.reviews.length">Poor</p>
 			<p ng-if="WidgetWall.startPoints>1 && WidgetWall.startPoints<=2" ng-if="WidgetWall.reviews.length">Average</p>
 			<p ng-if="WidgetWall.startPoints>2 && WidgetWall.startPoints<=3" ng-if="WidgetWall.reviews.length">Good</p>
 			<p ng-if="WidgetWall.startPoints>3 && WidgetWall.startPoints<=4" ng-if="WidgetWall.reviews.length">Excellent</p>
 			<p ng-if="WidgetWall.startPoints>4" ng-if="WidgetWall.reviews.length">Outstanding</p>
+			</div>
 			<div  ng-if="WidgetWall.noReviews" class="no-event-found padded">
 				<div class="well">No Reviews.</div>
 			</div>
