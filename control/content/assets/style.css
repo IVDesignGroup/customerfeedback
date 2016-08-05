@@ -13,8 +13,8 @@
 .review-item:nth-child(even) .well{
     background:#fff;
 }
-.review-item .well .comment:nth-child(even){
-    text-align:right;
+.review-item .well .comment{
+    text-align:left;
 }
 .review-item .well .comment + .comment{
     margin-top:10px;
