@@ -14,6 +14,7 @@
           WidgetWall.noMore = false;
           WidgetWall.buildfire = buildfire;
           WidgetWall.noReviews = false;
+          WidgetWall.reviewButtonText = "";
           WidgetWall.totalRating = 0;
           WidgetWall.chatCommentCount = 0;
           WidgetWall.listeners = [];
@@ -67,6 +68,7 @@
                             //WidgetWall.lastRating = results[results.length-1].data.starRating;
                           if(results.length) {
                             WidgetWall.noReviews = false;
+                            WidgetWall.reviewButtonText = "Write a Review";
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
                               return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                             });
@@ -76,6 +78,7 @@
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
                           } else {
                             WidgetWall.noReviews = true;
+                            WidgetWall.reviewButtonText = "Submit Review";
                             WidgetWall.submitReview();
                           }
                             //$scope.complains = results;
@@ -136,6 +139,7 @@
             WidgetWall.currentLoggedInUser = null;
            //ViewStack.popAllViews();
             WidgetWall.noReviews = true;
+            WidgetWall.reviewButtonText = "Submit Review";
             WidgetWall.reviews = [];
             $scope.$digest();
           };
@@ -144,6 +148,7 @@
           WidgetWall.listeners[EVENTS.LOGOUT] = $rootScope.$on(EVENTS.LOGOUT, function (e) {
             WidgetWall.currentLoggedInUser = null;
             WidgetWall.noReviews = true;
+            WidgetWall.reviewButtonText = "Submit Review";
             WidgetWall.reviews = [];
             init();
             if (!$scope.$$phase)
@@ -199,6 +204,7 @@
               }
                 WidgetWall.reviews.push(result.data);
               WidgetWall.noReviews = false;
+              WidgetWall.reviewButtonText = "Write a Review";
               WidgetWall.ratingsTotal = WidgetWall.reviews.reduce(function (a, b) {
                   return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                 });
@@ -240,6 +246,7 @@
               });
             }else{
               WidgetWall.noReviews = true;
+              WidgetWall.reviewButtonText = "Submit Review";
               WidgetWall.reviews = [];
             }
           });
