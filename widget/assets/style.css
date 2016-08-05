@@ -98,8 +98,8 @@
 .review .comment p.info{
 	font-size:12px;
 }
-.review .review-comments .comment:nth-child(even){
-	text-align:right;
+.review .review-comments .comment{
+	text-align:left;
 }
 .holder.has-bottom .review .review-comments .comment:last-child{
 	margin-bottom:12px;

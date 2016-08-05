@@ -14,8 +14,9 @@
           WidgetWall.noMore = false;
           WidgetWall.buildfire = buildfire;
           WidgetWall.noReviews = false;
+          WidgetWall.reviewButtonText = "";
           WidgetWall.totalRating = 0;
-          WidgetWall.chatCommentCount = 0
+          WidgetWall.chatCommentCount = 0;
           WidgetWall.listeners = [];
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
@@ -67,6 +68,7 @@
                             //WidgetWall.lastRating = results[results.length-1].data.starRating;
                           if(results.length) {
                             WidgetWall.noReviews = false;
+                            WidgetWall.reviewButtonText = "Write a Review";
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
                               return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                             });
@@ -76,6 +78,7 @@
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
                           } else {
                             WidgetWall.noReviews = true;
+                            WidgetWall.reviewButtonText = "Submit Review";
                             WidgetWall.submitReview();
                           }
                             //$scope.complains = results;
@@ -104,6 +107,19 @@
               $scope.$digest();
               if (user) {
                 WidgetWall.currentLoggedInUser = user;
+                var tagName = 'chatData-' + WidgetWall.currentLoggedInUser._id;
+                buildfire.userData.search({}, tagName, function (err, results) {
+                  if (err) {
+                    console.error("Error", JSON.stringify(err));
+                  }
+                  else {
+                    console.log("_______result", results);
+                    if(results && results.length){
+                      WidgetWall.chatCommentCount = results.length;
+                      $scope.$digest();
+                    }
+                  }
+                });
                 console.log("_______________________rrr22", user);
                   //if(!WidgetWall.reviews || !WidgetWall.reviews.length) {
                     skip = 0;
@@ -123,6 +139,7 @@
             WidgetWall.currentLoggedInUser = null;
            //ViewStack.popAllViews();
             WidgetWall.noReviews = true;
+            WidgetWall.reviewButtonText = "Submit Review";
             WidgetWall.reviews = [];
             $scope.$digest();
           };
@@ -131,6 +148,7 @@
           WidgetWall.listeners[EVENTS.LOGOUT] = $rootScope.$on(EVENTS.LOGOUT, function (e) {
             WidgetWall.currentLoggedInUser = null;
             WidgetWall.noReviews = true;
+            WidgetWall.reviewButtonText = "Submit Review";
             WidgetWall.reviews = [];
             init();
             if (!$scope.$$phase)
@@ -186,10 +204,11 @@
               }
                 WidgetWall.reviews.push(result.data);
               WidgetWall.noReviews = false;
+              WidgetWall.reviewButtonText = "Write a Review";
               WidgetWall.ratingsTotal = WidgetWall.reviews.reduce(function (a, b) {
                   return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
-                })
-              WidgetWall.totalRating = WidgetWall.ratingsTotal.data.starRating
+                });
+              WidgetWall.totalRating = WidgetWall.ratingsTotal.data.starRating;
               console.log("+++++++++++++++++++++SSSSSSSSSSSS", WidgetWall.reviews.length, WidgetWall.ratingsTotal.data.starRating, WidgetWall.totalRating)
 
               WidgetWall.startPoints = WidgetWall.ratingsTotal.data.starRating / (WidgetWall.reviews.length );
@@ -227,12 +246,12 @@
               });
             }else{
               WidgetWall.noReviews = true;
+              WidgetWall.reviewButtonText = "Submit Review";
               WidgetWall.reviews = [];
             }
           });
 
             var onUpdateCallback = function (event) {
-
                 setTimeout(function () {
                     if (event) {
                         switch (event.tag) {
@@ -265,14 +284,15 @@
             $scope.$digest();
           });
 
-          //$scope.$on("$destroy", function () {
-          //  for (var i in WidgetWall.listeners) {
-          //    if (WidgetWall.listeners.hasOwnProperty(i)) {
-          //      WidgetWall.listeners[i]();
-          //    }
-          //  }
-          //  DataStore.clearListener();
-          //});
+          buildfire.messaging.onReceivedMessage = function (event) {
+            if(event && event.name == "CHAT_ADDED" && event.data){
+              if(WidgetWall.currentLoggedInUser && WidgetWall.currentLoggedInUser._id && (event.data.tag ==  'chatData-' + WidgetWall.currentLoggedInUser._id)){
+                WidgetWall.chatCommentCount += 1;
+                $scope.$digest();
+              }
+            }
+          }
+
         }]);
 })(window.angular, window.buildfire);
 
