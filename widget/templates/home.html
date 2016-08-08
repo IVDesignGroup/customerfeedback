@@ -28,12 +28,12 @@
             <!--<a class="btn btn-success btn-sm"  ng-if="WidgetHome.data && !WidgetHome.reviews.length" ng-click="WidgetHome.openSubmit()">Submit Review</a>-->
 
     </div>
-        <div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen">
+        <div class="head row clearfix padding-left-ten padding-right-ten margin-bottom-fifteen" ng-if="WidgetHome.reviews">
             <div class="col-xs-8 pull-left">
                 <div class="media-holder pull-left">
-                    <img ng-if="!WidgetHome.currentView.params.data.data.userImage" load-image="1x1" data-final-src="./assets/avatar-placeholder.png">
+                    <img ng-if="!WidgetHome.currentView.params.data.data.userImage" src="../../../styles/media/avatar-placeholder.png">
                     <!--<img src="http://www.placehold.it/100x100" ng-if="!data.data.userImage">-->
-                    <img ng-if="WidgetHome.currentView.params.data.data.userImage"  load-image="1x1" data-final-src="{{WidgetHome.currentView.params.data.data.userImage| cropImage:60:60}}">
+                    <img ng-if="WidgetHome.currentView.params.data.data.userImage"  load-image="1x1" crop-type="crop" crop-width="60" crop-height="60" data-final-src="{{WidgetHome.currentView.params.data.data.userImage}}">
                 </div>
                 <div>
                     <p class="text-primary ellipsis margin-bottom-zero padding-left-ten">
