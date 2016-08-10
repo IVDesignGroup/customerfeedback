@@ -1,7 +1,7 @@
 {
-  "author":"Daniel Hindi"
+  "author":"Buildfire"
 ,"pluginName":"Customer Feedback"
-,"pluginDescription":"This plugin allows customers to provide feedback."
+,"pluginDescription":"Listen to your customers' honest feedback through a star rating system and custom commenting. Customer feedback is critical in gaining insight and creating better processes whether own a restaurant, small business, school, consulting, or any other type of company."
 ,"supportEmail":"support@buildfire.com"
 ,"control":{
   "content":{

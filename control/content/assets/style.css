@@ -4,7 +4,6 @@
     padding:15px;
 }
 .review-item:nth-child(even){
-    text-align:right;
     background:#eef0f0;
 }
 .review-item:nth-child(even) .comment{
