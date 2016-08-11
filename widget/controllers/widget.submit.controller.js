@@ -34,6 +34,7 @@
           buildfire.auth.getCurrentUser(function (err, user) {
             console.log("_______________________", user);
             if (user) {
+              $rootScope.$broadcast(EVENTS.LOGIN);
               WidgetSubmit.currentLoggedInUser = user;
               $scope.$digest();
             }
@@ -43,8 +44,11 @@
         var logoutCallback = function () {
 //            WidgetSubmit.openLogin();
             WidgetSubmit.currentLoggedInUser = null;
+          ViewStack.popAllViews();
             $rootScope.$broadcast(EVENTS.LOGOUT);
-            ViewStack.popAllViews();
+          if (!$scope.$$phase)
+            $scope.$digest();
+
         };
 
         WidgetSubmit.save = function () {
@@ -64,7 +68,7 @@
                             $scope.$apply();
                             console.log("+++++++++++++++success");
                             $timeout(function () {
-                                ViewStack.pop();
+                                ViewStack.popAllViews();
                             }, 500);
                         }
                     });
@@ -75,7 +79,7 @@
         }
 
           WidgetSubmit.cancel= function () {
-              ViewStack.pop();
+              ViewStack.popAllViews();
           }
 
         //WidgetSubmit.update = function () {

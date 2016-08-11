@@ -72,7 +72,7 @@
                             WidgetWall.ratingsTotal = results.reduce(function (a, b) {
                               return {data: {starRating: parseFloat(a.data.starRating) + parseFloat(b.data.starRating)}}; // returns object with property x
                             });
-                            console.log("+++++++++++++++++++++SSSSSSSSSSSS", WidgetWall.reviews.length, WidgetWall.ratingsTotal.data.starRating)
+                            console.log("+++++++++++++++++++++SSSSSSSSSSSS", WidgetWall.reviews.length, WidgetWall.ratingsTotal.data.starRating,  WidgetWall.reviews)
                             WidgetWall.totalRating = WidgetWall.totalRating + WidgetWall.ratingsTotal.data.starRating
                             WidgetWall.startPoints =  WidgetWall.totalRating / (WidgetWall.reviews.length );
                             WidgetWall.lastRating = WidgetWall.reviews && WidgetWall.reviews.length && WidgetWall.reviews[WidgetWall.reviews.length - 1].data.starRating;
