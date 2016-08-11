@@ -11,7 +11,7 @@
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         /* Initialize current logged in user as null. This field is re-initialized if user is already logged in or user login user auth api.
          */
-
+        WidgetSubmit.disabled = false;
        // buildfire.history.push('Events', { elementToShow: 'Event' });
         WidgetSubmit.Feedback = {
           Message : "",
@@ -34,6 +34,7 @@
           buildfire.auth.getCurrentUser(function (err, user) {
             console.log("_______________________", user);
             if (user) {
+              $rootScope.$broadcast(EVENTS.LOGIN);
               WidgetSubmit.currentLoggedInUser = user;
               $scope.$digest();
             }
@@ -43,11 +44,15 @@
         var logoutCallback = function () {
 //            WidgetSubmit.openLogin();
             WidgetSubmit.currentLoggedInUser = null;
+          ViewStack.popAllViews();
             $rootScope.$broadcast(EVENTS.LOGOUT);
-            ViewStack.popAllViews();
+          if (!$scope.$$phase)
+            $scope.$digest();
+
         };
 
         WidgetSubmit.save = function () {
+          WidgetSubmit.disabled = true;
             if (WidgetSubmit.currentLoggedInUser) {
                 //  $scope.complain.data.response = "";
                 var objData = {starRating: WidgetSubmit.Feedback.starRating || 1, Message: WidgetSubmit.Feedback.Message, displayName: WidgetSubmit.currentLoggedInUser.displayName, addedDate: new Date(), userName: WidgetSubmit.currentLoggedInUser.username, userImage: WidgetSubmit.currentLoggedInUser.imageUrl }
@@ -61,10 +66,11 @@
                             buildfire.messaging.sendMessageToControl({'name': EVENTS.REVIEW_CREATED, 'data': data, 'lastReviewCount': ((WidgetSubmit.currentView && WidgetSubmit.currentView.params && WidgetSubmit.currentView.params.lastReviewCount) || 0)});
                             $rootScope.$broadcast(EVENTS.REVIEW_CREATED, {'data': data, 'lastReviewCount': ((WidgetSubmit.currentView && WidgetSubmit.currentView.params && WidgetSubmit.currentView.params.lastReviewCount) || 0)});
 //                      $location.path('/');
+                          WidgetSubmit.disabled = false;
                             $scope.$apply();
                             console.log("+++++++++++++++success");
                             $timeout(function () {
-                                ViewStack.pop();
+                                ViewStack.popAllViews();
                             }, 500);
                         }
                     });
@@ -75,7 +81,7 @@
         }
 
           WidgetSubmit.cancel= function () {
-              ViewStack.pop();
+              ViewStack.popAllViews();
           }
 
         //WidgetSubmit.update = function () {
