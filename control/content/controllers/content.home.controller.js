@@ -160,7 +160,7 @@
                                   elemCount = elemCount + 1;
                                   ContentHome.totalReviews = elemCount;
                               } else
-                                  ContentHome.avgRating = ((ContentHome.avgRating * ContentHome.totalReviews) - event.lastReviewCount + parseInt(event.data.data.starRating)) / ContentHome.totalReviews;
+                                  ContentHome.avgRating = ((ContentHome.avgRating * ContentHome.totalReviews) - parseInt(event.lastReviewCount) + parseInt(event.data.data.starRating)) / ContentHome.totalReviews;
                           }
                           break;
                       default :
